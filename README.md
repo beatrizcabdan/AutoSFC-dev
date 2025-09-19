@@ -77,6 +77,7 @@ The production-ready build will be output to the `build/` directory.
 
 This project supports ongoing research into dimensionality reduction using Space-Filling Curves.
 For more information, see the included research papers section on the website for references and related publications.
+  * You can also check: [PCICF: A Pedestrian Crossing Identification and Classification Framework](https://github.com/Claud1234/PCICF)
 
 Contributions are welcome! Please fork the repository and create a pull request with your proposed changes.
 
