@@ -1,50 +1,89 @@
-# React + TypeScript + Vite
+# [AutoSFC](https://www.autosfc.org/)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AutoSFC (Auto Space Filling Curve) is a web-based demo showcasing research activities around the use of **Space-Filling Curves (SFCs)** for encoding and reducing the dimensionality of automotive data. While the primary focus is on automotive applications, the approach can be extended to other types of data.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+**Encoding demo**
+- Displays original signal plots alongside encoded signal blocks.
+- Demonstrates how multidimensional signals are transformed into a one-dimensional signal.
+- Built with reusable UI components (TypeScript, React, Material UI).
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**Characteristic Stripe Pattern Comparison (CSP) Demo**
+- Upload two different files for comparison.
+- View the Characteristic Stripe Pattern.
+- Apply/reset transformations.
+- Adjust ranges displayed.
+- Experiment with different dimensionality reduction algorithms and parameters.
 
-- Configure the top-level `parserOptions` property like this:
+**Previous work**
+- Includes cards linking to relevant publications from the team and external sources.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+---
+
+## 🛠️ Tech
+
+**[TypeScript](https://www.typescriptlang.org/)**
+Provides strong typing, class-based structure, and robust tooling for building complex UI components.
+
+**[React](https://react.dev/)**
+Library for building fast, interactive user interfaces.
+
+**[Material UI](https://mui.com/)**
+Modern UI framework with reusable components. Features like drag & drop are directly integrated to speed up development.
+
+**Deployment & CI/CD**
+- GitHub Actions automatically check, build, and deploy the app to **GitHub Pages** whenever changes are pushed to the `main` branch.
+- Dependencies are managed through `package.json`.
+
+---
+
+## 📦 Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/beatrizcabdan/AutoSFC.git
+cd AutoSFC
+npm install
+````
+
+---
+
+## ▶️ Usage
+
+Run the development server locally:
+
+```bash
+npm start
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Build the project for production:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm run build
 ```
+
+The production-ready build will be output to the `build/` directory.
+
+  * Access the deployed version on GitHub Pages after pushing changes to `main`. 
+  * GitHub Actions automatically deploy changes to GitHub Pages whenever commits are merged into `main`.
+
+---
+
+## 📚 Contributing
+
+This project supports ongoing research into dimensionality reduction using Space-Filling Curves.
+For more information, see the included research papers section on the website for references and related publications.
+
+Contributions are welcome! Please fork the repository and create a pull request with your proposed changes.
+
+This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+
+---
+
+Anton J Olsson
+
+Beatriz Cabrero-Daniel
