@@ -10,10 +10,17 @@ import {CspComparisonDemo} from "./CspComparisonDemo.tsx";
 import {Fab} from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {Nav} from "./Nav.tsx";
+import {BrowserRouter, useSearchParams} from "react-router-dom";
+import {scrollToSection} from "./utils.ts";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum PlayStatus {
     PLAYING, PAUSED, REACHED_END
+}
+
+export interface ISearchParams {
+    preset?: string | null,
+    autoplay?: boolean | null
 }
 
 export const DEFAULT_SCALING_FACTOR = 10
@@ -26,6 +33,7 @@ function App() {
     const [scrollPos, setScrollPos] = useState(0)
     const [hideMobileNav, setHideMobileNav] = useState(false)
     const scrollPosRef = useRef<number>(0)
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const onScroll = () => {
         setScrollPos(document.documentElement.scrollTop)
@@ -38,6 +46,11 @@ function App() {
         window.onunload = () => {
             document.removeEventListener('scroll', onScroll)
         }
+
+        if (searchParams.has('preset')) {
+            scrollToSection('#encoding-demo-div')
+        }
+
     }, []);
 
 
@@ -138,7 +151,6 @@ function App() {
                  onClick={onScrollButtonClick}>
                 <ArrowUpwardIcon sx={{ mr: 0, ml: 0 }} />
             </Fab>
-
         </>
     )
 }

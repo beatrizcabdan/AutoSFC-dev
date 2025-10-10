@@ -4,6 +4,7 @@ import React, {FormEvent, useEffect, useRef, useState} from "react";
 import './PresetComponent.scss'
 import './App.module.scss'
 import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR} from "./App.tsx";
+import { useSearchParams } from 'react-router-dom';
 
 export interface Preset {
     name: string,
@@ -42,6 +43,7 @@ export function PresetComponent(props: {
     const [editablePresetNameIdx, setEditablePresetNameIdx] = useState(-1)
     const [deletedIndex, setDeletedIndex] = useState(-1)
     const loadButtonRef = useRef<HTMLInputElement | null>(null)
+    const [searchParams, setSearchParams] = useSearchParams()
 
     function setPresetsFromFileString(content: string, selectPresetIndex = -1) {
         const presArray = JSON.parse(content)
@@ -52,6 +54,18 @@ export function PresetComponent(props: {
             props.onPresetSelect(presArray[selectPresetIndex])
         }
     }
+
+    useEffect(() => {
+        const paramPresetName = searchParams.get('preset')
+        if (presets && paramPresetName) {
+            const idx = presets?.findIndex(p => p.name === paramPresetName)
+            if (idx === undefined) {
+                console.error(`No preset with name ${paramPresetName} found.`)
+            } else {
+                props.onPresetSelect(presets[idx])
+            }
+        }
+    }, [searchParams, presets]);
 
     // Load initial presets from file
     useEffect(() => {
@@ -80,6 +94,11 @@ export function PresetComponent(props: {
 
     function onPresetClick(index: number) {
         const preset = presets![index]
+        console.log(searchParams)
+        setSearchParams(searchParams => {
+            searchParams.set('preset', preset.name)
+            return searchParams
+        })
         props.onPresetSelect(preset)
     }
 
@@ -120,8 +139,11 @@ export function PresetComponent(props: {
             .sort((p1, p2) => p1.name.localeCompare(p2.name))
         setPresets(newPresets)
         props.onPresetSelect(newPreset)
+        setSearchParams(searchParams => {
+            searchParams.set('preset', newPreset.name)
+            return searchParams
+        })
         setEditablePresetNameIdx((newPresets?.length ?? 0) - 1)
-        console.log((newPresets?.length ?? 0) - 1)
     }
 
     useEffect(() => {
@@ -169,6 +191,12 @@ export function PresetComponent(props: {
     }
 
     function removePreset(index: number) {
+        if (searchParams.get('preset') !== undefined && presets![index].name === searchParams.get('preset')) {
+            setSearchParams(searchParams => {
+                searchParams.delete('preset')
+                return searchParams
+            })
+        }
         setPresets(presets => [...presets!.slice(0, index), ...presets!.slice(index + 1)])
         setDeletedIndex(-1)
     }
@@ -180,6 +208,13 @@ export function PresetComponent(props: {
         // Don't allow multiple presets with same name
         if (e.key === 'Enter' && !presets?.some((p, i) => i != presetIndex && p.name === targetVal)) {
             setEditablePresetNameIdx(-1)
+            if (props.currentPresetName === presets![presetIndex].name) {
+                setSearchParams(searchParams => {
+                    searchParams.set('preset', targetVal)
+                    return searchParams
+                })
+            }
+
             const newPresets = [...presets!]
             newPresets[presetIndex].name = targetVal
             setPresets(newPresets)
