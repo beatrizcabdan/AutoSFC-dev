@@ -28,7 +28,7 @@ export const DEFAULT_SCALING_FACTOR = 10
 export const DEFAULT_OFFSET = 100
 export const DEFAULT_BITS_PER_SIGNAL = 14
 
-const HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN = false
+const HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN = true
 
 function App() {
     const [hideMobileNav, setHideMobileNav] = useState(false)
