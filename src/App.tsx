@@ -33,7 +33,7 @@ const HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN = true
 function App() {
     const [hideMobileNav, setHideMobileNav] = useState(false)
     const scrollPosRef = useRef<number>(0)
-    const [scrollButtonClass, setScrollButtonClass] = useState('')
+    const [scrollButtonClass, setScrollButtonClass] = useState('disabled')
     const [searchParams] = useSearchParams()
 
     const onScroll = useCallback(() => {
