@@ -3,7 +3,7 @@
 
 import './App.module.scss'
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {PaperContainer} from "./PaperContainer.tsx";
 import {EncodingDemo} from "./EncodingDemo.tsx";
 import {CspComparisonDemo} from "./CspComparisonDemo.tsx";
@@ -31,37 +31,36 @@ export const DEFAULT_BITS_PER_SIGNAL = 14
 const HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN = false
 
 function App() {
-    const [scrollPos, setScrollPos] = useState(0)
     const [hideMobileNav, setHideMobileNav] = useState(false)
     const scrollPosRef = useRef<number>(0)
+    const [scrollButtonClass, setScrollButtonClass] = useState('')
     const [searchParams] = useSearchParams()
 
-    const onScroll = () => {
-        setScrollPos(document.documentElement.scrollTop)
-        setHideMobileNav(document.documentElement.scrollTop > scrollPosRef.current && HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN)
+    const onScroll = useCallback(() => {
+        const scrollingUp = document.documentElement.scrollTop < scrollPosRef.current
+        setHideMobileNav(!scrollingUp && HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN)
+        setScrollButtonClass(scrollPosRef.current > window.innerHeight && scrollingUp ? '' : 'disabled')
         scrollPosRef.current = document.documentElement.scrollTop
-    }
+    }, [scrollPosRef])
 
     useEffect(() => {
         document.addEventListener('scroll', onScroll)
-        window.onunload = () => {
+        return function () {
             document.removeEventListener('scroll', onScroll)
         }
 
+    }, [onScroll]);
+
+    useEffect(() => {
         if (searchParams.has('preset')) {
             scrollToSection('#encoding-demo-div')
         }
 
     }, []);
 
-
-    const getScrollButtonClass = () => {
-        return scrollPos > window.innerHeight ? '' : 'disabled';
-
-    }
     const onScrollButtonClick = () => {
         const frames = 90
-        const scrollSpeed = 20 * scrollPos / frames
+        const scrollSpeed = 20 * scrollPosRef.current / frames
         let frameCount = 0
         const int = setInterval(() => {
             if (document.scrollingElement!.scrollTop <= 0) {
@@ -86,7 +85,8 @@ function App() {
                 <p className={'size-warning-p'}>This website is optimized for larger screen sizes.</p>
             </div>
 
-            <Nav scrollPos={scrollPos} hideMobileNav={hideMobileNav} contactVisibilityClassName={getVisibilityClassName()}/>
+            <Nav scrollPos={scrollPosRef.current} hideMobileNav={hideMobileNav}
+                 contactVisibilityClassName={getVisibilityClassName()}/>
 
             <div id={'main'}>
                 <EncodingDemo />
@@ -155,7 +155,7 @@ function App() {
                 </span>
             </div>
 
-            <Fab variant="extended" color={'primary'} className={getScrollButtonClass()} size={'small'}
+            <Fab variant="extended" color={'primary'} className={scrollButtonClass} size={'small'}
                  onClick={onScrollButtonClick}>
                 <ArrowUpwardIcon sx={{ mr: 0, ml: 0 }} />
             </Fab>
