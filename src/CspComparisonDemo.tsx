@@ -334,7 +334,7 @@ export function CspComparisonDemo() {
 
     return <div id={'comp-demo-div'}>
         <h1>CSP comparison demo</h1>
-        <p className={'demo-description-p'}>The CSP comparison demo overlays multiple CSPs to visually compare the multi-modal data points after dimensionality reduction to find similarities and differences. Once files are uploaded, the tool parses the CSV data, loads the signals, and renders the CSPs into the same plot. Alternatively, you can upload the same data point multiple times in order to compare the CSPs with different transformations applied to the original input signals.</p>
+        <p className={'demo-description-p'}>The CSP comparison demo overlays multiple CSPs to visually compare the multi-modal data points after dimensionality reduction to find similarities and differences. Once files are uploaded, the tool parses the CSV data, loads the signals, and renders the CSPs into the same plot. Alternatively, you can upload the same data point multiple times in order to compare the CSPs with different transformations applied to the original input signals. For all details on how to use this demo, please check our <a href="https://youtu.be/8JFxoLYusc0?si=7UqcdqHZnDmyZETc&t=258">video tutorial</a>.</p>
         <div className={"charts"} id={'demo2-charts'}>
             <Chart name={"Encoded signals plot (CSP)"} data={data} transformedData={transformedData}
                    scales={scales} id={'demo2'} totalNumLines={getMaxDisplayedNumLines()}

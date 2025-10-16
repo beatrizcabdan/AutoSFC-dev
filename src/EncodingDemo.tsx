@@ -360,7 +360,7 @@ export function EncodingDemo() {
     };
     return <div id={'encoding-demo-div'}>
         <h1>Encoding demo</h1>
-        <p className={'demo-description-p'}>The AutoSFC encoding demo allows researchers to visualize and adjust parameters in real time, and to apply transformations on the input signal in real time. Once a file is uploaded, the tool parses the CSV data and loads the signals into memory. After loading, it activates the interactive plotting components and parameter controls.</p>
+        <p className={'demo-description-p'}>The AutoSFC encoding demo allows researchers to visualize and adjust parameters in real time, and to apply transformations on the input signal in real time. Once a file is uploaded, the tool parses the CSV data and loads the signals into memory. After loading, it activates the interactive plotting components and parameter controls. For all details on how to use this demo, please check our <a href="https://www.youtube.com/watch?v=8JFxoLYusc0">video tutorial</a>.</p>
         <div className={"charts"}>
             <Chart name={"Original signals plot"} data={showSignalTransforms ? transformedData : data}
                    scales={scales} offsets={offsets}
