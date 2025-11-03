@@ -1,6 +1,8 @@
 @use 'sass:math';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
+$main-max-width: 1200px;
+
 $canvas-height: 21vw;
 $canvas-width: 1.35 * $canvas-height;
 $curve-padding-factor: 0.04;
@@ -134,8 +136,11 @@ body {
   align-items: center;
   gap: 1.5rem;
   margin-top: 2rem;
-  padding: 0 $side-padding;
   width: 100%;
+}
+
+#main, .link-container, .tabcontent {
+  max-width: $main-max-width;
 }
 
 @media (max-width: 1200px) {
@@ -833,7 +838,6 @@ input[type="number"] {
 .tabcontent {
   background-color: white;
   margin-top: 2rem;
-  padding: 0 $side-padding;
   display: flex;
   flex-direction: column;
 
