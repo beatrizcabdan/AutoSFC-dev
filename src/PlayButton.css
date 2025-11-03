@@ -317,7 +317,7 @@ body.modal-open {
   padding: 0.5rem 1rem;
 }
 
-.button, .play-button {
+.button, .play-button, .link-button {
   padding: 0 0.5rem;
   height: 1.8rem;
   text-transform: uppercase;
@@ -330,12 +330,29 @@ body.modal-open {
   font-weight: 700;
   color: var(--text-color-light);
 }
-.button:hover, .play-button:hover {
+.button:hover, .play-button:hover, .link-button:hover {
   background-color: var(--light-gray);
   cursor: pointer;
 }
-.button:active, .play-button:active {
+.button:active, .play-button:active, .link-button:active {
   background-color: var(--button-active);
+}
+
+.link-button {
+  background-color: transparent;
+}
+.link-button:active {
+  background-color: initial;
+}
+.link-button a {
+  font-weight: 700;
+  color: var(--text-color-light);
+}
+.link-button a:hover {
+  color: #004c93;
+}
+.link-button a:active {
+  color: #006fd5;
 }
 
 input[type=number] {

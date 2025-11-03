@@ -16,6 +16,7 @@ $def-control-width: 27rem;
 $vert-container-padding: 1.2rem;
 $horiz-container-padding: 1.8rem;
 
+$primary-color-dark: #004c93;
 $primary-color: #006fd5;
 $primary-color-medium: #2699ff;
 $primary-color-medium-light: #63b7ff;
@@ -409,6 +410,29 @@ body {
 
   &:active {
     background-color: var(--button-active);
+  }
+}
+
+.link-button {
+  @extend .button;
+
+  background-color: transparent;
+
+  &:active {
+    background-color: initial;
+  }
+
+  a {
+    font-weight: 700;
+    color: var(--text-color-light);
+
+    &:hover {
+      color: $primary-color-dark;
+    }
+
+    &:active {
+      color: $primary-color;
+    }
   }
 }
 
