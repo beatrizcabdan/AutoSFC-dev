@@ -1,4 +1,4 @@
-import {PlayStatus} from "./App.tsx";
+import {PlayStatus} from "../App.tsx";
 import './PlayButton.scss'
 
 export function PlayButton(props: { onClick: () => void, status: PlayStatus }) {

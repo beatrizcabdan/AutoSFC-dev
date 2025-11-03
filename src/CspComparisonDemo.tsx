@@ -3,7 +3,7 @@ import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR} from ".
 import {createPath, debounce, hilbertEncode, mortonInterlace} from "./utils.ts";
 import {Chart} from "./Chart.tsx";
 import {EncoderSwitch} from "./EncoderSwitch.tsx";
-import {UploadButton} from "./UploadButton.tsx";
+import {UploadButton} from "./buttons/UploadButton.tsx";
 import {DataRangeSlider} from "./DataRangeSlider.tsx";
 import {ProcessingComponent} from "./ProcessingComponent.tsx";
 import {SelectColumnsDialog} from "./SelectColumnsDialog.tsx";

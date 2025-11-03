@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { PlayStatus } from "./App.tsx";
+import { PlayStatus } from "../App.tsx";
 import './PlayButton.scss';
 export function PlayButton(props) {
     const statusToIconMap = new Map([

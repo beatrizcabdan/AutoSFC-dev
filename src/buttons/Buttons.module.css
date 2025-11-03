@@ -317,44 +317,6 @@ body.modal-open {
   padding: 0.5rem 1rem;
 }
 
-.button, .play-button, .link-button {
-  padding: 0 0.5rem;
-  height: 1.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.02rem;
-  background-color: white;
-  border: 2px solid var(--text-color-light);
-  border-radius: 6px;
-  transition: all 0.2s;
-  font-size: 0.6rem;
-  font-weight: 700;
-  color: var(--text-color-light);
-}
-.button:hover, .play-button:hover, .link-button:hover {
-  background-color: var(--light-gray);
-  cursor: pointer;
-}
-.button:active, .play-button:active, .link-button:active {
-  background-color: var(--button-active);
-}
-
-.link-button {
-  background-color: transparent;
-}
-.link-button:active {
-  background-color: initial;
-}
-.link-button a {
-  font-weight: 700;
-  color: var(--text-color-light);
-}
-.link-button a:hover {
-  color: #004c93;
-}
-.link-button a:active {
-  color: #006fd5;
-}
-
 input[type=number] {
   border-radius: 5px;
   border: 1px solid var(--input-border);
@@ -826,20 +788,42 @@ h1 + p {
     padding: 14px 2rem 6rem;
   }
 }
-.play-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3rem;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 2px;
-}
-.play-button span {
-  margin: 0;
-  font-size: 1.4rem;
+.button, .link-button {
+  padding: 0 0.5rem;
+  height: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02rem;
+  background-color: white;
+  border: 2px solid var(--text-color-light);
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-size: 0.6rem;
+  font-weight: 700;
   color: var(--text-color-light);
 }
-.play-button .material-symbols-outlined {
-  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 22;
+.button:hover, .link-button:hover {
+  background-color: var(--light-gray);
+  cursor: pointer;
+}
+.button:active, .link-button:active {
+  background-color: var(--button-active);
 }
 
-/*# sourceMappingURL=PlayButton.css.map */
+.link-button {
+  background-color: transparent;
+}
+.link-button:active {
+  background-color: initial;
+}
+.link-button a {
+  font-weight: 700;
+  color: var(--text-color-light);
+}
+.link-button a:hover {
+  color: #004c93;
+}
+.link-button a:active {
+  color: #006fd5;
+}
+
+/*# sourceMappingURL=Buttons.module.css.map */
