@@ -1,5 +1,8 @@
 @use '../App.module';
 
+// TODO: Abstract common properties from other button classes, create generic outlined button,
+//  integrate MUI click animation in all buttons, etc
+
 .button {
     padding: 0 0.5rem;
     height: 1.8rem;
