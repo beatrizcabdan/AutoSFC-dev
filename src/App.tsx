@@ -10,8 +10,8 @@ import {CspComparisonDemo} from "./CspComparisonDemo.tsx";
 import {Fab} from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {Nav} from "./Nav.tsx";
-import {useSearchParams} from "react-router-dom";
-import {scrollToSection} from "./utils.ts";
+import {useSearchParams, useNavigate} from "react-router-dom";
+import {createPath, scrollToSection} from "./utils.ts";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum PlayStatus {
@@ -34,7 +34,9 @@ function App() {
     const [hideMobileNav, setHideMobileNav] = useState(false)
     const scrollPosRef = useRef<number>(0)
     const [scrollButtonClass, setScrollButtonClass] = useState('disabled')
+    const [contactClass, setContactClass] = useState('')
     const [searchParams] = useSearchParams()
+    const navigate = useNavigate()
 
     const onScroll = useCallback(() => {
         const scrollingUp = document.documentElement.scrollTop < scrollPosRef.current
@@ -53,10 +55,15 @@ function App() {
 
     useEffect(() => {
         if (searchParams.has('preset')) {
-            scrollToSection('#encoding-demo-div')
+            scrollToSection('#encoding-demo')
         }
+        setContactClass(searchParams.has('anonymize', 'true') ? 'hide' : '')
+    }, [searchParams]);
 
-    }, []);
+    const onSectionClick = (path: string, sectionId: string) => {
+        scrollToSection(sectionId);
+        navigate(path)
+    }
 
     const onScrollButtonClick = () => {
         const frames = 90
@@ -70,10 +77,7 @@ function App() {
                 frameCount++
             }
         }, 17)
-    }
-
-    const getVisibilityClassName = () => {
-        return searchParams.has('anonymize', 'true') ? 'hide' : '';
+        navigate(createPath('', searchParams))
     }
 
     return (
@@ -85,16 +89,20 @@ function App() {
                 <p className={'size-warning-p'}>This website is optimized for larger screen sizes.</p>
             </div>
 
-            <Nav scrollPos={scrollPosRef.current} hideMobileNav={hideMobileNav}
-                 contactVisibilityClassName={getVisibilityClassName()}/>
+            <Nav scrollPos={scrollPosRef.current} hideMobileNav={hideMobileNav} onSectionClick={onSectionClick}
+                 contactVisibilityClassName={contactClass} searchParams={searchParams}/>
 
             <div id={'main'}>
-                <EncodingDemo />
-                <CspComparisonDemo />
+                <EncodingDemo onSectionClick={onSectionClick}/>
+                <CspComparisonDemo onSectionClick={onSectionClick}/>
             </div>
 
-            <div className="tabcontent" id={'work'}>
-                <h1>Previous work using Space-Filling Curves (SFCs)</h1>
+            <div className="tabcontent" id={'previous-work'}>
+                <h1><a href={createPath('#previous-work', searchParams)}
+                       onClick={e => e.preventDefault()}>
+                    <span className={'section-hash-span'} onClick={() => onSectionClick(createPath('#previous-work', searchParams),'#previous-work')}>
+                        #</span></a>
+                    Previous work using Space-Filling Curves (SFCs)</h1>
 
                 <div className="papers-container">
                     <PaperContainer
@@ -118,7 +126,11 @@ function App() {
                 </div>
             </div>
             <div className="tabcontent" id={'about'}>
-                <h1>Space-Filling Curves (SFCs): what and why?</h1>
+                <h1><a href={createPath('#about', searchParams)}
+                       onClick={e => e.preventDefault()}>
+                    <span className={'section-hash-span'} onClick={() => onSectionClick(createPath('#about', searchParams),'#about')}>
+                        #</span></a>
+                    Space-Filling Curves (SFCs): what and why?</h1>
                 <div className="papers-container">
                     <PaperContainer title={"Space-Filling Curves"}
                                     description={"The present book provides an introduction to using space-filling curves (SFC) as tools in scientific computing. Special focus is laid on the representation of SFC and on resulting algorithms."}
@@ -136,8 +148,12 @@ function App() {
                 </div>
             </div>
 
-            <div className={`tabcontent ${(getVisibilityClassName())}`} id={'contact'}>
-                <h1>Want to collaborate? Contact us!</h1>
+            <div className={`tabcontent ${contactClass}`} id={'contact'}>
+                <h1><a href={createPath('#contact', searchParams)}
+                       onClick={e => e.preventDefault()}>
+                    <span className={'section-hash-span'} onClick={() => onSectionClick('#contact', createPath('#contact', searchParams))}>
+                        #</span></a>
+                    Want to collaborate? Contact us!</h1>
 
                 <p>This website is under construction. If you want to know more about Space-Filling Curves (SFCs), or
                     driving event detection using them, feel free to send us an email to Beatriz Cabrero-Daniel at <a
@@ -148,10 +164,10 @@ function App() {
             </div>
 
             {/*Switch to inverse anonymization logic after publication*/}
-            <div className={`footer ${getVisibilityClassName()}`}>
+            <div className={`footer ${contactClass}`}>
                 Demo of SFC encoding for automotive data. Site under construction.
-                <span id={'contact-info'} className={getVisibilityClassName()}> Contact Beatriz Cabrero-Daniel at <a
-                href="mailto:beatriz.cabrero-daniel@gu.se">beatriz.cabrero-daniel@gu.se</a> for more info.
+                <span id={'contact-info'} className={contactClass}> Contact Beatriz Cabrero-Daniel at <a
+                    href="mailto:beatriz.cabrero-daniel@gu.se">beatriz.cabrero-daniel@gu.se</a> for more info.
                 </span>
             </div>
 

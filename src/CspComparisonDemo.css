@@ -807,85 +807,393 @@ h1 + p {
     padding: 14px 2rem 6rem;
   }
 }
-.light-box {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-  top: 0;
-  left: 0;
-}
-.light-box.show {
-  opacity: 1;
-  pointer-events: all;
-}
-.light-box .dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  translate: -50% -50%;
-  border-radius: 10px;
-  border: 0 solid black;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 0 16px 4px;
-  margin: 0;
-  padding: 1rem 3rem;
-  pointer-events: all;
-}
-.light-box .dialog h2 {
-  line-height: 0.8rem;
-}
-.light-box .dialog .checkbox-list {
-  font-size: 0.8rem;
+#comparison-demo {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
 }
-.light-box .dialog .buttons {
+#comparison-demo h1 {
+  margin-bottom: 0;
+}
+#comparison-demo #demo2-controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#comparison-demo #demo2-controls .control-container {
+  padding: 1.2rem;
+}
+#comparison-demo #demo2-controls .comparison-row-div {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  width: 100%;
+  align-items: center;
+  gap: 1rem;
+  flex: none;
+  justify-content: normal;
+}
+#comparison-demo #demo2-controls .comparison-row-div .MuiTypography-root {
+  text-transform: uppercase;
+  line-height: 0.6rem !important;
+  letter-spacing: 0.02rem !important;
+  font-size: 0.6rem !important;
+  font-weight: 700 !important;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid {
+  width: max-content;
+  display: grid;
+  grid-template-columns: max-content;
+  flex: 1 1 fit-content;
+  height: 100%;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column {
+  grid-column: 1;
+  grid-row: 1/3;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .MuiSvgIcon-root {
+  width: 2rem !important;
+  height: 2rem !important;
+  padding: 0;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .show-checkbox {
+  flex-direction: column;
+  align-self: center;
+  padding: 0 0 0 1rem;
+  margin-top: -0.25rem;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .show-checkbox .MuiButtonBase-root {
+  padding: 0;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .delete-row-button {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
-.light-box .dialog .buttons button {
-  margin-top: 1rem;
-  width: 13ch;
-  text-align: center;
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .delete-row-button .MuiIconButton-root {
+  display: flex;
+  margin-bottom: 0;
 }
-.light-box .dialog .buttons .ok-button {
-  border: none;
-  color: white;
-  box-shadow: rgba(0, 0, 0, 0.4) 0 0 4px;
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .delete-row-button .MuiIconButton-root .MuiSvgIcon-root {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .file-container {
+  grid-row: 1;
+  grid-column: 2;
+  align-self: center;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .file-container .upload-button-container {
+  margin-top: 0;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid #range-container {
+  grid-row: 2;
+  grid-column: 2;
+  box-shadow: none;
+  border-radius: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid #range-container .text-controls {
+  flex-direction: row;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid #range-container .text-controls label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container {
+  display: flex;
+  justify-content: center;
+  margin-right: 0;
+  margin-left: 0;
+  gap: 0.5rem;
+  width: 39rem;
+  border-radius: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: none;
+  height: 100%;
+  padding: 0 0 0 1.2rem;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container h3 {
+  grid-column: 1/3;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid {
+  grid-template-columns: 9ch repeat(2, min-content) 1rem min-content min-content auto;
+  position: relative;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .offset-label input, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .scale-label input {
+  margin: 0.1rem;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .signal-cell {
+  grid-column: 1;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .signal-cell .signal-name {
+  padding-right: 0.2rem;
+  max-width: 15ch;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid span {
+  align-self: center;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid span.bits-label, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid span.max-sfc-label, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid span.min-sfc-label {
+  margin-right: 0.5rem;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid span.bits-label {
+  grid-row: 1;
+  grid-column: 5;
+  padding-top: 0;
+  margin-top: 0;
+  text-align: right;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid label.bits-label {
+  grid-row: 1;
+  grid-column: 6;
+  margin-top: 0;
+  text-align: left;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid label.bits-label * {
+  margin-left: 0;
+  padding-left: 0;
+  margin-right: 0;
+  padding-right: 0;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .choose-columns-button {
+  border-radius: 6px;
+  color: var(--text-color-light);
+  font-weight: 700;
+  font-size: 0.6rem;
+  letter-spacing: 0.02rem;
   transition: all 0.2s;
+  white-space: nowrap;
+  grid-column: 1/4;
+  border-width: 2px;
+  width: fit-content;
+  justify-self: center;
+  border-color: var(--button-active);
+  margin-top: 0.5rem;
 }
-.light-box .dialog .buttons .ok-button.enabled {
-  background: #006fd5;
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid #sfc-header {
+  grid-column: 5/7;
+  align-self: center;
+  margin-top: 0;
+  padding: 0;
 }
-.light-box .dialog .buttons .ok-button.enabled:hover {
-  background: #2699ff;
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .MuiDivider-root {
+  grid-column: 4;
+  height: 100%;
+  position: absolute;
+  margin-left: 0.5rem;
 }
-.light-box .dialog .buttons .ok-button.disabled {
-  background: var(--button-border);
-  cursor: default;
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .min-sfc-label {
+  grid-row: 2;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .max-sfc-label {
+  grid-row: 3;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid span.max-sfc-label, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid span.min-sfc-label {
+  grid-column: 5/6;
+  justify-self: flex-end;
+  white-space: nowrap;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid label.max-sfc-label, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid label.min-sfc-label {
+  grid-column: 6/7;
+  width: 14ch;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid label.max-sfc-label *, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid label.min-sfc-label * {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid #reset-button {
+  width: min-content;
+  margin: auto 0.1rem;
+  grid-column: 7;
+  grid-row: 2/4;
+  justify-self: flex-end;
+}
+@media (max-width: 1200px) {
+  #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid #sfc-header {
+    grid-column: 5/7;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid label.max-sfc-label, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid label.min-sfc-label {
+    grid-column: 6;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid span.max-sfc-label, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid span.min-sfc-label {
+    grid-column: 5;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid #reset-button {
+    width: 100%;
+    margin: 0 0.1rem;
+    grid-column: 5/7;
+    grid-row: 5/7;
+  }
+}
+#comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .choose-columns-button span, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid #reset-button span {
+  height: 100%;
+}
+#comparison-demo .global-transform-div {
+  width: fit-content;
+  flex: none;
+  margin-top: -0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0;
+  padding: 0.6rem 0.9rem;
+}
+#comparison-demo .global-transform-div > :last-child {
+  margin: 0;
+}
+#comparison-demo .global-transform-div .encoder-switch {
+  margin: 0;
+}
+#comparison-demo .global-transform-div label.input-label {
+  width: 8ch;
+}
+#comparison-demo .global-transform-div label.input-label * {
+  width: 100%;
 }
 
+@media (max-width: 1080px) {
+  #process-container {
+    width: 35rem;
+  }
+}
+@media (max-width: 1200px) {
+  #comparison-demo #process-container {
+    width: fit-content !important;
+  }
+  #comparison-demo #process-container .signals-grid {
+    grid-template-columns: 9ch repeat(2, min-content) 1rem min-content auto !important;
+  }
+}
 @media (max-width: 700px) {
-  .light-box .dialog h2 {
-    line-height: initial;
+  #comparison-demo .global-transform-div {
+    width: 100%;
   }
-  .light-box .dialog .checkbox-list {
-    line-height: initial;
-    align-items: flex-start;
+  #comparison-demo #demo2-charts {
+    flex-direction: column !important;
+    width: fit-content;
   }
-  .light-box .dialog .checkbox-list div {
-    display: flex;
+  #comparison-demo #demo2-charts #demo2-chart .canvas-container {
+    flex-direction: column;
     align-items: center;
-    column-gap: 0.3rem;
+  }
+  #comparison-demo #demo2-charts #demo2-chart .canvas-container .canvas-wrapper .chartitle {
+    text-align: center;
+    margin: 0 auto 0.5rem;
+    grid-column: 1/5;
+  }
+  #comparison-demo #demo2-charts #demo2-chart .canvas-container .canvas-wrapper#right-canvas {
+    grid-template-columns: 13vw 70vw 8vw 5vw !important;
+  }
+  #comparison-demo #demo2-charts #demo2-chart .canvas-container .canvas-wrapper#right-canvas canvas {
+    width: 70vw !important;
+    height: 52vw !important;
+  }
+  #comparison-demo #demo2-charts #demo2-chart .canvas-container .canvas-wrapper#right-canvas .chartYTicks:first-of-type {
+    margin: 0;
+  }
+  #comparison-demo #demo2-charts #demo2-chart .canvas-container .canvas-wrapper#right-canvas .chartYTicks {
+    width: 100% !important;
+  }
+  #comparison-demo #demo2-charts #demo2-chart .canvas-container .canvas-wrapper .x-tick-mark:not(:nth-child(2n+1)) .x-tick-mark-label {
+    display: none !important;
+  }
+  #comparison-demo #demo2-charts #demo2-chart .canvas-container .canvas-wrapper .y-axis-label {
+    height: max-content;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid {
+    width: 100%;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column {
+    grid-row: 1;
+    gap: 0;
+    width: fit-content;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .show-checkbox {
+    padding: 0;
+    margin: 0;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .file-container {
+    grid-column: 1/3;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid #range-container {
+    grid-column: 1/3;
+    padding-bottom: 0;
+  }
+  #comparison-demo #demo2-controls #process-container {
+    border: none !important;
+    padding: 1rem !important;
+    width: 100% !important;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid {
+    grid-template-columns: repeat(6, 1fr) !important;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid .choose-columns-button {
+    grid-column: 2/6 !important;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid .signal-cell {
+    grid-column: 1/3 !important;
+    padding-left: 1ch;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid .signal-label {
+    grid-column: 1/3;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid .offset-label {
+    grid-column: 3/5;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid .scale-label {
+    grid-column: 5/7;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid #reset-button {
+    margin: 1rem 0 0 0 !important;
+    grid-column: 1/7 !important;
+    grid-row: unset !important;
+    order: 5;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid #sfc-header {
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    margin-top: 1rem !important;
+    margin-bottom: 0;
+    order: 2;
+    grid-column: 1/7 !important;
+    line-height: 2rem;
+    padding-top: 0.5rem !important;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid .min-sfc-label {
+    order: 3;
+    grid-row: unset !important;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid .max-sfc-label {
+    order: 4;
+    grid-row: unset !important;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid span.min-sfc-label, #comparison-demo #demo2-controls #process-container .signals-grid span.max-sfc-label {
+    grid-column: 1/3 !important;
+    justify-self: left !important;
+    padding-left: 1ch;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid label.min-sfc-label, #comparison-demo #demo2-controls #process-container .signals-grid label.max-sfc-label {
+    grid-column: 4/7 !important;
+    justify-self: left !important;
+  }
+  #comparison-demo #demo2-controls #process-container .signals-grid .MuiDivider-vertical {
+    display: none;
   }
 }
 
-/*# sourceMappingURL=SelectColumnsDialog.css.map */
+/*# sourceMappingURL=CspComparisonDemo.css.map */

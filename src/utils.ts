@@ -62,7 +62,7 @@ export function hilbertEncode(transposed: number[][], raw_num_bits: number): num
         }
         if (locs[i].length !== num_dims) {
             throw new Error(
-            `locs[${i}] has wrong dimension count: ${locs[i].length} instead of num_dims = ${num_dims}`
+                `locs[${i}] has wrong dimension count: ${locs[i].length} instead of num_dims = ${num_dims}`
             );
         }
     }
@@ -251,3 +251,9 @@ export function scrollToSection(section: string) {
         behavior: 'smooth'
     })
 }
+
+export const createPath =
+    (sectionId: string, searchParams: URLSearchParams) => {
+        const queryString = searchParams.toString()
+        return `${queryString ? ('?' + queryString) : ''}${sectionId}`
+    }

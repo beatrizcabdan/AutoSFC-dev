@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
-import {debounce, hilbertEncode, mortonInterlace} from "./utils.ts";
+import {createPath, debounce, hilbertEncode, mortonInterlace} from "./utils.ts";
 import {Preset, PresetComponent} from "./PresetComponent.tsx";
 import {Chart} from "./Chart.tsx";
 import {EncoderSwitch} from "./EncoderSwitch.tsx";
@@ -15,11 +15,15 @@ import './EncodingDemo.scss'
 import App from './App.module.scss'
 import {useSearchParams} from "react-router-dom";
 
-const { primaryColor } = App
+const {primaryColor} = App
 
 const preset = demoPreset5
 
-export function EncodingDemo() {
+interface EncodingDemoProps {
+    onSectionClick: (path: string, sectionId: string) => void
+}
+
+export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     const SLIDER_START_VAL = 100
     const EXAMPLE_FILE_PATH = './emergency_braking.csv'
     const LINE_COLORS = [primaryColor, 'orange', 'green', 'red', 'purple', 'brown']
@@ -66,7 +70,7 @@ export function EncodingDemo() {
 
     const [currentPresetName, setCurrentPresetName] = useState('')
 
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -358,9 +362,18 @@ export function EncodingDemo() {
         computeSetSFCData(transformedData, bitsPerSignal, newEncoder, true)
         setEncoder(newEncoder)
     };
-    return <div id={'encoding-demo-div'}>
-        <h1>Encoding demo</h1>
-        <p className={'demo-description-p'}>The AutoSFC encoding demo allows researchers to visualize and adjust parameters in real time, and to apply transformations on the input signal in real time. Once a file is uploaded, the tool parses the CSV data and loads the signals into memory. After loading, it activates the interactive plotting components and parameter controls. For all details on how to use this demo, please check our <a href="https://www.youtube.com/watch?v=8JFxoLYusc0">video tutorial</a>.</p>
+    return <div id={'encoding-demo'}>
+        <h1>
+            <a href={createPath('#encoding-demo', searchParams)}
+               onClick={e => e.preventDefault()}>
+                <span className={'section-hash-span'} onClick={() => onSectionClick(createPath('#encoding-demo', searchParams),
+                    '#encoding-demo')}>#</span></a>Encoding demo
+        </h1>
+        <p className={'demo-description-p'}>The AutoSFC encoding demo allows researchers to visualize and adjust
+            parameters in real time, and to apply transformations on the input signal in real time. Once a file is
+            uploaded, the tool parses the CSV data and loads the signals into memory. After loading, it activates the
+            interactive plotting components and parameter controls. For all details on how to use this demo, please
+            check our <a href="https://www.youtube.com/watch?v=8JFxoLYusc0">video tutorial</a>.</p>
         <div className={"charts"}>
             <Chart name={"Original signals plot"} data={showSignalTransforms ? transformedData : data}
                    scales={scales} offsets={offsets}

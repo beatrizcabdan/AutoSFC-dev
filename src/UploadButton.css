@@ -9,12 +9,18 @@
   display: none;
 }
 .upload-button-container p {
+  text-overflow: ellipsis;
+  overflow: hidden;
   line-height: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.02rem;
   font-size: 0.6rem;
   font-weight: 700;
   color: var(--text-color-light);
+}
+
+#comparison-demo .upload-button-container {
+  margin-top: 1rem;
 }
 
 /*# sourceMappingURL=UploadButton.css.map */

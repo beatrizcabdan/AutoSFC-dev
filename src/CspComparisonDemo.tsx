@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR} from "./App.tsx";
-import {debounce, hilbertEncode, mortonInterlace} from "./utils.ts";
+import {createPath, debounce, hilbertEncode, mortonInterlace} from "./utils.ts";
 import {Chart} from "./Chart.tsx";
 import {EncoderSwitch} from "./EncoderSwitch.tsx";
 import {UploadButton} from "./UploadButton.tsx";
@@ -9,10 +9,11 @@ import {ProcessingComponent} from "./ProcessingComponent.tsx";
 import {SelectColumnsDialog} from "./SelectColumnsDialog.tsx";
 import {default_demo1} from "./Common.ts";
 import './CspComparisonDemo.scss'
-import {Checkbox, FormControlLabel, IconButton} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import {Checkbox, FormControlLabel} from "@mui/material";
 import App from './App.module.scss'
-const { primaryColor } = App
+import {useSearchParams} from "react-router-dom";
+
+const {primaryColor} = App
 
 const preset = default_demo1
 
@@ -23,7 +24,11 @@ const preset = default_demo1
 // sampleTimeStamp.microseconds: 5000 / 10
 // groundSpeed: 5005 / 10
 
-export function CspComparisonDemo() {
+interface CspComparisonDemoProps {
+    onSectionClick: (path: string, sectionId: string) => void
+}
+
+export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const EXAMPLE_FILE_PATHS = [preset.file1, preset.file2]
     const LINE_COLORS = [primaryColor, 'green', 'red', 'purple', 'brown', 'orange']
 
@@ -65,6 +70,8 @@ export function CspComparisonDemo() {
 
     const [showDialog, setShowDialog] = useState(false)
     const [fileToSelectColumnsFor, setFileToSelectColumnsFor] = useState(-1)
+
+    const [searchParams] = useSearchParams()
 
     const loadFiles = async () => {
         const newData: number[][][] = []
@@ -332,9 +339,20 @@ export function CspComparisonDemo() {
         setPlotFile([...plotFile])
     }
 
-    return <div id={'comp-demo-div'}>
-        <h1>CSP comparison demo</h1>
-        <p className={'demo-description-p'}>The CSP comparison demo overlays multiple CSPs to visually compare the multi-modal data points after dimensionality reduction to find similarities and differences. Once files are uploaded, the tool parses the CSV data, loads the signals, and renders the CSPs into the same plot. Alternatively, you can upload the same data point multiple times in order to compare the CSPs with different transformations applied to the original input signals. For all details on how to use this demo, please check our <a href="https://youtu.be/8JFxoLYusc0?si=7UqcdqHZnDmyZETc&t=258">video tutorial</a>.</p>
+    return <div id={'comparison-demo'}>
+        <h1>
+            <a href={createPath('#comparison-demo', searchParams)}
+               onClick={e => e.preventDefault()}>
+                <span className={'section-hash-span'} onClick={() => onSectionClick(createPath('#comparison-demo', searchParams),'#comparison-demo')}>
+                    #</span>
+            </a>
+            CSP comparison demo</h1>
+        <p className={'demo-description-p'}>The CSP comparison demo overlays multiple CSPs to visually compare the
+            multi-modal data points after dimensionality reduction to find similarities and differences. Once files are
+            uploaded, the tool parses the CSV data, loads the signals, and renders the CSPs into the same plot.
+            Alternatively, you can upload the same data point multiple times in order to compare the CSPs with different
+            transformations applied to the original input signals. For all details on how to use this demo, please check
+            our <a href="https://youtu.be/8JFxoLYusc0?si=7UqcdqHZnDmyZETc&t=258">video tutorial</a>.</p>
         <div className={"charts"} id={'demo2-charts'}>
             <Chart name={"Encoded signals plot (CSP)"} data={data} transformedData={transformedData}
                    scales={scales} id={'demo2'} totalNumLines={getMaxDisplayedNumLines()}
@@ -363,9 +381,13 @@ export function CspComparisonDemo() {
                 <div className={'control-container comparison-row-div'}>
                     <div className={'left-control-grid'}>
                         <div className={'first-buttons-column'}>
-                            <FormControlLabel control={<Checkbox defaultChecked onChange={e => onShowCheckboxClick(e, i)}
-                                                         sx={{color: LINE_COLORS[i], '&.Mui-checked': {color: LINE_COLORS[i],}}}/>}
-                                              label="Show" className={'show-checkbox'}/>
+                            <FormControlLabel
+                                control={<Checkbox defaultChecked onChange={e => onShowCheckboxClick(e, i)}
+                                                   sx={{
+                                                       color: LINE_COLORS[i],
+                                                       '&.Mui-checked': {color: LINE_COLORS[i],}
+                                                   }}/>}
+                                label="Show" className={'show-checkbox'}/>
                             {/*<FormControlLabel control={<IconButton onClick={e => {
                             }}>
                                 <DeleteIcon/>
@@ -401,14 +423,17 @@ export function CspComparisonDemo() {
                             </div>
                         </div>
                     </div>
-                    <ProcessingComponent variant={'reduced'} displayedDataLabels={displayedDataLabels ? displayedDataLabels[i] : null}
+                    <ProcessingComponent variant={'reduced'}
+                                         displayedDataLabels={displayedDataLabels ? displayedDataLabels[i] : null}
                                          scales={scales[i]} offsets={offsets[i]}
                                          onScalesChanged={(index: number, scale: number | undefined) => onScalesChanged(index, scale, i)}
                                          onOffsetsChanged={(index: number, offset: number | undefined) => onOffsetsChanged(index, offset, i)}
-                                         minSfcValue={minSfcValues[i]} setMinSfcValue={(val: number) => onMinSfcValChanged(val, i)}
-                                         setMaxSfcValue={(val: number)=> onMaxSfcValuesChanged(val, i)}
+                                         minSfcValue={minSfcValues[i]}
+                                         setMinSfcValue={(val: number) => onMinSfcValChanged(val, i)}
+                                         setMaxSfcValue={(val: number) => onMaxSfcValuesChanged(val, i)}
                                          maxSfcValue={maxSfcValues[i]} initialMinSfcValue={initialMinSfcValues[i]}
-                                         initialMaxSfcValue={initialMaxSfcValues[i]} onChooseColumnsClick={() => selectDataColumns(i)}
+                                         initialMaxSfcValue={initialMaxSfcValues[i]}
+                                         onChooseColumnsClick={() => selectDataColumns(i)}
                                          resetBtnPos={'right'}/>
                 </div>
             </div>
