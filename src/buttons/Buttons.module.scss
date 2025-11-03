@@ -28,20 +28,22 @@
 
     background-color: transparent;
 
-    &:active {
-        background-color: initial;
-    }
-
     a {
         font-weight: 700;
         color: var(--text-color-light);
+    }
 
-        &:hover {
+    &:hover:not(:active) {
+        a {
             color: App.$primary-color-dark;
         }
+    }
 
-        &:active {
-            color: App.$primary-color;
+    &:active {
+        background-color: initial;
+
+        a {
+            color: App.$primary-color-medium;
         }
     }
 }

@@ -812,18 +812,18 @@ h1 + p {
 .link-button {
   background-color: transparent;
 }
-.link-button:active {
-  background-color: initial;
-}
 .link-button a {
   font-weight: 700;
   color: var(--text-color-light);
 }
-.link-button a:hover {
+.link-button:hover:not(:active) a {
   color: #004c93;
 }
-.link-button a:active {
-  color: #006fd5;
+.link-button:active {
+  background-color: initial;
+}
+.link-button:active a {
+  color: #2699ff;
 }
 
 /*# sourceMappingURL=Buttons.module.css.map */
