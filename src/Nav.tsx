@@ -45,15 +45,17 @@ export function Nav({scrollPos, hideMobileNav, contactVisibilityClassName, onSec
     }, []);
 
     return <div className={`topnav ${scrollPos < navHeight ? 'top-pos' : ''} ${hideMobileNav ? 'hide' : ''}`}>
-        <NavLink sectionId={"#encoding-demo"} onSectionClick={onSectionClick} icon={'swap_horiz'}
-                 title={'Encoding Demo'} searchParams={searchParams}/>
-        <NavLink sectionId={"#comparison-demo"} onSectionClick={onSectionClick} searchParams={searchParams}
-                 title={'Comparison Demo'} icon={'barcode'}/>
-        <NavLink sectionId={"#previous-work"} onSectionClick={onSectionClick} searchParams={searchParams}
-                 title={'Previous work'} icon={'article'}/>
-        <NavLink sectionId={"#about"} onSectionClick={onSectionClick} searchParams={searchParams}
-                 title={'About SFCs'} icon={'info'}/>
-        <NavLink className={contactVisibilityClassName} sectionId={"#contact"} onSectionClick={onSectionClick}
-                 searchParams={searchParams} icon={'alternate_email'} title={'Contact'}/>
+        <div className={'link-container'}>
+            <NavLink sectionId={"#encoding-demo"} onSectionClick={onSectionClick} icon={'swap_horiz'}
+                     title={'Encoding Demo'} searchParams={searchParams}/>
+            <NavLink sectionId={"#comparison-demo"} onSectionClick={onSectionClick} searchParams={searchParams}
+                     title={'Comparison Demo'} icon={'barcode'}/>
+            <NavLink sectionId={"#previous-work"} onSectionClick={onSectionClick} searchParams={searchParams}
+                     title={'Previous work'} icon={'article'}/>
+            <NavLink sectionId={"#about"} onSectionClick={onSectionClick} searchParams={searchParams}
+                     title={'About SFCs'} icon={'info'}/>
+            <NavLink className={contactVisibilityClassName} sectionId={"#contact"} onSectionClick={onSectionClick}
+                     searchParams={searchParams} icon={'alternate_email'} title={'Contact'}/>
+        </div>
     </div>
 }

@@ -4,15 +4,20 @@
     overflow: hidden;
     background-color: var(--text-color);
     color: white;
-    padding: 0 3.125rem;
     width: 100%;
     position: sticky;
     top: 0;
     z-index: 1;
     box-shadow: rgba(0 0 0 / 0.2) 0 0.3125rem 0.3125rem 0.0625rem;
+    display: flex;
+    justify-content: center;
 }
 
-.topnav div {
+.topnav .link-container {
+    width: 100%;
+}
+
+.topnav .link-container div {
     float: left;
     text-align: center;
     padding: 0.875rem 1rem;
@@ -30,7 +35,7 @@
     }
 }
 
-.topnav div:hover {
+.topnav .link-container div:hover {
     background-color: var(--text-color-light);
 }
 
@@ -63,7 +68,7 @@
         box-shadow: rgba(0 0 0 / 0.2) 0 -0.08rem 0.2rem 0.05rem;
     }
 
-    .topnav div {
+    .topnav .link-container div {
         display: flex;
         flex-direction: column;
         align-items: center;

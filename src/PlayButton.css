@@ -104,8 +104,11 @@ body.modal-open {
   align-items: center;
   gap: 1.5rem;
   margin-top: 2rem;
-  padding: 0 10rem;
   width: 100%;
+}
+
+#main, .link-container, .tabcontent {
+  max-width: 1200px;
 }
 
 @media (max-width: 1200px) {
@@ -699,7 +702,6 @@ input[type=number] {
 .tabcontent {
   background-color: white;
   margin-top: 2rem;
-  padding: 0 10rem;
   display: flex;
   flex-direction: column;
 }
