@@ -57,7 +57,7 @@ export function SelectColumnsDialog(props: {
     }
 
     return <Dialog show={props.show} title={'Select displayed data (two series)'}>
-        <>
+        <div id={'select-columns-div'}>
                 <form method="dialog" onSubmit={onSubmit}>
                     <div className={'checkbox-list'}>
                     {props.allDataLabels.map((label, i) => {
@@ -74,6 +74,6 @@ export function SelectColumnsDialog(props: {
                         <Button onClick={onCancel} className={'button'}>Cancel</Button>
                     </div>
                 </form>
-            </>
+            </div>
         </Dialog>
 }

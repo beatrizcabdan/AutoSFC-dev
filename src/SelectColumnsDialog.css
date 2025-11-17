@@ -500,39 +500,7 @@ h1 + p {
     padding: 14px 2rem 6rem;
   }
 }
-/*.light-box {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-    top: 0;
-    left: 0;
-    z-index: 1;
-
-    &.show {
-        opacity: 1;
-        pointer-events: all;
-    }
-
-    .dialog {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        translate: -50% -50%;
-        border-radius: 10px;
-        border: 0 solid black;
-        box-shadow: rgba(0, 0, 0, 0.2) 0 0 16px 4px;
-        margin: 0;
-        padding: 1rem 3rem;
-        pointer-events: all;*/
-h2 {
-  line-height: 0.8rem;
-}
-
-.checkbox-list {
+#select-columns-div .checkbox-list {
   font-size: 0.8rem;
   display: flex;
   justify-content: center;
@@ -540,50 +508,32 @@ h2 {
   flex-direction: column;
   gap: 0.2rem;
 }
-
-.buttons {
+#select-columns-div .buttons {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
   justify-content: center;
 }
-.buttons button {
+#select-columns-div .buttons button {
   margin-top: 1rem;
   width: 13ch;
   text-align: center;
 }
-.buttons .ok-button {
+#select-columns-div .buttons .ok-button {
   border: none;
   color: white;
   box-shadow: rgba(0, 0, 0, 0.4) 0 0 4px;
   transition: all 0.2s;
 }
-.buttons .ok-button.enabled {
+#select-columns-div .buttons .ok-button.enabled {
   background: #006fd5;
 }
-.buttons .ok-button.enabled:hover {
+#select-columns-div .buttons .ok-button.enabled:hover {
   background: #2699ff;
 }
-.buttons .ok-button.disabled {
+#select-columns-div .buttons .ok-button.disabled {
   background: var(--button-border);
   cursor: default;
-}
-
-/*    }
-}*/
-@media (max-width: 700px) {
-  .light-box .dialog h2 {
-    line-height: initial;
-  }
-  .light-box .dialog .checkbox-list {
-    line-height: initial;
-    align-items: flex-start;
-  }
-  .light-box .dialog .checkbox-list div {
-    display: flex;
-    align-items: center;
-    column-gap: 0.3rem;
-  }
 }
 
 /*# sourceMappingURL=SelectColumnsDialog.css.map */
