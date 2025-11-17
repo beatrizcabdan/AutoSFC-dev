@@ -11,7 +11,8 @@ export const OpenFeedbackWinBtn = ({onClick}: OpenFeedbackWinBtnProps) =>
     Feedback
 </Button>
 
-export const FeedbackDialog = (props: { show: boolean }) => <Dialog show={props.show}>
+export const FeedbackDialog = (props: { show: boolean }) => <Dialog
+    show={props.show} title={'We love feedback!'}>
     <div>
 
     </div>

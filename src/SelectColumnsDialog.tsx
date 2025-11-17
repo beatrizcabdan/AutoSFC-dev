@@ -56,18 +56,8 @@ export function SelectColumnsDialog(props: {
         props.setShow(false);
     }
 
-    useEffect(() => {
-        const body = document.querySelector('body')!
-        if (props.show) {
-            body.classList.add('modal-open')
-        } else {
-            body.classList.remove('modal-open')
-        }
-    }, [props.show]);
-
-    return <Dialog show={props.show}>
+    return <Dialog show={props.show} title={'Select displayed data (two series)'}>
         <>
-                <h2>Select displayed data (two series)</h2>
                 <form method="dialog" onSubmit={onSubmit}>
                     <div className={'checkbox-list'}>
                     {props.allDataLabels.map((label, i) => {
