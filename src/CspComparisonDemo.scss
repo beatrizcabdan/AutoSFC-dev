@@ -183,18 +183,11 @@
                     }
 
                     .choose-columns-button {
-                        border-radius: 6px;
-                        color: var(--text-color-light);
-                        font-weight: 700;
-                        font-size: 0.6rem;
-                        letter-spacing: 0.02rem;
-                        transition: all 0.2s;
+                        @extend .gray-border-button;
                         white-space: nowrap;
                         grid-column: 1 / 4;
-                        border-width: 2px;
                         width: fit-content;
                         justify-self: center;
-                        border-color: var(--button-active);
                         margin-top: 0.5rem;
                     }
 

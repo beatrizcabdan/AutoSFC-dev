@@ -1,3 +1,5 @@
+@use '../App.module';
+
 .upload-button-container {
     margin-top: auto;
     margin-bottom: auto;
@@ -11,14 +13,10 @@
     }
 
     p {
+        @extend .button-text;
         text-overflow: ellipsis;
         overflow: hidden;
-        line-height: 0.6rem;
-        text-transform: uppercase;
-        letter-spacing: 0.02rem;
-        font-size: 0.6rem;
-        font-weight: 700;
-        color: var(--text-color-light);
+        border: none;
     }
 }
 
