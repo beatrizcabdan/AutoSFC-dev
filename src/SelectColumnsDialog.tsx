@@ -1,6 +1,7 @@
 import React, {Dispatch, FormEvent, SetStateAction, useEffect, useState} from "react";
 import './SelectColumnsDialog.scss'
 import {Button} from "@mui/material";
+import {Dialog} from "./Dialog.tsx";
 
 export function SelectColumnsDialog(props: {
     show: boolean,
@@ -64,8 +65,8 @@ export function SelectColumnsDialog(props: {
         }
     }, [props.show]);
 
-    return <div className={`light-box ${props.show ? 'show' : ''}`}>
-            <dialog open={props.show} className={'dialog'}>
+    return <Dialog show={props.show}>
+        <>
                 <h2>Select displayed data (two series)</h2>
                 <form method="dialog" onSubmit={onSubmit}>
                     <div className={'checkbox-list'}>
@@ -83,6 +84,6 @@ export function SelectColumnsDialog(props: {
                         <Button onClick={onCancel} className={'button'}>Cancel</Button>
                     </div>
                 </form>
-            </dialog>;
-    </div>
+            </>
+        </Dialog>
 }

@@ -12,7 +12,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {Nav} from "./Nav.tsx";
 import {useSearchParams, useNavigate} from "react-router-dom";
 import {createPath, scrollToSection} from "./utils.ts";
-import {OpenFeedbackWinBtn} from "./Feedback.tsx";
+import {FeedbackDialog, OpenFeedbackWinBtn} from "./Feedback.tsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum PlayStatus {
@@ -38,6 +38,7 @@ function App() {
     const [contactClass, setContactClass] = useState('')
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
+    const [showFeedbackForm, setShowFeedbackForm] = useState(false)
 
     const onScroll = useCallback(() => {
         const scrollingUp = document.documentElement.scrollTop < scrollPosRef.current
@@ -164,7 +165,7 @@ function App() {
                 <br/>
             </div>
 
-            <OpenFeedbackWinBtn />
+            <OpenFeedbackWinBtn onClick={() => setShowFeedbackForm(true)}/>
 
             {/*Switch to inverse anonymization logic after publication*/}
             <div className={`footer ${contactClass}`}>
@@ -173,6 +174,8 @@ function App() {
                     href="mailto:beatriz.cabrero-daniel@gu.se">beatriz.cabrero-daniel@gu.se</a> for more info.
                 </span>
             </div>
+
+            <FeedbackDialog show={showFeedbackForm}/>
 
             <Fab variant="extended" color={'primary'} className={scrollButtonClass} size={'small'}
                  onClick={onScrollButtonClick}>
