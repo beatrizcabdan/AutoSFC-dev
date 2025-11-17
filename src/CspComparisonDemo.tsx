@@ -11,6 +11,7 @@ import {default_demo1} from "./Common.ts";
 import './CspComparisonDemo.scss'
 import {Checkbox, FormControlLabel} from "@mui/material";
 import App from './App.module.scss'
+import './controls.scss'
 import {useSearchParams} from "react-router-dom";
 
 const {primaryColor} = App

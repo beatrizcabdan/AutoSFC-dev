@@ -1,4 +1,5 @@
 @use "../App.module.css";
+@use 'buttons';
 
 .play-button {
     @extend .button;

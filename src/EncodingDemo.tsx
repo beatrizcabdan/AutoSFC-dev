@@ -12,6 +12,7 @@ import {SelectColumnsDialog} from "./SelectColumnsDialog.tsx";
 import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR, PlayStatus} from "./App.tsx";
 import {demoPreset5} from "./Common.ts";
 import './EncodingDemo.scss'
+import './controls.scss'
 import App from './App.module.scss'
 import {useSearchParams} from "react-router-dom";
 
@@ -390,7 +391,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
                    yAxisName={"Time steps"} yAxisLabelPos={"right"} currentSignalXVal={signalMarkerPos}
                    sfcData={sfcData} minSfcRange={[minSFCvalue]} maxSfcRange={[maxSFCvalue]}/>
         </div>
-        <div className={"controls"}>
+        <div className={'controls'}>
             <div className={"vert-control-wrapper"}>
                 <div className={"control-container"} id={"first-control-row"}>
                     <div className={"file-container"}>
