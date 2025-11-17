@@ -507,6 +507,10 @@ h1 + p {
   font-weight: 700;
 }
 
+.button-shadow {
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 2px;
+}
+
 .button, .link-button, .no-border-button, .gray-border-button, #comparison-demo #demo2-controls .comparison-row-div #process-container .signals-grid .choose-columns-button, .blue-border-button {
   padding: 0 0.5rem;
   height: 1.8rem;

@@ -507,6 +507,10 @@ h1 + p {
   font-weight: 700;
 }
 
+.button-shadow, .upload-button-container button {
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 2px;
+}
+
 .button, .upload-button-container button, .link-button, .no-border-button, .gray-border-button, .blue-border-button {
   padding: 0 0.5rem;
   height: 1.8rem;
@@ -559,9 +563,6 @@ h1 + p {
 .upload-button-container {
   margin-top: auto;
   margin-bottom: auto;
-}
-.upload-button-container button {
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 2px;
 }
 .upload-button-container .file-input {
   display: none;

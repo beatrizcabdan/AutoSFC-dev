@@ -1,0 +1,26 @@
+@use 'buttons/buttons';
+@use 'App.module';
+
+#open-feedback-win-btn {
+    @extend .no-border-button;
+
+    background: App.$primary-color-medium-light;
+    position: fixed;
+    right: 0;
+    bottom: 10rem;
+    color: white;
+    writing-mode: sideways-lr;
+    height: fit-content;
+    padding: 0.5rem 0.4rem;
+    width: fit-content;
+    min-width: unset;
+    border-radius: 6px 0 0 6px;
+    z-index: 1;
+    translate: 20% 0;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 1px 1px;
+
+    &:hover {
+        background: App.$primary-color-medium;
+        translate: 0;
+    }
+}

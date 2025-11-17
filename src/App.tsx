@@ -12,6 +12,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {Nav} from "./Nav.tsx";
 import {useSearchParams, useNavigate} from "react-router-dom";
 import {createPath, scrollToSection} from "./utils.ts";
+import {OpenFeedbackWinBtn} from "./Feedback.tsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum PlayStatus {
@@ -162,6 +163,8 @@ function App() {
                 <br/>
                 <br/>
             </div>
+
+            <OpenFeedbackWinBtn />
 
             {/*Switch to inverse anonymization logic after publication*/}
             <div className={`footer ${contactClass}`}>

@@ -1058,6 +1058,10 @@ h1 + p {
   font-weight: 700;
 }
 
+.button-shadow, .play-button {
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 2px;
+}
+
 .button, .play-button, .link-button, .no-border-button, .gray-border-button, .blue-border-button {
   padding: 0 0.5rem;
   height: 1.8rem;
@@ -1112,7 +1116,6 @@ h1 + p {
   justify-content: center;
   align-items: center;
   width: 3rem;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 2px;
 }
 .play-button span {
   margin: 0;
