@@ -559,6 +559,10 @@ h1 + p {
   .topnav.top-pos {
     box-shadow: rgba(0, 0, 0, 0.2) 0 -0.08rem 0.2rem 0.05rem;
   }
+  .topnav .link-container {
+    display: flex;
+    justify-content: center;
+  }
   .topnav .link-container div {
     display: flex;
     flex-direction: column;
