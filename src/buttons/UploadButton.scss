@@ -5,6 +5,7 @@
     margin-bottom: auto;
 
     button {
+        @extend .button;
         box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 2px;
     }
 
