@@ -1,5 +1,6 @@
-import {PlayStatus} from "./App.tsx";
+import {PlayStatus} from "../App.tsx";
 import './PlayButton.scss'
+import {Button} from "@mui/material";
 
 export function PlayButton(props: { onClick: () => void, status: PlayStatus }) {
     const statusToIconMap = new Map<PlayStatus, string>([
@@ -8,7 +9,7 @@ export function PlayButton(props: { onClick: () => void, status: PlayStatus }) {
         [PlayStatus.REACHED_END, 'replay']
     ])
 
-    return <button className={'play-button'} onClick={props.onClick}>
+    return <Button className={'play-button'} onClick={props.onClick}>
         <span className="material-symbols-outlined">{statusToIconMap.get(props.status)}</span>
-    </button>;
+    </Button>;
 }

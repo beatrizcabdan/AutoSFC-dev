@@ -1,6 +1,7 @@
 import React from "react";
 import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR} from "./App.tsx";
 import {Button, Checkbox, Divider} from "@mui/material";
+import './controls.scss'
 
 export function ProcessingComponent(props: {
     displayedDataLabels: string[] | null,

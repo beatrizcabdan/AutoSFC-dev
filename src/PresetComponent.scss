@@ -1,3 +1,6 @@
+@use 'App.module';
+@use 'buttons/buttons';
+
 .MuiListItemButton-root {
     border: 1px solid var(--button-active) !important;
     border-radius: 6px !important;
@@ -72,7 +75,7 @@
     @media (max-width: 750px) {
         #preset-list {
             grid-template-columns: repeat(1, 1fr) !important;
-            max-width: 15rem;
+            // max-width: 15rem;
         }
     }
 
@@ -144,13 +147,9 @@
         width: 100%;
 
         .preset-button {
+            @extend .blue-border-button;
             margin-top: 0.5rem;
-            border-radius: 6px;
             color: var(--text-color-light);
-            font-weight: 700;
-            font-size: 0.6rem;
-            letter-spacing: 0.02rem;
-            transition: all 0.2s;
 
             &.Mui-disabled {
                 color: var(--button-active);
@@ -166,7 +165,9 @@
         }
 
         #save-preset-button, #load-preset-button {
+            @extend .no-border-button;
             @extend .preset-button;
+            border-width: 0;
             grid-row: 2;
         }
 

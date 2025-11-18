@@ -3,7 +3,7 @@ import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR} from ".
 import {createPath, debounce, hilbertEncode, mortonInterlace} from "./utils.ts";
 import {Chart} from "./Chart.tsx";
 import {EncoderSwitch} from "./EncoderSwitch.tsx";
-import {UploadButton} from "./UploadButton.tsx";
+import {UploadButton} from "./buttons/UploadButton.tsx";
 import {DataRangeSlider} from "./DataRangeSlider.tsx";
 import {ProcessingComponent} from "./ProcessingComponent.tsx";
 import {SelectColumnsDialog} from "./SelectColumnsDialog.tsx";
@@ -11,6 +11,7 @@ import {default_demo1} from "./Common.ts";
 import './CspComparisonDemo.scss'
 import {Checkbox, FormControlLabel} from "@mui/material";
 import App from './App.module.scss'
+import './controls.scss'
 import {useSearchParams} from "react-router-dom";
 
 const {primaryColor} = App

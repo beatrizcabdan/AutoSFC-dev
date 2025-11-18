@@ -1,5 +1,6 @@
 import React, {Dispatch, FormEvent, SetStateAction, useEffect, useState} from "react";
 import './SelectColumnsDialog.scss'
+import {Button} from "@mui/material";
 
 export function SelectColumnsDialog(props: {
     show: boolean,
@@ -28,7 +29,7 @@ export function SelectColumnsDialog(props: {
             init();
         }
     }, [props.allDataLabels, props.currentLabels])
-    
+
     function onSubmit(e: FormEvent) {
         if (!submittable) {
             e.preventDefault()
@@ -36,6 +37,7 @@ export function SelectColumnsDialog(props: {
         }
         const newLabels: string[] = [...labelsToCheckedMap.entries()].filter(e => e[1]).map(a => a[0])
         props.setDataLabels(newLabels)
+        props.setShow(false);
     }
 
     function onFormChange(label: string, checked: boolean) {
@@ -77,8 +79,8 @@ export function SelectColumnsDialog(props: {
                     })}
                     </div>
                     <div className={'buttons'}>
-                        <button className={`ok-button button ${submittable ? 'enabled' : 'disabled'}`} disabled={!submittable}>OK</button>
-                        <button onClick={onCancel} className={'button'}>Cancel</button>
+                        <Button type={'submit'} className={`ok-button button ${submittable ? 'enabled' : 'disabled'}`} disabled={!submittable}>OK</Button>
+                        <Button onClick={onCancel} className={'button'}>Cancel</Button>
                     </div>
                 </form>
             </dialog>;
