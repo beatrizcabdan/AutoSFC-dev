@@ -25,3 +25,32 @@
         translate: 0;
     }
 }
+
+#feedback-dialog-div {
+    #feedback-type-radio-buttons {
+        .MuiRadioGroup-root {
+            gap: 2rem;
+            .radio-button {
+                span:nth-of-type(1) {
+                    // padding: 7px;
+                }
+                span:nth-of-type(2) {
+                    @extend .button-text;
+
+                    line-height: 0;
+                    font-size: 0.70rem;
+                    color: var(--text-color-light);transition: all 0.2s;
+                }
+
+                &.selected {
+                    span:nth-of-type(2) {
+                        color: black;
+                    }
+                }
+            }
+
+
+        }
+    }
+}
+
