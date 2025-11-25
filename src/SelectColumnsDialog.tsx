@@ -69,7 +69,7 @@ export function SelectColumnsDialog(props: {
                         </div>
                     })}
                     </div>
-                    <div className={'buttons'}>
+                    <div className={'form-buttons'}>
                         <Button type={'submit'} className={`ok-button button ${submittable ? 'enabled' : 'disabled'}`} disabled={!submittable}>OK</Button>
                         <Button onClick={onCancel} className={'button'}>Cancel</Button>
                     </div>

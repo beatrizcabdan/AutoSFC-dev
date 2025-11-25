@@ -509,32 +509,5 @@ h1 + p {
   flex-direction: column;
   gap: 0.2rem;
 }
-#select-columns-div .buttons {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  justify-content: center;
-}
-#select-columns-div .buttons button {
-  margin-top: 1rem;
-  width: 13ch;
-  text-align: center;
-}
-#select-columns-div .buttons .ok-button {
-  border: none;
-  color: white;
-  box-shadow: rgba(0, 0, 0, 0.4) 0 0 4px;
-  transition: all 0.2s;
-}
-#select-columns-div .buttons .ok-button.enabled {
-  background: #006fd5;
-}
-#select-columns-div .buttons .ok-button.enabled:hover {
-  background: #2699ff;
-}
-#select-columns-div .buttons .ok-button.disabled {
-  background: var(--button-border);
-  cursor: default;
-}
 
 /*# sourceMappingURL=SelectColumnsDialog.css.map */

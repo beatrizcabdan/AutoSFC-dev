@@ -533,6 +533,33 @@ h1 + p {
 .light-box .dialog h2 {
   line-height: 0.8rem;
 }
+.light-box .dialog .form-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.light-box .dialog .form-buttons button {
+  margin-top: 1rem;
+  width: 13ch;
+  text-align: center;
+}
+.light-box .dialog .form-buttons .ok-button {
+  border: none;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.4) 0 0 4px;
+  transition: all 0.2s;
+}
+.light-box .dialog .form-buttons .ok-button.enabled {
+  background: #006fd5;
+}
+.light-box .dialog .form-buttons .ok-button.enabled:hover {
+  background: #2699ff;
+}
+.light-box .dialog .form-buttons .ok-button.disabled {
+  background: var(--button-border);
+  cursor: default;
+}
 
 @media (max-width: 700px) {
   .light-box .dialog h2 {

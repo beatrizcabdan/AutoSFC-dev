@@ -175,7 +175,7 @@ function App() {
                 </span>
             </div>
 
-            <FeedbackDialog show={showFeedbackForm}/>
+            <FeedbackDialog show={showFeedbackForm} setShow={setShowFeedbackForm}/>
 
             <Fab variant="extended" color={'primary'} className={scrollButtonClass} size={'small'}
                  onClick={onScrollButtonClick}>
