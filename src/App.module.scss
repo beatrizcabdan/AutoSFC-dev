@@ -32,6 +32,12 @@ $secondary-color: orange;
   #{'primaryColorMedium'}: #{$primary-color-medium};
 }
 
+.flex-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 * {
   // border: 1px solid green;
   box-sizing: border-box;

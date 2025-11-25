@@ -6,6 +6,12 @@
   primaryColorMedium: #2699ff;
 }
 
+.flex-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -85,6 +91,10 @@ html {
 }
 body {
   width: 100%;
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 #root {
@@ -551,6 +561,12 @@ h1 + p {
   primaryColor: #006fd5;
   primaryColorLight: #b9e0ff;
   primaryColorMedium: #2699ff;
+}
+
+.flex-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 * {

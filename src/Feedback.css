@@ -5,6 +5,12 @@
   primaryColorMedium: #2699ff;
 }
 
+.flex-display, #feedback-dialog-div form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -501,7 +507,7 @@ h1 + p {
     padding: 14px 2rem 6rem;
   }
 }
-.button-text, #feedback-dialog-div #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button span:nth-of-type(2), .button, .link-button, .no-border-button, #open-feedback-win-btn, .gray-border-button, .blue-border-button {
+.button-text, #feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button span:nth-of-type(2), .button, .link-button, .no-border-button, #open-feedback-win-btn, .gray-border-button, .blue-border-button {
   text-transform: uppercase;
   letter-spacing: 0.02rem;
   font-size: 0.6rem;
@@ -582,17 +588,23 @@ h1 + p {
   translate: 0;
 }
 
-#feedback-dialog-div #feedback-type-radio-buttons .MuiRadioGroup-root {
+#feedback-dialog-div form {
+  flex-direction: column;
+}
+#feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root {
   gap: 2rem;
 }
-#feedback-dialog-div #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button span:nth-of-type(2) {
+#feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button span:nth-of-type(2) {
   line-height: 0;
   font-size: 0.7rem;
   color: var(--text-color-light);
   transition: all 0.2s;
 }
-#feedback-dialog-div #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button.selected span:nth-of-type(2) {
+#feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button.selected span:nth-of-type(2) {
   color: black;
+}
+#feedback-dialog-div form .MuiTextField-root {
+  width: 100%;
 }
 
 /*# sourceMappingURL=Feedback.css.map */

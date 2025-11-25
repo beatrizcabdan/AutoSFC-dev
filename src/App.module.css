@@ -5,6 +5,12 @@
   primaryColorMedium: #2699ff;
 }
 
+.flex-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 * {
   box-sizing: border-box;
 }
