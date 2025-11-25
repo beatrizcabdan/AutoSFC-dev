@@ -5,7 +5,7 @@
   primaryColorMedium: #2699ff;
 }
 
-.flex-display, #feedback-dialog-div form {
+.flex-display, .dialog, .dialog #feedback-dialog-div, .dialog #feedback-dialog-div form, .dialog #feedback-dialog-div form #name-email-div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -507,7 +507,7 @@ h1 + p {
     padding: 14px 2rem 6rem;
   }
 }
-.button-text, #feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button span:nth-of-type(2), .button, .link-button, .no-border-button, #open-feedback-win-btn, .gray-border-button, .blue-border-button {
+.button-text, .dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root label, .dialog #feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button span:nth-of-type(2), .button, .link-button, .no-border-button, #open-feedback-win-btn, .gray-border-button, .blue-border-button {
   text-transform: uppercase;
   letter-spacing: 0.02rem;
   font-size: 0.6rem;
@@ -588,23 +588,72 @@ h1 + p {
   translate: 0;
 }
 
-#feedback-dialog-div form {
+.dialog {
+  padding: 1.7rem 2rem !important;
   flex-direction: column;
+  gap: 0.2rem;
 }
-#feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root {
+.dialog h2 {
+  margin: 0.5rem;
+}
+.dialog #feedback-dialog-div {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.dialog #feedback-dialog-div form {
+  flex-direction: column;
+  width: 100%;
+  gap: 0.2rem;
+}
+.dialog #feedback-dialog-div form #name-email-div {
+  gap: 2rem;
+  width: 100%;
+}
+.dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root {
+  flex: 1;
+}
+.dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root label {
+  font-size: 0.8rem;
+  background-color: white;
+  margin-top: -0.05rem;
+  padding: 0 0.6rem;
+  margin-bottom: 0;
+  height: min-content;
+  line-height: 0.8rem;
+}
+.dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root .MuiInputBase-input {
+  padding: 0 0.7rem !important;
+  width: 100%;
+  height: max-content;
+  font-size: 0.9rem;
+}
+.dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root legend {
+  display: none !important;
+}
+.dialog #feedback-dialog-div form #feedback-type-radio-buttons {
+  margin-top: -0.3rem;
+}
+.dialog #feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root {
   gap: 2rem;
 }
-#feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button span:nth-of-type(2) {
+.dialog #feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button span:nth-of-type(2) {
   line-height: 0;
   font-size: 0.7rem;
   color: var(--text-color-light);
   transition: all 0.2s;
 }
-#feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button.selected span:nth-of-type(2) {
+.dialog #feedback-dialog-div form #feedback-type-radio-buttons .MuiRadioGroup-root .radio-button.selected span:nth-of-type(2) {
   color: black;
 }
-#feedback-dialog-div form .MuiTextField-root {
+.dialog #feedback-dialog-div form .MuiTextField-root {
   width: 100%;
+  font-size: 0.9rem;
+}
+.dialog #feedback-dialog-div form .MuiTextField-root fieldset {
+  left: 0;
+}
+.dialog #feedback-dialog-div form .form-buttons button {
+  margin-top: 0.5rem;
 }
 
 /*# sourceMappingURL=Feedback.css.map */

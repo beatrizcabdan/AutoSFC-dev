@@ -26,37 +26,98 @@
     }
 }
 
-#feedback-dialog-div {
-    form {
+.dialog {
+    @extend .flex-display;
+    padding: 1.7rem 2rem !important;
+    flex-direction: column;
+    gap: 0.2rem;
+
+    h2 {
+        margin: 0.5rem;
+    }
+
+    #feedback-dialog-div {
         @extend .flex-display;
         flex-direction: column;
+        gap: 0.5rem;
 
-        #feedback-type-radio-buttons {
-            .MuiRadioGroup-root {
-                gap: 2rem;
+            form {
+                @extend .flex-display;
+                flex-direction: column;
+                width: 100%;
+                gap: 0.2rem;
 
-                .radio-button {
-                    span:nth-of-type(2) {
-                        @extend .button-text;
+                #name-email-div {
+                    @extend .flex-display;
+                    gap: 2rem;
+                    width: 100%;
 
-                        line-height: 0;
-                        font-size: 0.70rem;
-                        color: var(--text-color-light);
-                        transition: all 0.2s;
-                    }
+                    .MuiFormControl-root {
+                        flex: 1;
 
-                    &.selected {
-                        span:nth-of-type(2) {
-                            color: black;
+                        label {
+                            @extend .button-text;
+                            font-size: 0.8rem;
+                            background-color: white;
+                            margin-top: -0.05rem;
+                            padding: 0 0.6rem;
+                            margin-bottom: 0;
+                            height: min-content;
+                            line-height: 0.8rem;
+                        }
+
+                        .MuiInputBase-input {
+                            padding: 0 0.7rem !important;
+                            width: 100%;
+                            height: max-content;
+                            font-size: 0.9rem;
+                            // z-index: 2;
+                        }
+
+                        legend {
+                            display: none !important;
                         }
                     }
                 }
-            }
-        }
 
-        .MuiTextField-root {
-            width: 100%;
-        }
+                #feedback-type-radio-buttons {
+                    margin-top: -0.3rem;
+
+                    .MuiRadioGroup-root {
+                        gap: 2rem;
+
+                        .radio-button {
+                            span:nth-of-type(2) {
+                                @extend .button-text;
+
+                                line-height: 0;
+                                font-size: 0.70rem;
+                                color: var(--text-color-light);
+                                transition: all 0.2s;
+                            }
+
+                            &.selected {
+                                span:nth-of-type(2) {
+                                    color: black;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .MuiTextField-root {
+                    width: 100%;
+                    font-size: 0.9rem;
+
+                    fieldset {
+                        left: 0;
+                    }
+                }
+
+                .form-buttons button {
+                    margin-top: 0.5rem;
+                }
+            }
     }
 }
 

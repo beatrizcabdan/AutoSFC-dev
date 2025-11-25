@@ -1,4 +1,14 @@
-import {Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Rating, TextField} from "@mui/material"
+import {
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    InputLabel, OutlinedInput,
+    Radio,
+    RadioGroup,
+    Rating,
+    TextField
+} from "@mui/material"
 import './Feedback.scss'
 import {Dialog} from "./Dialog.tsx";
 import React, {Dispatch, FormEvent, SetStateAction, useState} from "react";
@@ -41,6 +51,23 @@ export const FeedbackDialog = (props: {
         <div id={'feedback-dialog-div'}>
             <p>Found a bug or have ideas on how to improve this website? Please let us know!</p>
             <form method="dialog" onSubmit={onSubmit}>
+                <div id={'name-email-div'}>
+                    {/*<TextField variant="outlined" />*/}
+                    <FormControl>
+                        <InputLabel htmlFor="component-outlined" shrink>Name</InputLabel>
+                        <OutlinedInput
+                            id="component-outlined"
+                            label="Name"
+                        />
+                    </FormControl>
+                    <FormControl>
+                        <InputLabel htmlFor="component-outlined" shrink>E-mail</InputLabel>
+                        <OutlinedInput
+                            id="component-outlined"
+                            label="E-mail"
+                        />
+                    </FormControl>
+                </div>
                 <TextField multiline rows={4}/>
                 <FormControl id={'feedback-type-radio-buttons'}>
                     {/*<FormLabel>Type</FormLabel>*/}
