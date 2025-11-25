@@ -425,10 +425,10 @@ input[type=number] {
   letter-spacing: 0.02rem !important;
   font-weight: 700 !important;
   transition: all 0.5s !important;
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12) !important;
   opacity: 0.85;
   height: 2.5rem !important;
   width: 2.5rem !important;
+  background-color: #006fd5;
 }
 
 .MuiFab-extended.disabled {
@@ -934,6 +934,7 @@ input[type=number] {
   opacity: 0.85;
   height: 2.5rem !important;
   width: 2.5rem !important;
+  background-color: #006fd5;
 }
 .MuiFab-extended.disabled {
   pointer-events: none;

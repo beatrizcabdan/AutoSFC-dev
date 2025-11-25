@@ -1,10 +1,11 @@
 @use 'buttons/buttons';
 @use 'App.module';
+@use 'sass:color';
 
 #open-feedback-win-btn {
     @extend .no-border-button;
 
-    background: App.$primary-color-medium-light;
+    background: #4385dc;
     position: fixed;
     right: 0;
     bottom: 10rem;

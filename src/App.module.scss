@@ -465,6 +465,7 @@ input[type="number"] {
   opacity: 0.85;
   height: 2.5rem !important;
   width: 2.5rem !important;
+  background-color: $primary-color;
 
   &.disabled {
     pointer-events: none;

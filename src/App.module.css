@@ -383,6 +383,7 @@ input[type=number] {
   opacity: 0.85;
   height: 2.5rem !important;
   width: 2.5rem !important;
+  background-color: #006fd5;
 }
 .MuiFab-extended.disabled {
   pointer-events: none;
