@@ -630,6 +630,10 @@ h1 + p {
 .dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root legend {
   display: none !important;
 }
+.dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root input:-webkit-autofill,
+.dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+}
 .dialog #feedback-dialog-div form #feedback-type-radio-buttons {
   margin-top: -0.3rem;
 }
