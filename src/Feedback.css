@@ -606,7 +606,7 @@ h1 + p {
   gap: 0.2rem;
 }
 .dialog #feedback-dialog-div form #name-email-div {
-  gap: 2rem;
+  gap: 1rem;
   width: 100%;
 }
 .dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root {
@@ -622,10 +622,10 @@ h1 + p {
   line-height: 0.8rem;
 }
 .dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root .MuiInputBase-input {
-  padding: 0 0.7rem !important;
+  padding: 0.2rem 0.7rem !important;
   width: 100%;
   height: max-content;
-  font-size: 0.9rem;
+  font-size: 13px;
 }
 .dialog #feedback-dialog-div form #name-email-div .MuiFormControl-root legend {
   display: none !important;
@@ -647,7 +647,8 @@ h1 + p {
 }
 .dialog #feedback-dialog-div form .MuiTextField-root {
   width: 100%;
-  font-size: 0.9rem;
+  font-size: 13px;
+  color: var(--text-color-light);
 }
 .dialog #feedback-dialog-div form .MuiTextField-root fieldset {
   left: 0;

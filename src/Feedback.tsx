@@ -2,11 +2,9 @@ import {
     Button,
     FormControl,
     FormControlLabel,
-    FormLabel,
     InputLabel, OutlinedInput,
     Radio,
     RadioGroup,
-    Rating,
     TextField
 } from "@mui/material"
 import './Feedback.scss'
@@ -29,17 +27,36 @@ export const FeedbackDialog = (props: {
     const defaultFeedbackType = 'feedback'
     const [submittable, setSubmittable] = useState(false)
     const [feedbackType, setFeedbackType] = useState(defaultFeedbackType)
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [message, setMessage] = useState('')
 
-    function onSubmit(e: FormEvent) {
+    const reInit = () => {
+        setFeedbackType(defaultFeedbackType)
+        setName('')
+        setEmail('')
+        setMessage('')
+        setSubmittable(false)
+    }
+
+    function onSubmit(e: FormEvent<HTMLFormElement>) {
         if (!submittable) {
             e.preventDefault()
             return
         }
-        console.log(e)
+        const json = JSON.stringify({
+            name: name,
+            email: email,
+            type: feedbackType,
+            message: message
+        })
+        console.log(JSON.parse(json))
+        reInit()
         props.setShow(false);
     }
 
     function onCancel() {
+        reInit()
         props.setShow(false);
     }
 
@@ -47,17 +64,24 @@ export const FeedbackDialog = (props: {
         setFeedbackType(value)
     }
 
+    function onMessageFieldChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setMessage(e.target.value)
+        setSubmittable(Boolean(e.target.value))
+    }
+
     return <Dialog show={props.show} title={'We love feedback!'}>
         <div id={'feedback-dialog-div'}>
             <p>Found a bug or have ideas on how to improve this website? Please let us know!</p>
             <form method="dialog" onSubmit={onSubmit}>
                 <div id={'name-email-div'}>
-                    {/*<TextField variant="outlined" />*/}
                     <FormControl>
                         <InputLabel htmlFor="component-outlined" shrink>Name</InputLabel>
                         <OutlinedInput
                             id="component-outlined"
                             label="Name"
+                            name={'name'}
+                            value={name}
+                            onChange={e => setName(e.target.value)}
                         />
                     </FormControl>
                     <FormControl>
@@ -65,12 +89,14 @@ export const FeedbackDialog = (props: {
                         <OutlinedInput
                             id="component-outlined"
                             label="E-mail"
+                            name={'email'}
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                         />
                     </FormControl>
                 </div>
-                <TextField multiline rows={4}/>
+                <TextField multiline rows={4} onChange={onMessageFieldChange} name={'message'} value={message}/>
                 <FormControl id={'feedback-type-radio-buttons'}>
-                    {/*<FormLabel>Type</FormLabel>*/}
                     <RadioGroup defaultValue={defaultFeedbackType} onChange={onFeedbackTypeChange} row>
                         <FormControlLabel value={'feedback'} control={<Radio size={'small'}/>} label={'Feedback'}
                                           className={`radio-button ${feedbackType === 'feedback' ? 'selected' : ''}`}/>
