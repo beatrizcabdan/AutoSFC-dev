@@ -5,7 +5,7 @@
   primaryColorMedium: #2699ff;
 }
 
-.flex-display, .dialog, .dialog #feedback-dialog-div, .dialog #feedback-dialog-div form, .dialog #feedback-dialog-div form #name-email-div {
+.flex-display, .dialog, .dialog #feedback-dialog-div, .dialog #feedback-dialog-div form, .dialog #feedback-dialog-div form #name-email-div, .dialog #thanks-dialog-div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -592,6 +592,7 @@ h1 + p {
   padding: 2rem 2rem !important;
   flex-direction: column;
   gap: 0.2rem;
+  position: relative;
 }
 .dialog h2 {
   margin: 0.5rem;
@@ -599,6 +600,11 @@ h1 + p {
 .dialog #feedback-dialog-div {
   flex-direction: column;
   gap: 0.5rem;
+  opacity: 0;
+  transition: all 0.5s;
+}
+.dialog #feedback-dialog-div.show {
+  opacity: 1;
 }
 .dialog #feedback-dialog-div form {
   flex-direction: column;
@@ -659,6 +665,18 @@ h1 + p {
 }
 .dialog #feedback-dialog-div form .form-buttons button {
   margin-top: 0.5rem;
+}
+.dialog #thanks-dialog-div {
+  flex-direction: column;
+  opacity: 0;
+  transition: all 0.5s;
+  z-index: 1;
+  position: absolute;
+  gap: 5rem;
+}
+.dialog #thanks-dialog-div.show {
+  opacity: 1;
+  display: flex;
 }
 
 /*# sourceMappingURL=Feedback.css.map */

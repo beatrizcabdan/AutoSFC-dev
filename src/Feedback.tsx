@@ -30,6 +30,7 @@ export const FeedbackDialog = (props: {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
+    const [submitted, setSubmitted] = useState(false)
 
     const reInit = () => {
         setFeedbackType(defaultFeedbackType)
@@ -37,6 +38,7 @@ export const FeedbackDialog = (props: {
         setEmail('')
         setMessage('')
         setSubmittable(false)
+        setSubmitted(false)
     }
 
     function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -51,8 +53,9 @@ export const FeedbackDialog = (props: {
             message: message
         })
         console.log(JSON.parse(json))
-        reInit()
-        props.setShow(false);
+        // reInit()
+        // props.setShow(false);
+        setSubmitted(true)
     }
 
     function onCancel() {
@@ -69,47 +72,53 @@ export const FeedbackDialog = (props: {
         setSubmittable(Boolean(e.target.value))
     }
 
-    return <Dialog show={props.show} title={'We love feedback! 💬'}>
-        <div id={'feedback-dialog-div'}>
-            <p>Found a bug or have ideas on how to improve this website? Please let us know!</p>
-            <form method="dialog" onSubmit={onSubmit}>
-                <div id={'name-email-div'}>
-                    <FormControl>
-                        <InputLabel htmlFor="component-outlined" shrink>Name</InputLabel>
-                        <OutlinedInput
-                            id="component-outlined"
-                            label="Name"
-                            name={'name'}
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                        />
+    return <Dialog show={props.show} title={submitted ? '' : 'We love feedback 💬'}>
+        <>
+            <div id={'feedback-dialog-div'} className={!submitted ? 'show' : ''}>
+                <p>Found a bug or have ideas on how to improve this website? Please let us know!</p>
+                <form method="dialog" onSubmit={onSubmit}>
+                    <div id={'name-email-div'}>
+                        <FormControl>
+                            <InputLabel htmlFor="component-outlined" shrink>Name</InputLabel>
+                            <OutlinedInput
+                                id="component-outlined"
+                                label="Name"
+                                name={'name'}
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <InputLabel htmlFor="component-outlined" shrink>E-mail</InputLabel>
+                            <OutlinedInput
+                                id="component-outlined"
+                                label="E-mail"
+                                name={'email'}
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                            />
+                        </FormControl>
+                    </div>
+                    <TextField multiline rows={4} onChange={onMessageFieldChange} name={'message'} value={message}/>
+                    <FormControl id={'feedback-type-radio-buttons'}>
+                        <RadioGroup defaultValue={defaultFeedbackType} onChange={onFeedbackTypeChange} row>
+                            <FormControlLabel value={'feedback'} control={<Radio size={'small'}/>} label={'Feedback'}
+                                              className={`radio-button ${feedbackType === 'feedback' ? 'selected' : ''}`}/>
+                            <FormControlLabel value={'bug-report'} control={<Radio size={'small'}/>} label={'Bug report'}
+                                              className={`radio-button ${feedbackType === 'bug-report' ? 'selected' : ''}`}/>
+                        </RadioGroup>
                     </FormControl>
-                    <FormControl>
-                        <InputLabel htmlFor="component-outlined" shrink>E-mail</InputLabel>
-                        <OutlinedInput
-                            id="component-outlined"
-                            label="E-mail"
-                            name={'email'}
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                        />
-                    </FormControl>
-                </div>
-                <TextField multiline rows={4} onChange={onMessageFieldChange} name={'message'} value={message}/>
-                <FormControl id={'feedback-type-radio-buttons'}>
-                    <RadioGroup defaultValue={defaultFeedbackType} onChange={onFeedbackTypeChange} row>
-                        <FormControlLabel value={'feedback'} control={<Radio size={'small'}/>} label={'Feedback'}
-                                          className={`radio-button ${feedbackType === 'feedback' ? 'selected' : ''}`}/>
-                        <FormControlLabel value={'bug-report'} control={<Radio size={'small'}/>} label={'Bug report'}
-                                          className={`radio-button ${feedbackType === 'bug-report' ? 'selected' : ''}`}/>
-                    </RadioGroup>
-                </FormControl>
-                <div className={'form-buttons'}>
-                    <Button type={'submit'} className={`ok-button button ${submittable ? 'enabled' : 'disabled'}`}
-                            disabled={!submittable}>OK</Button>
-                    <Button onClick={onCancel} className={'button'}>Cancel</Button>
-                </div>
-            </form>
-        </div>
+                    <div className={'form-buttons'}>
+                        <Button type={'submit'} className={`ok-button button ${submittable ? 'enabled' : 'disabled'}`}
+                                disabled={!submittable}>OK</Button>
+                        <Button onClick={onCancel} className={'button'}>Cancel</Button>
+                    </div>
+                </form>
+            </div>
+            <div id={'thanks-dialog-div'} className={submitted ? 'show' : ''}>
+                <h2>Thanks for your feedback! 🙌</h2>
+                <Button className={'button'} onClick={onCancel}>Close</Button>
+            </div>
+        </>
     </Dialog>
 }

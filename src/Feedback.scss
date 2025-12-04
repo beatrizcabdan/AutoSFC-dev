@@ -31,6 +31,7 @@
     padding: 2rem 2rem !important;
     flex-direction: column;
     gap: 0.2rem;
+    position: relative;
 
     h2 {
         margin: 0.5rem;
@@ -40,6 +41,12 @@
         @extend .flex-display;
         flex-direction: column;
         gap: 0.5rem;
+        opacity: 0;
+        transition: all 0.5s;
+
+        &.show {
+            opacity: 1;
+        }
 
             form {
                 @extend .flex-display;
@@ -123,6 +130,22 @@
                     margin-top: 0.5rem;
                 }
             }
+    }
+
+    #thanks-dialog-div {
+        @extend .flex-display;
+
+        flex-direction: column;
+        opacity: 0;
+        transition: all 0.5s;
+        z-index: 1;
+        position: absolute;
+        gap: 5rem;
+
+        &.show {
+            opacity: 1;
+            display: flex;
+        }
     }
 }
 
