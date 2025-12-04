@@ -69,7 +69,7 @@ export const FeedbackDialog = (props: {
         setSubmittable(Boolean(e.target.value))
     }
 
-    return <Dialog show={props.show} title={'We love feedback!'}>
+    return <Dialog show={props.show} title={'We love feedback! 💬'}>
         <div id={'feedback-dialog-div'}>
             <p>Found a bug or have ideas on how to improve this website? Please let us know!</p>
             <form method="dialog" onSubmit={onSubmit}>
