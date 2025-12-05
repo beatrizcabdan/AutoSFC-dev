@@ -149,3 +149,9 @@
     }
 }
 
+@media (max-width: App.$small-screen-limit) {
+    #open-feedback-win-btn {
+        display: none;
+    }
+}
+

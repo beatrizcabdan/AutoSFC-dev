@@ -9,7 +9,7 @@ import {EncodingDemo} from "./EncodingDemo.tsx";
 import {CspComparisonDemo} from "./CspComparisonDemo.tsx";
 import {Fab} from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {Nav} from "./Nav.tsx";
+import {Nav, NavSubMenu} from "./Nav.tsx";
 import {useSearchParams, useNavigate} from "react-router-dom";
 import {createPath, scrollToSection} from "./utils.ts";
 import {FeedbackDialog, OpenFeedbackWinBtn} from "./Feedback.tsx";
@@ -33,6 +33,8 @@ const HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN = true
 
 function App() {
     const [hideMobileNav, setHideMobileNav] = useState(false)
+    const [showSubMenu, setShowSubMenu] = useState(false)
+
     const scrollPosRef = useRef<number>(0)
     const [scrollButtonClass, setScrollButtonClass] = useState('disabled')
     const [contactClass, setContactClass] = useState('')
@@ -42,10 +44,14 @@ function App() {
 
     const onScroll = useCallback(() => {
         const scrollingUp = document.documentElement.scrollTop < scrollPosRef.current
-        setHideMobileNav(!scrollingUp && HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN)
+        const hideMenus = !scrollingUp && HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN
+        setHideMobileNav(hideMenus)
+        if (showSubMenu) {
+            setShowSubMenu(!hideMenus)
+        }
         setScrollButtonClass(scrollPosRef.current > window.innerHeight && scrollingUp ? '' : 'disabled')
         scrollPosRef.current = document.documentElement.scrollTop
-    }, [scrollPosRef])
+    }, [scrollPosRef, showSubMenu])
 
     useEffect(() => {
         document.addEventListener('scroll', onScroll)
@@ -92,7 +98,9 @@ function App() {
             </div>
 
             <Nav scrollPos={scrollPosRef.current} hideMobileNav={hideMobileNav} onSectionClick={onSectionClick}
-                 contactVisibilityClassName={contactClass} searchParams={searchParams}/>
+                 contactVisibilityClassName={contactClass} searchParams={searchParams} setShowSubMenu={setShowSubMenu}/>
+            <NavSubMenu contactClassName={contactClass} onContactClick={onSectionClick} searchParams={searchParams}
+                        show={showSubMenu && !hideMobileNav} onFeedbackBtnClick={() => setShowFeedbackForm(true)}/>
 
             <div id={'main'}>
                 <EncodingDemo onSectionClick={onSectionClick}/>
@@ -102,7 +110,8 @@ function App() {
             <div className="tabcontent" id={'previous-work'}>
                 <h1><a href={createPath('#previous-work', searchParams)}
                        onClick={e => e.preventDefault()}>
-                    <span className={'section-hash-span'} onClick={() => onSectionClick(createPath('#previous-work', searchParams),'#previous-work')}>
+                    <span className={'section-hash-span'}
+                          onClick={() => onSectionClick(createPath('#previous-work', searchParams),'#previous-work')}>
                         #</span></a>
                     Previous work using Space-Filling Curves (SFCs)</h1>
 

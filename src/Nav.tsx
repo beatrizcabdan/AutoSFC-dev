@@ -7,7 +7,8 @@ interface NavProps {
     hideMobileNav: boolean,
     contactVisibilityClassName?: string,
     onSectionClick: (path: string, sectionId: string) => void,
-    searchParams: URLSearchParams
+    searchParams: URLSearchParams,
+    setShowSubMenu: (value: (((prevState: boolean) => boolean) | boolean)) => void
 }
 
 function NavLink(props: {
@@ -16,7 +17,8 @@ function NavLink(props: {
     onSectionClick: (path: string, sectionId: string) => void,
     className?: string | undefined,
     searchParams: URLSearchParams,
-    icon: string
+    icon: string,
+    id?: string
 }) {
 
     const pathRef = useRef('')
@@ -25,16 +27,60 @@ function NavLink(props: {
         pathRef.current = createPath(props.sectionId, props.searchParams);
     }, [props.sectionId, props.searchParams]);
 
+    const onDivClick = () => {
+        props.onSectionClick(pathRef.current, props.sectionId);
+    }
     return <a onClick={e => e.preventDefault()}
-              href={pathRef.current}>
-        <div className={`active ${props.className ?? ''}`} onClick={() => props.onSectionClick(pathRef.current,
-            props.sectionId)}>
+              href={pathRef.current} id={props.id ?? ''}>
+        <div className={`navlink-div active ${props.className ?? ''}`}
+             onClick={onDivClick}>
             <span className="material-symbols-outlined">{props.icon}</span>{props.title}
+        </div>
+    </a>
+}
+
+interface HamburgerMenuProps {
+    onMenuClick: () => void
+}
+
+function HamburgerMenu({onMenuClick}: HamburgerMenuProps) {
+
+    return <a id={'hamburger-menu-a'} onClick={e => {
+        e.preventDefault();
+        onMenuClick()
+    }}>
+        <div className={`active navlink-div`}>
+            <span className="material-symbols-outlined">menu</span>More
         </div>
     </a>;
 }
 
-export function Nav({scrollPos, hideMobileNav, contactVisibilityClassName, onSectionClick, searchParams}: NavProps) {
+export function NavSubMenu(props: {
+    contactClassName: string | undefined,
+    onContactClick: (path: string, sectionId: string) => void,
+    searchParams: URLSearchParams,
+    show: boolean,
+    onFeedbackBtnClick: () => void
+}) {
+    const onFeedbackBtnClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault()
+        props.onFeedbackBtnClick()
+    }
+    return <div id={"nav-submenu-div"} className={`${!props.show ? 'hide' : ''}`}>
+        <NavLink className={props.contactClassName} sectionId={"#contact"} onSectionClick={props.onContactClick}
+                 searchParams={props.searchParams} icon={"alternate_email"} title={"Contact"} id={"contact-link"}/>
+        <a onClick={onFeedbackBtnClick} href={''} id={''}>
+            <div className={`navlink-div active`} onClick={() => {
+            }}>
+                <span className="material-symbols-outlined">feedback</span>Feedback
+            </div>
+        </a>
+
+    </div>;
+}
+
+export function Nav({scrollPos, hideMobileNav, contactVisibilityClassName, onSectionClick, searchParams,
+                        setShowSubMenu}: NavProps) {
     const [navHeight, setNavHeight] = useState(0)
 
     useEffect(() => {
@@ -44,6 +90,7 @@ export function Nav({scrollPos, hideMobileNav, contactVisibilityClassName, onSec
         setNavHeight(navHeight)
     }, []);
 
+    // @ts-ignore
     return <div className={`topnav ${scrollPos < navHeight ? 'top-pos' : ''} ${hideMobileNav ? 'hide' : ''}`}>
         <div className={'link-container'}>
             <NavLink sectionId={"#encoding-demo"} onSectionClick={onSectionClick} icon={'swap_horiz'}
@@ -55,7 +102,8 @@ export function Nav({scrollPos, hideMobileNav, contactVisibilityClassName, onSec
             <NavLink sectionId={"#about"} onSectionClick={onSectionClick} searchParams={searchParams}
                      title={'About SFCs'} icon={'info'}/>
             <NavLink className={contactVisibilityClassName} sectionId={"#contact"} onSectionClick={onSectionClick}
-                     searchParams={searchParams} icon={'alternate_email'} title={'Contact'}/>
+                     searchParams={searchParams} icon={'alternate_email'} title={'Contact'} id={'contact-link'}/>
+            <HamburgerMenu onMenuClick={() => setShowSubMenu(prev => !prev)}/>
         </div>
     </div>
 }

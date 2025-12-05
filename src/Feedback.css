@@ -679,4 +679,10 @@ h1 + p {
   display: flex;
 }
 
+@media (max-width: 700px) {
+  #open-feedback-win-btn {
+    display: none;
+  }
+}
+
 /*# sourceMappingURL=Feedback.css.map */
