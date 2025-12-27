@@ -4,11 +4,11 @@ const revision = require('child_process')
     .toString().trim()
 
 let envContent = readFileSync('.env').toString().trim()
-const latestCommitHash = envContent.match(/LATEST_COMMIT=\w*/)
+const latestCommitHash = envContent.match(/VITE_LATEST_COMMIT=\w*/)
 if (latestCommitHash) {
-    envContent = envContent.replace(/LATEST_COMMIT=\w*/, `LATEST_COMMIT=${revision}`)
+    envContent = envContent.replace(/VITE_LATEST_COMMIT=\w*/, `VITE_LATEST_COMMIT=${revision}`)
 } else {
-    envContent = `LATEST_COMMIT=${revision}\n` + envContent
+    envContent = `VITE_LATEST_COMMIT=${revision}\n` + envContent
 }
 
 writeFileSync('.env', envContent)

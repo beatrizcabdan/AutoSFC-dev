@@ -44,6 +44,11 @@ function App() {
     const navigate = useNavigate()
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
 
+    useEffect(() => {
+        // Log app status
+        console.info(`Mode: ${import.meta.env.MODE}\nLatest commit: ${import.meta.env.VITE_LATEST_COMMIT}`)
+    }, []);
+
     const onScroll = useCallback(() => {
         const scrollingUp = document.documentElement.scrollTop < scrollPosRef.current
         const hideMenus = !scrollingUp && HIDE_MOBILE_NAV_WHEN_SCROLLING_DOWN
