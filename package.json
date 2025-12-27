@@ -1,7 +1,7 @@
 {
-  "name": "my-vue-app",
+  "name": "auto-sfc",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "update-gitv": "node src/scripts/fetch-git-version.cjs",

@@ -1,3 +1,5 @@
+// Fetch latest git commit and write to .env
+
 const {writeFileSync, readFileSync} = require("node:fs");
 const revision = require('child_process')
     .execSync('git rev-parse --short=8 HEAD')

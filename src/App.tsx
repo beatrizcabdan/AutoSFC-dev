@@ -2,7 +2,6 @@
 // noinspection JSUnusedLocalSymbols
 
 import './App.module.scss'
-
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {PaperContainer} from "./PaperContainer.tsx";
 import {EncodingDemo} from "./EncodingDemo.tsx";
@@ -46,7 +45,9 @@ function App() {
 
     useEffect(() => {
         // Log app status
-        console.info(`Mode: ${import.meta.env.MODE}\nLatest commit: ${import.meta.env.VITE_LATEST_COMMIT}`)
+        console.info(`AutoSFC ${APP_VERSION}\n` +
+            `Mode: ${import.meta.env.MODE}\n` +
+            `Latest commit: ${import.meta.env.VITE_LATEST_COMMIT}`)
     }, []);
 
     const onScroll = useCallback(() => {
