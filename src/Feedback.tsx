@@ -11,6 +11,8 @@ import {
 import './Feedback.scss'
 import {Dialog} from "./Dialog.tsx";
 import React, {Dispatch, FormEvent, SetStateAction, useEffect, useState} from "react";
+import axios from 'axios'
+import {API_BASE_URL} from "./App.tsx";
 
 interface OpenFeedbackWinBtnProps {
     onClick?: () => void
@@ -63,10 +65,13 @@ export const FeedbackDialog = (props: { show: boolean,
             type: feedbackType,
             message: message
         })
-        const subject = feedbackType.charAt(0).toUpperCase() + feedbackType.slice(1) + ' for autosfc.org'
+        /*const subject = feedbackType.charAt(0).toUpperCase() + feedbackType.slice(1) + ' for autosfc.org'
         const mail = document.createElement("a");
         mail.href = `mailto:beatriz.cabrero-daniel@gu.se,ao@antolsson.se?subject=${subject}&body=${message}`;
-        mail.click();
+        mail.click();*/
+
+        axios.get(API_BASE_URL)
+            .then(r => console.log(r))
 
         setSubmitted(true)
         setSubmittable(false)

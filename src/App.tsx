@@ -14,6 +14,8 @@ import {useSearchParams, useNavigate} from "react-router-dom";
 import {createPath, scrollToSection} from "./utils.ts";
 import {FeedbackDialog, OpenFeedbackWinBtn} from "./Feedback.tsx";
 
+export const API_BASE_URL = 'http://129.16.216.72:80'
+
 // eslint-disable-next-line react-refresh/only-export-components
 export enum PlayStatus {
     PLAYING, PAUSED, REACHED_END
