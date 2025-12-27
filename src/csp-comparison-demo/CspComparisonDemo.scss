@@ -1,5 +1,5 @@
-@use 'App.module';
-@use 'buttons/buttons';
+@use '../App.module';
+@use '../buttons/buttons.css';
 
 #comparison-demo {
     display: flex;

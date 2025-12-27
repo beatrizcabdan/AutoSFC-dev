@@ -5,7 +5,7 @@ import './App.module.scss'
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {PaperContainer} from "./PaperContainer.tsx";
 import {EncodingDemo} from "./EncodingDemo.tsx";
-import {CspComparisonDemo} from "./CspComparisonDemo.tsx";
+import {CspComparisonDemo} from "./csp-comparison-demo/CspComparisonDemo.tsx";
 import {Fab} from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {Nav, NavSubMenu} from "./Nav.tsx";
@@ -45,8 +45,7 @@ function App() {
 
     useEffect(() => {
         // Log app status
-        console.info(`AutoSFC ${APP_VERSION}\n` +
-            `Mode: ${import.meta.env.MODE}\n` +
+        console.info(`AutoSFC ${APP_VERSION} — ${import.meta.env.MODE === 'development' ? 'dev' : 'prod'}\n` +
             `Latest commit: ${import.meta.env.VITE_LATEST_COMMIT}`)
     }, []);
 

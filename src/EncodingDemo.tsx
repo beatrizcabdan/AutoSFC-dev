@@ -6,7 +6,7 @@ import {EncoderSwitch} from "./EncoderSwitch.tsx";
 import {UploadButton} from "./buttons/UploadButton.tsx";
 import {PlaySlider} from "./PlaySlider.tsx";
 import {PlayButton} from "./buttons/PlayButton.tsx";
-import {DataRangeSlider} from "./DataRangeSlider.tsx";
+import {DataRangeSlider} from "./data-range-slider/DataRangeSlider.tsx";
 import {ProcessingComponent} from "./ProcessingComponent.tsx";
 import {SelectColumnsDialog} from "./SelectColumnsDialog.tsx";
 import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR, PlayStatus} from "./App.tsx";
