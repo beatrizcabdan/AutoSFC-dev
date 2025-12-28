@@ -9,12 +9,13 @@ import {CspComparisonDemo} from "./csp-comparison-demo/CspComparisonDemo.tsx";
 import {Fab} from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import {Nav, NavSubMenu} from "./nav/Nav.tsx";
-import {useSearchParams, useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {createPath, scrollToSection} from "./utils.ts";
 import {FeedbackDialog, OpenFeedbackWinBtn} from "./feedback/Feedback.tsx";
+import {LandingSection} from "./landing-section/LandingSection.tsx";
 
 export const API_BASE_URL = 'http://129.16.216.72:80'
-const DEV_PROJECT_NAME = 'AutoSFC-dev'
+export const DEV_PROJECT_NAME = 'AutoSFC-dev'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum PlayStatus {
@@ -106,16 +107,11 @@ function App() {
 
     return (
         <>
-            <div className="landing-section">
-                <img src="./logo2.png" alt="AutoSFC logo" className="header-img"/>
-                <p>AutoSFC is a web-based demo for the research-activities around the usage of Space-Filling Curves
-                    (SFC) for encoding and reducing the dimensionality of automotive data.</p>
-                <p className={'size-warning-p'}>This website is optimized for larger screen sizes.</p>
-            </div>
+            <LandingSection modeName={getModeName()}/>
 
             <Nav scrollPos={scrollPosRef.current} hideMobileNav={hideMobileNav} onSectionClick={onSectionClick}
                  contactVisibilityClassName={contactClass} searchParams={searchParams} setShowSubMenu={setShowSubMenu}
-                showSubMenu={showSubMenu}/>
+                 showSubMenu={showSubMenu}/>
             <NavSubMenu contactClassName={contactClass} onContactClick={onSectionClick} searchParams={searchParams}
                         show={showSubMenu && !hideMobileNav} onFeedbackBtnClick={() => setShowFeedbackForm(true)}/>
 
@@ -128,7 +124,7 @@ function App() {
                 <h1><a href={createPath('#previous-work', searchParams)}
                        onClick={e => e.preventDefault()}>
                     <span className={'section-hash-span'}
-                          onClick={() => onSectionClick(createPath('#previous-work', searchParams),'#previous-work')}>
+                          onClick={() => onSectionClick(createPath('#previous-work', searchParams), '#previous-work')}>
                         #</span></a>
                     Previous work using Space-Filling Curves (SFCs)</h1>
 
@@ -156,7 +152,8 @@ function App() {
             <div className="tabcontent" id={'about'}>
                 <h1><a href={createPath('#about', searchParams)}
                        onClick={e => e.preventDefault()}>
-                    <span className={'section-hash-span'} onClick={() => onSectionClick(createPath('#about', searchParams),'#about')}>
+                    <span className={'section-hash-span'}
+                          onClick={() => onSectionClick(createPath('#about', searchParams), '#about')}>
                         #</span></a>
                     Space-Filling Curves (SFCs): what and why?</h1>
                 <div className="papers-container">
@@ -179,7 +176,8 @@ function App() {
             <div className={`tabcontent ${contactClass}`} id={'contact'}>
                 <h1><a href={createPath('#contact', searchParams)}
                        onClick={e => e.preventDefault()}>
-                    <span className={'section-hash-span'} onClick={() => onSectionClick('#contact', createPath('#contact', searchParams))}>
+                    <span className={'section-hash-span'}
+                          onClick={() => onSectionClick('#contact', createPath('#contact', searchParams))}>
                         #</span></a>
                     Want to collaborate? Contact us!</h1>
 
@@ -212,7 +210,7 @@ function App() {
 
             <Fab variant="extended" color={'primary'} className={scrollButtonClass} size={'small'}
                  onClick={onScrollButtonClick}>
-                <ArrowUpwardIcon sx={{ mr: 0, ml: 0 }} />
+                <ArrowUpwardIcon sx={{mr: 0, ml: 0}}/>
             </Fab>
         </>
     )
