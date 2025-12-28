@@ -1,19 +1,19 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
-import {createPath, debounce, hilbertEncode, mortonInterlace} from "./utils.ts";
-import {Preset, PresetComponent} from "./PresetComponent.tsx";
-import {Chart} from "./Chart.tsx";
-import {EncoderSwitch} from "./EncoderSwitch.tsx";
-import {UploadButton} from "./buttons/UploadButton.tsx";
-import {PlaySlider} from "./PlaySlider.tsx";
-import {PlayButton} from "./buttons/PlayButton.tsx";
-import {DataRangeSlider} from "./data-range-slider/DataRangeSlider.tsx";
-import {ProcessingComponent} from "./ProcessingComponent.tsx";
-import {SelectColumnsDialog} from "./SelectColumnsDialog.tsx";
-import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR, PlayStatus} from "./App.tsx";
-import {demoPreset5} from "./Common.ts";
+import {createPath, debounce, hilbertEncode, mortonInterlace} from "../utils.ts";
+import {Preset, PresetComponent} from "../preset-component/PresetComponent.tsx";
+import {Chart} from "../Chart.tsx";
+import {EncoderSwitch} from "../EncoderSwitch.tsx";
+import {UploadButton} from "../buttons/UploadButton.tsx";
+import {PlaySlider} from "../PlaySlider.tsx";
+import {PlayButton} from "../buttons/PlayButton.tsx";
+import {DataRangeSlider} from "../data-range-slider/DataRangeSlider.tsx";
+import {ProcessingComponent} from "../ProcessingComponent.tsx";
+import {SelectColumnsDialog} from "../select-columns-dialog/SelectColumnsDialog.tsx";
+import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR, PlayStatus} from "../App.tsx";
+import {demoPreset5} from "../Common.ts";
 import './EncodingDemo.scss'
-import './controls.scss'
-import App from './App.module.scss'
+import '../controls.scss'
+import App from '../App.module.scss'
 import {useSearchParams} from "react-router-dom";
 
 const {primaryColor} = App

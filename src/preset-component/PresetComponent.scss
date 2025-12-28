@@ -1,5 +1,5 @@
-@use 'App.module';
-@use 'buttons/buttons';
+@use '../App.module';
+@use '../buttons/buttons.css';
 
 .MuiListItemButton-root {
     border: 1px solid var(--button-active) !important;

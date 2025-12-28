@@ -4,14 +4,14 @@
 import './App.module.scss'
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {PaperContainer} from "./PaperContainer.tsx";
-import {EncodingDemo} from "./EncodingDemo.tsx";
+import {EncodingDemo} from "./encoding-demo/EncodingDemo.tsx";
 import {CspComparisonDemo} from "./csp-comparison-demo/CspComparisonDemo.tsx";
 import {Fab} from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {Nav, NavSubMenu} from "./Nav.tsx";
+import {Nav, NavSubMenu} from "./nav/Nav.tsx";
 import {useSearchParams, useNavigate} from "react-router-dom";
 import {createPath, scrollToSection} from "./utils.ts";
-import {FeedbackDialog, OpenFeedbackWinBtn} from "./Feedback.tsx";
+import {FeedbackDialog, OpenFeedbackWinBtn} from "./feedback/Feedback.tsx";
 
 export const API_BASE_URL = 'http://129.16.216.72:80'
 

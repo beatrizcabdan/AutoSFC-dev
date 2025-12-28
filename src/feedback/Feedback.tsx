@@ -9,10 +9,10 @@ import {
     TextField
 } from "@mui/material"
 import './Feedback.scss'
-import {Dialog} from "./dialog/Dialog.tsx";
+import {Dialog} from "../dialog/Dialog.tsx";
 import React, {Dispatch, FormEvent, SetStateAction, useEffect, useState} from "react";
 import axios from 'axios'
-import {API_BASE_URL} from "./App.tsx";
+import {API_BASE_URL} from "../App.tsx";
 
 interface OpenFeedbackWinBtnProps {
     onClick?: () => void

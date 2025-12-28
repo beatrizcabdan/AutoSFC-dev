@@ -6,7 +6,7 @@ import {EncoderSwitch} from "../EncoderSwitch.tsx";
 import {UploadButton} from "../buttons/UploadButton.tsx";
 import {DataRangeSlider} from "../data-range-slider/DataRangeSlider.tsx";
 import {ProcessingComponent} from "../ProcessingComponent.tsx";
-import {SelectColumnsDialog} from "../SelectColumnsDialog.tsx";
+import {SelectColumnsDialog} from "../select-columns-dialog/SelectColumnsDialog.tsx";
 import {default_demo1} from "../Common.ts";
 import './CspComparisonDemo.scss'
 import {Checkbox, FormControlLabel} from "@mui/material";

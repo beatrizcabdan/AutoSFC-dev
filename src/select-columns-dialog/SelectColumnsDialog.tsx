@@ -1,7 +1,7 @@
 import React, {Dispatch, FormEvent, SetStateAction, useEffect, useState} from "react";
 import './SelectColumnsDialog.scss'
 import {Button} from "@mui/material";
-import {Dialog} from "./dialog/Dialog.tsx";
+import {Dialog} from "../dialog/Dialog.tsx";
 
 export function SelectColumnsDialog(props: {
     show: boolean,

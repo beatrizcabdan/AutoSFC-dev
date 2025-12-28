@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import './Nav.scss'
-import {createPath} from "./utils.ts";
+import {createPath} from "../utils.ts";
 
 interface NavProps {
     scrollPos: number,

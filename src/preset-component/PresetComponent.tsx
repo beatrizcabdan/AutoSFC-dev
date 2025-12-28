@@ -2,8 +2,8 @@ import {Button, IconButton, List, ListItem, ListItemButton, ListItemText, TextFi
 import DeleteIcon from '@mui/icons-material/Delete';
 import React, {FormEvent, useEffect, useRef, useState} from "react";
 import './PresetComponent.scss'
-import './App.module.scss'
-import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR} from "./App.tsx";
+import '../App.module.scss'
+import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR} from "../App.tsx";
 import { useSearchParams } from 'react-router-dom';
 
 export interface Preset {

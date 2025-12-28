@@ -1,5 +1,5 @@
-@use 'buttons/buttons';
-@use 'App.module';
+@use '../buttons/buttons.css';
+@use '../App.module';
 @use 'sass:color';
 
 #open-feedback-win-btn {
