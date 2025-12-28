@@ -45,8 +45,8 @@ function App() {
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
 
     useEffect(() => {
-        // Log and set app status
-        // console.log(LATEST_COMMIT)
+        // Log and set app details
+        document.title = PROJECT_NAME
         console.info(`${PROJECT_NAME} ${APP_VERSION} — ${import.meta.env.MODE === 'development' ? 'dev' : 'prod'}\n` +
             `Latest commit: ${LATEST_COMMIT}`)
     }, []);
