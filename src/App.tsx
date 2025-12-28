@@ -44,7 +44,7 @@ function App() {
     const [showFeedbackForm, setShowFeedbackForm] = useState(false)
 
     useEffect(() => {
-        // Log app status
+        // Log and set app status
         console.info(`AutoSFC ${APP_VERSION} — ${import.meta.env.MODE === 'development' ? 'dev' : 'prod'}\n` +
             `Latest commit: ${import.meta.env.VITE_LATEST_COMMIT}`)
     }, []);
@@ -193,6 +193,13 @@ function App() {
                 <span id={'contact-info'} className={contactClass}> Contact Beatriz Cabrero-Daniel at <a
                     href="mailto:beatriz.cabrero-daniel@gu.se">beatriz.cabrero-daniel@gu.se</a> for more info.
                 </span>
+                <div id={'app-info-div'}>
+                    <p>AutoSFC <span>{APP_VERSION}</span></p>
+                    <p>•</p>
+                    <p>Latest commit: <span>{import.meta.env.VITE_LATEST_COMMIT}</span></p>
+                    {import.meta.env.MODE === 'development' &&
+                        <><p>•</p><p><span id={'mode-span'}>Dev mode</span></p></>}
+                </div>
             </div>
 
             <FeedbackDialog show={showFeedbackForm} setShow={setShowFeedbackForm}/>
