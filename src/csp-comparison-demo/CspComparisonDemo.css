@@ -451,7 +451,7 @@ h1 + p {
   text-align: center;
 }
 .footer #app-info-div {
-  opacity: 0.7;
+  opacity: 0.6;
   display: flex;
   justify-content: center;
   column-gap: 0.5rem;
@@ -1026,7 +1026,7 @@ h1 + p {
 }
 
 .footer #app-info-div {
-  opacity: 0.7;
+  opacity: 0.6;
   display: flex;
   justify-content: center;
   column-gap: 0.5rem;

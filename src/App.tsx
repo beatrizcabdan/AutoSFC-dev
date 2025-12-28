@@ -14,6 +14,7 @@ import {createPath, scrollToSection} from "./utils.ts";
 import {FeedbackDialog, OpenFeedbackWinBtn} from "./feedback/Feedback.tsx";
 
 export const API_BASE_URL = 'http://129.16.216.72:80'
+const DEV_PROJECT_NAME = 'AutoSFC-dev'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum PlayStatus {
@@ -45,8 +46,9 @@ function App() {
 
     useEffect(() => {
         // Log and set app status
-        console.info(`AutoSFC ${APP_VERSION} — ${import.meta.env.MODE === 'development' ? 'dev' : 'prod'}\n` +
-            `Latest commit: ${import.meta.env.VITE_LATEST_COMMIT}`)
+        // console.log(LATEST_COMMIT)
+        console.info(`${PROJECT_NAME} ${APP_VERSION} — ${import.meta.env.MODE === 'development' ? 'dev' : 'prod'}\n` +
+            `Latest commit: ${LATEST_COMMIT}`)
     }, []);
 
     const onScroll = useCallback(() => {
@@ -96,6 +98,10 @@ function App() {
             }
         }, 17)
         navigate(createPath('', searchParams))
+    }
+
+    function getModeName() {
+        return import.meta.env.MODE === 'development' ? 'dev' : 'prod'
     }
 
     return (
@@ -194,11 +200,11 @@ function App() {
                     href="mailto:beatriz.cabrero-daniel@gu.se">beatriz.cabrero-daniel@gu.se</a> for more info.
                 </span>
                 <div id={'app-info-div'}>
-                    <p>AutoSFC <span>{APP_VERSION}</span></p>
+                    <p>{PROJECT_NAME} <span>{APP_VERSION}</span></p>
                     <p>•</p>
-                    <p>Latest commit: <span>{import.meta.env.VITE_LATEST_COMMIT}</span></p>
-                    {import.meta.env.MODE === 'development' &&
-                        <><p>•</p><p><span id={'mode-span'}>Dev mode</span></p></>}
+                    <p>Latest commit: <span>{LATEST_COMMIT}</span></p>
+                    {(import.meta.env.MODE === 'development' || PROJECT_NAME === DEV_PROJECT_NAME) &&
+                        <><p>•</p><p><span id={'mode-span'}>{getModeName()} mode</span></p></>}
                 </div>
             </div>
 
