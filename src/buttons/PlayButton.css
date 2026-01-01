@@ -500,7 +500,7 @@ h1 + p {
 }
 
 .footer #app-info-div {
-  opacity: 0.7;
+  opacity: 0.6;
   display: flex;
   justify-content: center;
   column-gap: 0.5rem;
@@ -528,6 +528,23 @@ h1 + p {
   display: none;
 }
 
+/*#dev-version-div {
+  background: $primary-color;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  rotate: 45deg;
+  translate: -35% -50%;
+  box-shadow: rgba(0, 0, 0, 0.4) 0 2px 5px;
+  z-index: 3000;
+
+  h3 {
+    padding: 0.08rem 3rem;
+    color: white;
+    letter-spacing: 0.2rem;
+    font-size: 0.5rem;
+  }
+}*/
 /* MOBILE SCREENS */
 @media (max-width: 700px) {
   h1 {

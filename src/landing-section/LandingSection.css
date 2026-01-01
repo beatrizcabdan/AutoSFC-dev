@@ -527,9 +527,9 @@ h1 + p {
 }
 .landing-section #version-banner-div {
   margin-top: 1rem;
-  background-color: rgba(0, 111, 213, 0.7);
+  background-color: rgba(0, 111, 213, 0.6);
   width: max-content;
-  padding: 0rem 0.4rem;
+  padding: 0 0.3rem;
   border-radius: 2px;
 }
 .landing-section #version-banner-div #version-banner-h3 {
