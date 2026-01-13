@@ -529,8 +529,8 @@ h1 + p {
   margin-top: 1rem;
   background-color: rgba(0, 111, 213, 0.6);
   width: max-content;
-  padding: 0 0.3rem;
-  border-radius: 2px;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
 }
 .landing-section #version-banner-div #version-banner-h3 {
   color: white;
