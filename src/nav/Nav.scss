@@ -17,6 +17,7 @@
 
     .link-container {
         @extend .flex-display;
+        justify-content: flex-start;
 
         width: 100%;
 

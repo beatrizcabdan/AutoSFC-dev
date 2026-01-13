@@ -538,6 +538,7 @@ h1 + p {
   box-shadow: rgba(0, 0, 0, 0.2) 0 0.3125rem 0.3125rem 0.0625rem;
 }
 .topnav .link-container {
+  justify-content: flex-start;
   width: 100%;
 }
 .topnav .link-container .navlink-div:hover {
