@@ -3,7 +3,6 @@
 
 import './App.module.scss'
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {PaperContainer} from "./PaperContainer.tsx";
 import {EncodingDemo} from "./encoding-demo/EncodingDemo.tsx";
 import {CspComparisonDemo} from "./csp-comparison-demo/CspComparisonDemo.tsx";
 import {Fab} from "@mui/material";
@@ -13,7 +12,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {createPath, scrollToSection} from "./utils.ts";
 import {FeedbackDialog, OpenFeedbackWinBtn} from "./feedback/Feedback.tsx";
 import {LandingSection} from "./landing-section/LandingSection.tsx";
-import papers from './assets/papers.json'
+import {PaperSection} from "./Papers.tsx";
 
 export const API_BASE_URL = 'http://129.16.216.72:80'
 export const DEV_PROJECT_NAME = 'AutoSFC-dev'
@@ -21,12 +20,6 @@ export const DEV_PROJECT_NAME = 'AutoSFC-dev'
 // eslint-disable-next-line react-refresh/only-export-components
 export enum PlayStatus {
     PLAYING, PAUSED, REACHED_END
-}
-
-interface IPaperData {
-    title: string,
-    description: string,
-    url: string
 }
 
 export const DEFAULT_SCALING_FACTOR = 10
@@ -121,31 +114,11 @@ function App() {
                 <CspComparisonDemo onSectionClick={onSectionClick}/>
             </div>
 
-            <div className="tabcontent" id={'previous-work'}>
-                <h1><a href={createPath('#previous-work', searchParams)}
-                       onClick={e => e.preventDefault()}>
-                    <span className={'section-hash-span'}
-                          onClick={() => onSectionClick(createPath('#previous-work', searchParams), '#previous-work')}>
-                        #</span></a>
-                    Previous work using Space-Filling Curves (SFCs)</h1>
+            <PaperSection id={'previous-work'} sectionTitle={'Previous work using Space-Filling Curves (SFCs)'}
+                          searchParams={searchParams} onSectionClick={onSectionClick}/>
 
-                <div className="papers-container">
-                    {papers["previous-work"].map((paper: IPaperData) =>
-                        <PaperContainer title={paper.title} description={paper.description} url={paper.url} />)}
-                </div>
-            </div>
-            <div className="tabcontent" id={'about'}>
-                <h1><a href={createPath('#about', searchParams)}
-                       onClick={e => e.preventDefault()}>
-                    <span className={'section-hash-span'}
-                          onClick={() => onSectionClick(createPath('#about', searchParams), '#about')}>
-                        #</span></a>
-                    Space-Filling Curves (SFCs): what and why?</h1>
-                <div className="papers-container">
-                    {papers['about'].map((paper: IPaperData) =>
-                        <PaperContainer title={paper.title} description={paper.description} url={paper.url} />)}
-                </div>
-            </div>
+            <PaperSection id={'about'} sectionTitle={'Space-Filling Curves (SFCs): what and why?'}
+                          searchParams={searchParams} onSectionClick={onSectionClick}/>
 
             <div className={`tabcontent ${contactClass}`} id={'contact'}>
                 <h1><a href={createPath('#contact', searchParams)}
