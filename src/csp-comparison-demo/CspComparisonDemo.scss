@@ -136,7 +136,7 @@
                 }
 
                 .signals-grid {
-                    grid-template-columns: 9ch repeat(2, min-content) 1rem min-content min-content auto;
+                    grid-template-columns: 15ch repeat(2, min-content) 1rem min-content min-content auto;
                     position: relative;
 
                     .offset-label, .scale-label {
@@ -150,7 +150,7 @@
 
                         .signal-name {
                             padding-right: 0.2rem;
-                            max-width: 15ch;
+                            white-space: nowrap;
                         }
                     }
 

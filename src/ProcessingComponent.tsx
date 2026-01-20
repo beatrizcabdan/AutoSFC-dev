@@ -60,7 +60,7 @@ export function ProcessingComponent(props: {
                     <div className={'signal-cell'} key={i}>
                         {props.lineColors && <span style={{background: props.lineColors[i % props.lineColors.length]}}
                                className={'color-line'}></span>}
-                        <span className={'signal-name'}>{signal}</span>
+                        <span title={signal} className={'signal-name'}>{signal}</span>
                     </div>
                     <label className={'input-label offset-label'}>
                         <input type="number" value={(props.offsets && props.offsets[i]) ?? DEFAULT_OFFSET} onBlur={() =>

@@ -10,7 +10,7 @@ import {DataRangeSlider} from "../data-range-slider/DataRangeSlider.tsx";
 import {ProcessingComponent} from "../ProcessingComponent.tsx";
 import {SelectColumnsDialog} from "../select-columns-dialog/SelectColumnsDialog.tsx";
 import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR, PlayStatus} from "../App.tsx";
-import {demoPreset5} from "../Common.ts";
+import {demoPreset5} from "../presets.ts";
 import './EncodingDemo.scss'
 import '../controls.scss'
 import App from '../App.module.scss'

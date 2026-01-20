@@ -7,7 +7,7 @@ import {UploadButton} from "../buttons/UploadButton.tsx";
 import {DataRangeSlider} from "../data-range-slider/DataRangeSlider.tsx";
 import {ProcessingComponent} from "../ProcessingComponent.tsx";
 import {SelectColumnsDialog} from "../select-columns-dialog/SelectColumnsDialog.tsx";
-import {default_demo1} from "../Common.ts";
+import {default_demo2} from "../presets.ts";
 import './CspComparisonDemo.scss'
 import {Checkbox, FormControlLabel, IconButton} from "@mui/material";
 import App from '../App.module.scss'
@@ -17,14 +17,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 const {primaryColor} = App
 
-const preset = default_demo1
+const preset = default_demo2
 
 // TODO: Fix width, cspRange changing when other file is transformed, deleting/hiding files, more compact layout, presets... (later)
-// Good demo values:
-// accel_x: 4000 / 729
-// accel_y: 5000 / 729
-// sampleTimeStamp.microseconds: 5000 / 10
-// groundSpeed: 5005 / 10
 
 interface CspComparisonDemoProps {
     onSectionClick: (path: string, sectionId: string) => void
@@ -39,8 +34,8 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const DATA_POINT_INTERVAL = preset.dataPointInterval
 
     const [dataNumLines, setDataNumLines] = useState<number[]>([100, 100])
-    const [startLines, setStartLines] = useState<number[]>([0, 0])
-    const [endLines, setEndLines] = useState<number[]>([100, 100])
+    const [startLines, setStartLines] = useState<number[]>([20, 0])
+    const [endLines, setEndLines] = useState<number[]>([690, 590])
 
     const [encoder, setEncoder] = useState('morton')
 
