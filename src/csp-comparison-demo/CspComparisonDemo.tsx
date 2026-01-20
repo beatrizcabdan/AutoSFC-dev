@@ -9,10 +9,11 @@ import {ProcessingComponent} from "../ProcessingComponent.tsx";
 import {SelectColumnsDialog} from "../select-columns-dialog/SelectColumnsDialog.tsx";
 import {default_demo1} from "../Common.ts";
 import './CspComparisonDemo.scss'
-import {Checkbox, FormControlLabel} from "@mui/material";
+import {Checkbox, FormControlLabel, IconButton} from "@mui/material";
 import App from '../App.module.scss'
 import '../controls.scss'
 import {useSearchParams} from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const {primaryColor} = App
 
@@ -389,10 +390,10 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                                        '&.Mui-checked': {color: LINE_COLORS[i],}
                                                    }}/>}
                                 label="Show" className={'show-checkbox'}/>
-                            {/*<FormControlLabel control={<IconButton onClick={e => {
+                            <FormControlLabel control={<IconButton onClick={e => {
                             }}>
                                 <DeleteIcon/>
-                            </IconButton>} label={'Delete'} className={'delete-row-button'}/>*/}
+                            </IconButton>} label={'Delete'} className={'delete-row-button'}/>
                         </div>
                         <div className={"file-container"}>
                             <UploadButton onClick={e => uploadFile(e, i)} label={"Upload file..."}
@@ -439,8 +440,8 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                 </div>
             </div>
         })}
-        {/*<UploadButton onClick={e => uploadFile(e, fileNames.length)} label={"Upload file..."}
-                      currentFile={''}/>*/}
+        <UploadButton onClick={e => uploadFile(e, fileNames.length)} label={"Upload file..."}
+                      currentFile={''}/>
         <SelectColumnsDialog show={showDialog} setShow={setShowDialog} demoName={'comparison'}
                              currentLabels={displayedDataLabels && fileToSelectColumnsFor > -1
                                  ? displayedDataLabels[fileToSelectColumnsFor]
