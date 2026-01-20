@@ -71,8 +71,6 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const [searchParams] = useSearchParams()
 
     const loadFiles = async () => {
-        console.log('loadFiles')
-
         const newData: number[][][] = []
         const newTransformedData: number[][][] = []
         const numLines: number[] = []
@@ -145,6 +143,10 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                         setDataNumLines(numLines)
                         setMinChartValue(minData)
                         setMaxChartValue(maxData)
+
+                        // console.log(offsets)
+                        /*console.log(minData)
+                        console.log(maxData)*/
                     }
                 })
             })
@@ -197,10 +199,9 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                         .split(/[,;]/)
                     formatDataLabels(dataLabels);
                     allDataLabelsRef.current[fileIndex] = dataLabels
-                    console.log(dataLabels)
                     setDisplayedDataLabels([
                         ...(displayedDataLabels ?? []).slice(0, fileIndex),
-                        dataLabels.slice(dataLabels.length - 2),
+                        dataLabels.slice(dataLabels.length - 2), // Use last two columns as default
                         ...(displayedDataLabels ?? []).slice(fileIndex + 1)
                     ])
                     startLines[fileIndex] = 0
@@ -210,6 +211,9 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                     const url = URL.createObjectURL(file)
                     setFileNames([...fileNames.slice(0, fileIndex), file.name, ...fileNames.slice(fileIndex + 1)])
                     setFilePaths([...filePaths.slice(0, fileIndex), url, ...filePaths.slice(fileIndex + 1)])
+                    setOffsets([...offsets.slice(0, fileIndex), Array(2).fill(DEFAULT_OFFSET), ...offsets.slice(fileIndex + 1)])
+                    setScales([...scales.slice(0, fileIndex), Array(2).fill(DEFAULT_SCALING_FACTOR), ...scales.slice(fileIndex + 1)])
+                    setPlotFile([...plotFile.slice(0, fileIndex), true, ...plotFile.slice(fileIndex + 1)])
                 } else {
                     alert("Error reading the file. Please try again.");
                 }
