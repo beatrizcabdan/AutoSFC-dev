@@ -71,6 +71,8 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const [searchParams] = useSearchParams()
 
     const loadFiles = async () => {
+        console.log('loadFiles')
+
         const newData: number[][][] = []
         const newTransformedData: number[][][] = []
         const numLines: number[] = []
@@ -195,11 +197,11 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                         .split(/[,;]/)
                     formatDataLabels(dataLabels);
                     allDataLabelsRef.current[fileIndex] = dataLabels
-
+                    console.log(dataLabels)
                     setDisplayedDataLabels([
-                        ...allDataLabelsRef.current.slice(0, fileIndex),
+                        ...(displayedDataLabels ?? []).slice(0, fileIndex),
                         dataLabels.slice(dataLabels.length - 2),
-                        ...allDataLabelsRef.current.slice(fileIndex + 1)
+                        ...(displayedDataLabels ?? []).slice(fileIndex + 1)
                     ])
                     startLines[fileIndex] = 0
                     setStartLines([...startLines])
