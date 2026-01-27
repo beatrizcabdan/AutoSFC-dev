@@ -338,6 +338,26 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
         setPlotFile([...plotFile])
     }
 
+    function onDeleteButtonClick(fileIndex: number) {
+        setFileNames([...fileNames.slice(0, fileIndex), ...fileNames.slice(fileIndex + 1)])
+        setFilePaths([...filePaths.slice(0, fileIndex), ...filePaths.slice(fileIndex + 1)])
+        setDataNumLines([...dataNumLines.slice(0, fileIndex), ...dataNumLines.slice(fileIndex + 1)])
+        setStartLines([...startLines.slice(0, fileIndex), ...startLines.slice(fileIndex + 1)])
+        setEndLines([...endLines.slice(0, fileIndex), ...endLines.slice(fileIndex + 1)])
+        setMinSfcValues([...minSfcValues.slice(0, fileIndex), ...minSfcValues.slice(fileIndex + 1)])
+        setMaxSfcValues([...maxSfcValues.slice(0, fileIndex), ...maxSfcValues.slice(fileIndex + 1)])
+        setInitialMaxSfcValues([...initialMaxSfcValues.slice(0, fileIndex), ...initialMaxSfcValues.slice(fileIndex + 1)])
+        setInitialMinSfcValues([...initialMinSfcValues.slice(0, fileIndex), ...initialMinSfcValues.slice(fileIndex + 1)])
+        setDisplayedDataLabels([...displayedDataLabels!.slice(0, fileIndex), ...displayedDataLabels!.slice(fileIndex + 1)])
+        setData([...data.slice(0, fileIndex), ...data.slice(fileIndex + 1)])
+        setTransformedData([...transformedData.slice(0, fileIndex), ...transformedData.slice(fileIndex + 1)])
+        setSfcData([...sfcData.slice(0, fileIndex), ...sfcData.slice(fileIndex + 1)])
+        setScales([...scales.slice(0, fileIndex), ...scales.slice(fileIndex + 1)])
+        setOffsets([...offsets.slice(0, fileIndex), ...offsets.slice(fileIndex + 1)])
+        setPlotFile([...plotFile.slice(0, fileIndex), ...plotFile.slice(fileIndex + 1)])
+        allDataLabelsRef.current = [...allDataLabelsRef.current.slice(0, fileIndex), ...allDataLabelsRef.current.slice(fileIndex + 1)]
+    }
+
     return <div id={'comparison-demo'}>
         <h1>
             <a href={createPath('#comparison-demo', searchParams)}
@@ -386,7 +406,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                 label="Show" className={'show-checkbox'}/>
                             <FormControlLabel control={<IconButton onClick={e => {
                             }}>
-                                <DeleteIcon/>
+                                <DeleteIcon onClick={() => onDeleteButtonClick(i)}/>
                             </IconButton>} label={'Delete'} className={'delete-row-button'}/>
                         </div>
                         <div className={"file-container"}>
