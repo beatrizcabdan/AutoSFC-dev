@@ -433,7 +433,8 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                 <FormControlLabel control={<IconButton onClick={e => {
                                 }}>
                                     <DeleteIcon />
-                                </IconButton>} onClick={() => setDeletedFileIndex(i)} label={'Delete'} className={'delete-row-button'}/>
+                                </IconButton>} onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}
+                                                  label={'Delete'} className={'delete-row-button'} disabled={filePaths.length === 1}/>
                             </div>
                             <div className={"file-container"}>
                                 <UploadButton onClick={e => uploadFile(e, i)} label={"Upload file..."}
