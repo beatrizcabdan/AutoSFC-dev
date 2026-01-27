@@ -19,7 +19,7 @@ const {primaryColor} = App
 
 const preset = default_demo2
 
-// TODO: Fix width, cspRange changing when other file is transformed, deleting/hiding files, more compact layout, presets... (later)
+// TODO: deleting/hiding files, more compact layout, presets... (later)
 
 interface CspComparisonDemoProps {
     onSectionClick: (path: string, sectionId: string) => void
@@ -143,10 +143,6 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                         setDataNumLines(numLines)
                         setMinChartValue(minData)
                         setMaxChartValue(maxData)
-
-                        // console.log(offsets)
-                        /*console.log(minData)
-                        console.log(maxData)*/
                     }
                 })
             })
@@ -386,10 +382,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                         <div className={'first-buttons-column'}>
                             <FormControlLabel
                                 control={<Checkbox defaultChecked onChange={e => onShowCheckboxClick(e, i)}
-                                                   sx={{
-                                                       color: LINE_COLORS[i],
-                                                       '&.Mui-checked': {color: LINE_COLORS[i],}
-                                                   }}/>}
+                                                   sx={{color: LINE_COLORS[i], '&.Mui-checked': {color: LINE_COLORS[i],}}}/>}
                                 label="Show" className={'show-checkbox'}/>
                             <FormControlLabel control={<IconButton onClick={e => {
                             }}>

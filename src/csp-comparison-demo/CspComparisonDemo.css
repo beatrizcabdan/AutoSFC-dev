@@ -1223,8 +1223,8 @@ h1 + p {
   margin-right: 1.2rem;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .MuiSvgIcon-root {
-  width: 2rem !important;
-  height: 2rem !important;
+  width: 1.7rem !important;
+  height: 1.7rem !important;
   padding: 0;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .show-checkbox {
@@ -1246,8 +1246,8 @@ h1 + p {
   margin-bottom: 0;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .delete-row-button .MuiIconButton-root .MuiSvgIcon-root {
-  width: 2rem !important;
-  height: 2rem !important;
+  width: 1.7rem !important;
+  height: 1.7rem !important;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .file-container {
   grid-row: 1;
