@@ -29,6 +29,8 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const EXAMPLE_FILE_PATHS = [preset.file1, preset.file2]
     const LINE_COLORS = [primaryColor, 'green', 'red', 'purple', 'brown', 'orange']
 
+    const [lineColors, setLineColors] = useState(LINE_COLORS.slice(0, 2))
+
     const [filePaths, setFilePaths] = useState(EXAMPLE_FILE_PATHS)
     const [fileNames, setFileNames] = useState(EXAMPLE_FILE_PATHS)
     const DATA_POINT_INTERVAL = preset.dataPointInterval
@@ -210,6 +212,13 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                     setOffsets([...offsets.slice(0, fileIndex), Array(2).fill(DEFAULT_OFFSET), ...offsets.slice(fileIndex + 1)])
                     setScales([...scales.slice(0, fileIndex), Array(2).fill(DEFAULT_SCALING_FACTOR), ...scales.slice(fileIndex + 1)])
                     setPlotFile([...plotFile.slice(0, fileIndex), true, ...plotFile.slice(fileIndex + 1)])
+
+                    // Only add new color if increasing number of files
+                    if (fileIndex === lineColors.length) {
+                        const availableColors = LINE_COLORS.filter(color => !lineColors.includes(color))
+                        const newColor = availableColors.length > 0 ? availableColors[0] : LINE_COLORS[lineColors.length % LINE_COLORS.length]
+                        setLineColors([...lineColors, newColor])
+                    }
                 } else {
                     alert("Error reading the file. Please try again.");
                 }
@@ -339,6 +348,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     }
 
     function onDeleteButtonClick(fileIndex: number) {
+        setLineColors([...lineColors.slice(0, fileIndex), ...lineColors.slice(fileIndex + 1)])
         setFileNames([...fileNames.slice(0, fileIndex), ...fileNames.slice(fileIndex + 1)])
         setFilePaths([...filePaths.slice(0, fileIndex), ...filePaths.slice(fileIndex + 1)])
         setDataNumLines([...dataNumLines.slice(0, fileIndex), ...dataNumLines.slice(fileIndex + 1)])
@@ -377,7 +387,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                    scales={scales} id={'demo2'} totalNumLines={getMaxDisplayedNumLines()}
                    offsets={offsets} minValue={minChartValue} maxValue={maxChartValue} type={"scatter"}
                    xAxisName={"Sfc value"} bitsPerSignal={bitsPerSignal}
-                   yAxisName={"Time steps"} yAxisLabelPos={"right"} lineColors={LINE_COLORS}
+                   yAxisName={"Time steps"} yAxisLabelPos={"right"} lineColors={lineColors}
                    sfcData={sfcData} minSfcRange={minSfcValues} maxSfcRange={maxSfcValues} plotFile={plotFile}/>
         </div>
         <div className={'global-transform-div control-container'}>
@@ -402,12 +412,12 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                         <div className={'first-buttons-column'}>
                             <FormControlLabel
                                 control={<Checkbox defaultChecked onChange={e => onShowCheckboxClick(e, i)}
-                                                   sx={{color: LINE_COLORS[i], '&.Mui-checked': {color: LINE_COLORS[i],}}}/>}
+                                                   sx={{color: lineColors[i], '&.Mui-checked': {color: lineColors[i],}}}/>}
                                 label="Show" className={'show-checkbox'}/>
                             <FormControlLabel control={<IconButton onClick={e => {
                             }}>
-                                <DeleteIcon onClick={() => onDeleteButtonClick(i)}/>
-                            </IconButton>} label={'Delete'} className={'delete-row-button'}/>
+                                <DeleteIcon />
+                            </IconButton>} onClick={() => onDeleteButtonClick(i)} label={'Delete'} className={'delete-row-button'}/>
                         </div>
                         <div className={"file-container"}>
                             <UploadButton onClick={e => uploadFile(e, i)} label={"Upload file..."}
