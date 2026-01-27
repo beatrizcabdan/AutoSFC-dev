@@ -57,8 +57,8 @@ export const demoPreset5 = {
 
 export const default_demo2 = {
     dataPointInterval: 1,
-    file1: "lclc_0121100339.csv",
-    file2: "lclc_0121100347.csv",
+    file1: "left-lane-change-1.csv",
+    file2: "left-lane-change-2.csv",
     file1_signals: ["Speed (m/s)", "Steering angle (deg)"],
     file2_signals: ["Speed (m/s)", "Steering angle (deg)"],
     file1_offsets: [0, 10],

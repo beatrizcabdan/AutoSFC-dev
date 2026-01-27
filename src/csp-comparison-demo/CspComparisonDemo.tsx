@@ -19,7 +19,7 @@ const {primaryColor} = App
 
 const preset = default_demo2
 
-// TODO: deleting/hiding files, more compact layout, presets... (later)
+// TODO:  more compact layout (show show-button, delete-button, upload file-button, filename, displayed signals (no controls)), presets... (later)
 
 interface CspComparisonDemoProps {
     onSectionClick: (path: string, sectionId: string) => void
