@@ -392,6 +392,21 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
             !current, ...minimizeFileControls.slice(fileIndex + 1)])
     }
 
+    function ShowCheckBox(props: { index: number }) {
+        return <FormControlLabel
+            control={<Checkbox checked={plotFile[props.index]} onChange={e => onShowCheckboxClick(e, props.index)}
+                               sx={{color: lineColors[props.index], '&.Mui-checked': {color: lineColors[props.index],}}}/>}
+            label="Show" className={'show-checkbox'}/>;
+    }
+
+    function DeleteButton(props: { index: number }) {
+        return <FormControlLabel control={<IconButton onClick={e => {
+        }}>
+            <DeleteIcon />
+        </IconButton>} onClick={() => filePaths.length > 1 && setDeletedFileIndex(props.index)}
+                                 label={'Delete'} className={'delete-row-button'} disabled={filePaths.length === 1}/>;
+    }
+
     return <div id={'comparison-demo'}>
         <h1>
             <a href={createPath('#comparison-demo', searchParams)}
@@ -437,25 +452,20 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                     <div className={'control-container comparison-row-div'}>
                         <div className={'left-control-grid'}>
                             <div className={'first-buttons-column'}>
-                                <FormControlLabel className={'dropdown-button'} control={<IconButton aria-label="maximize/minimize"
+                                <FormControlLabel className={'dropdown-button'} control={<IconButton disableRipple={true} aria-label="maximize/minimize"
                                         onClick={() => onDropDownBtnClick(i)}>
                                     <PlayArrow sx={{scale: 1.0, rotate: minimizeFileControls[i] ? '0' : '90deg'}}/>
                                 </IconButton>} label={undefined}/>
-                                <FormControlLabel
-                                    control={<Checkbox defaultChecked onChange={e => onShowCheckboxClick(e, i)}
-                                                       sx={{color: lineColors[i], '&.Mui-checked': {color: lineColors[i],}}}/>}
-                                    label="Show" className={'show-checkbox'}/>
-                                <FormControlLabel control={<IconButton onClick={e => {
-                                }}>
-                                    <DeleteIcon />
-                                </IconButton>} onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}
-                                                  label={'Delete'} className={'delete-row-button'} disabled={filePaths.length === 1}/>
+                                <div className={`lower-buttons-div ${minimizeFileControls[i] ? 'hide' : ''}`}>
+                                    <ShowCheckBox index={i}/>
+                                    <DeleteButton index={i}/>
+                                </div>
                             </div>
-                            <div className={"file-container"}>
+                            <div className={`file-container ${minimizeFileControls[i] ? 'hide' : ''}`}>
                                 <UploadButton onClick={e => uploadFile(e, i)} label={"Upload file..."}
                                               currentFile={fileName.replace(/.\//, "")}/>
                             </div>
-                            <div className={"control-container"} id={"range-container"}>
+                            <div className={`control-container ${minimizeFileControls[i] ? 'hide' : ''}`} id={"range-container"}>
                                 <h3>Displayed range</h3>
                                 <DataRangeSlider dataRangeChartStart={startLines[i]}
                                                  dataRangeChartEnd={endLines[i]}
@@ -480,19 +490,29 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                     </label>
                                 </div>
                             </div>
+
+                            <div className={`minimized-controls-div ${minimizeFileControls[i] ? '' : 'hide'}`}>
+                                <div className={'main-buttons'}>
+                                    <ShowCheckBox index={i} />
+                                    <DeleteButton index={i} />
+                                </div>
+
+                            </div>
                         </div>
-                        <ProcessingComponent variant={'reduced'}
-                                             displayedDataLabels={displayedDataLabels ? displayedDataLabels[i] : null}
-                                             scales={scales[i]} offsets={offsets[i]}
-                                             onScalesChanged={(index: number, scale: number | undefined) => onScalesChanged(index, scale, i)}
-                                             onOffsetsChanged={(index: number, offset: number | undefined) => onOffsetsChanged(index, offset, i)}
-                                             minSfcValue={minSfcValues[i]}
-                                             setMinSfcValue={(val: number) => onMinSfcValChanged(val, i)}
-                                             setMaxSfcValue={(val: number) => onMaxSfcValuesChanged(val, i)}
-                                             maxSfcValue={maxSfcValues[i]} initialMinSfcValue={initialMinSfcValues[i]}
-                                             initialMaxSfcValue={initialMaxSfcValues[i]}
-                                             onChooseColumnsClick={() => selectDataColumns(i)}
-                                             resetBtnPos={'right'}/>
+                        <div className={`processing-component-wrapper ${minimizeFileControls[i] ? 'hide' : ''}`}>
+                            <ProcessingComponent variant={'reduced'}
+                                                 displayedDataLabels={displayedDataLabels ? displayedDataLabels[i] : null}
+                                                 scales={scales[i]} offsets={offsets[i]}
+                                                 onScalesChanged={(index: number, scale: number | undefined) => onScalesChanged(index, scale, i)}
+                                                 onOffsetsChanged={(index: number, offset: number | undefined) => onOffsetsChanged(index, offset, i)}
+                                                 minSfcValue={minSfcValues[i]}
+                                                 setMinSfcValue={(val: number) => onMinSfcValChanged(val, i)}
+                                                 setMaxSfcValue={(val: number) => onMaxSfcValuesChanged(val, i)}
+                                                 maxSfcValue={maxSfcValues[i]} initialMinSfcValue={initialMinSfcValues[i]}
+                                                 initialMaxSfcValue={initialMaxSfcValues[i]}
+                                                 onChooseColumnsClick={() => selectDataColumns(i)}
+                                                 resetBtnPos={'right'}/>
+                        </div>
                     </div>
                 </Zoom>
             </div>
