@@ -1252,6 +1252,9 @@ h1 + p {
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label {
   grid-column: 2;
 }
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label {
+  cursor: pointer;
+}
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label {
   grid-column: 3;
 }

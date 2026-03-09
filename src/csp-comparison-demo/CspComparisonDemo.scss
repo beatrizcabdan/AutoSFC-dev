@@ -97,6 +97,10 @@
                     grid-column: 2;
                 }
 
+                .show-checkbox-minimized-label, .delete-button-minimized-label {
+                    cursor: pointer;
+                }
+
                 .show-checkbox-minimized-label {
                     grid-column: 3;
                 }

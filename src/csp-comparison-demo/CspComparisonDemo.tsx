@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, MutableRefObject, useEffect, useRef, useState} from "react";
 import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR} from "../App.tsx";
 import {createPath, debounce, hilbertEncode, mortonInterlace} from "../utils.ts";
 import {Chart} from "../Chart.tsx";
@@ -14,7 +14,7 @@ import App from '../App.module.scss'
 import '../controls.scss'
 import {useSearchParams} from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {ArrowDropDown, PlayArrow} from "@mui/icons-material";
+import {PlayArrow} from "@mui/icons-material";
 
 const {primaryColor} = App
 
@@ -498,12 +498,14 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                             <h3 className={'upload-button-minimized-label'}>{fileName}</h3>
                             <Checkbox id={`show-checkbox-${i}`} className={'show-checkbox-minimized'} checked={plotFile[i]} onChange={e => onShowCheckboxClick(e, i)}
                                       sx={{color: lineColors[i], '&.Mui-checked': {color: lineColors[i],}}}/>
-                            <h3 className={'show-checkbox-minimized-label'}>Show</h3>
+                            <h3 className={'show-checkbox-minimized-label'}
+                                onClick={() => (document.querySelector(`#show-checkbox-${i}`) as HTMLDivElement).click()}>Show</h3>
                             <IconButton className={'delete-row-button-minimized'} onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}
                                         disabled={filePaths.length === 1}>
                                 <DeleteIcon />
                             </IconButton>
-                            <h3 className={`delete-button-minimized-label ${filePaths.length === 1 ? 'disabled' : ''}`}>Delete</h3>
+                            <h3 className={`delete-button-minimized-label ${filePaths.length === 1 ? 'disabled' : ''}`}
+                                onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}>Delete</h3>
                         </div>
 
                         <div className={`processing-component-wrapper ${minimizeFileControls[i] ? 'hide' : ''}`}>
