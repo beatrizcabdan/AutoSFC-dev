@@ -503,7 +503,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                         disabled={filePaths.length === 1}>
                                 <DeleteIcon />
                             </IconButton>
-                            <h3 aria-disabled={filePaths.length === 1} className={'delete-button-minimized-label'}>Delete</h3>
+                            <h3 className={`delete-button-minimized-label ${filePaths.length === 1 ? 'disabled' : ''}`}>Delete</h3>
                         </div>
 
                         <div className={`processing-component-wrapper ${minimizeFileControls[i] ? 'hide' : ''}`}>

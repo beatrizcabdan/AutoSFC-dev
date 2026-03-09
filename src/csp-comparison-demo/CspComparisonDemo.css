@@ -1229,6 +1229,9 @@ h1 + p {
   aspect-ratio: initial !important;
   justify-self: center;
 }
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid.minimized .first-buttons-column {
+  grid-row: 1/3;
+}
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-row-button-minimized {
   grid-column: 4;
 }
@@ -1254,6 +1257,9 @@ h1 + p {
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label {
   grid-column: 4;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label.disabled {
+  color: rgba(0, 0, 0, 0.38);
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label {
   grid-row: 2/3;

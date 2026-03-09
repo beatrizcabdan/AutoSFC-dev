@@ -66,6 +66,10 @@
                         aspect-ratio: initial !important;
                         justify-self: center;
                     }
+
+                    .first-buttons-column {
+                        grid-row: 1 / 3;
+                    }
                 }
 
                 .delete-row-button-minimized {
@@ -99,6 +103,10 @@
 
                 .delete-button-minimized-label {
                     grid-column: 4;
+
+                    &.disabled {
+                        color: App.$disabled-text-color;
+                    }
                 }
 
                 .show-checkbox-minimized-label, .delete-button-minimized-label, .upload-button-minimized-label {
