@@ -1229,6 +1229,14 @@ h1 + p {
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .minimized-controls-div .main-buttons > * {
   flex-direction: column;
+  height: 3.6rem;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .minimized-controls-div .main-buttons > * button, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .minimized-controls-div .main-buttons > * span:first-of-type {
+  margin: auto;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid .minimized-controls-div .main-buttons > * span:last-of-type {
+  margin-bottom: 0;
+  margin-top: auto;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column {
   grid-column: 1;
