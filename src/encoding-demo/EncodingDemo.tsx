@@ -396,7 +396,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
                 <div className={"control-container"} id={"first-control-row"}>
                     <div className={"file-container"}>
                         <h3>Current file</h3>
-                        <UploadButton onClick={uploadFile} label={"Upload file..."}
+                        <UploadButton onClick={uploadFile} label={"Upload file..."} getWrappingDiv={true} getFileNameP={true}
                                       currentFile={fileName.replace(/.\//, "")}/>
                     </div>
                     <div className={"position-container"}>

@@ -450,7 +450,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                       timeout={i === deletedFileIndex || fileCountIncreased && i === filePaths.length - 1 ? 200 : 0}
                       onExited={() => onZoomAnimationFinished(i)}>
                     <div className={'control-container comparison-row-div'}>
-                        <div className={'left-control-grid'}>
+                        <div className={`left-control-grid ${minimizeFileControls[i] ? 'minimized' : ''}`}>
                             <div className={'first-buttons-column'}>
                                 <FormControlLabel className={'dropdown-button'} control={<IconButton disableRipple={true} aria-label="maximize/minimize"
                                         onClick={() => onDropDownBtnClick(i)}>
@@ -463,7 +463,8 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                             </div>
                             <div className={`file-container ${minimizeFileControls[i] ? 'hide' : ''}`}>
                                 <UploadButton onClick={e => uploadFile(e, i)} label={"Upload file..."}
-                                              currentFile={fileName.replace(/.\//, "")}/>
+                                              currentFile={fileName.replace(/.\//, "")}
+                                              getWrappingDiv={true} getFileNameP={true}/>
                             </div>
                             <div className={`control-container ${minimizeFileControls[i] ? 'hide' : ''}`} id={"range-container"}>
                                 <h3>Displayed range</h3>
@@ -491,14 +492,20 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                 </div>
                             </div>
 
-                            <div className={`minimized-controls-div ${minimizeFileControls[i] ? '' : 'hide'}`}>
-                                <div className={'main-buttons'}>
-                                    <ShowCheckBox index={i} />
-                                    <DeleteButton index={i} />
-                                </div>
-
-                            </div>
+                            {/*Minimized controls*/}
+                            <UploadButton onClick={e => uploadFile(e, i)} label={"Upload file..."}
+                                          getFileNameP={false} getWrappingDiv={false}/>
+                            <h3 className={'upload-button-minimized-label'}>{fileName}</h3>
+                            <Checkbox id={`show-checkbox-${i}`} className={'show-checkbox-minimized'} checked={plotFile[i]} onChange={e => onShowCheckboxClick(e, i)}
+                                      sx={{color: lineColors[i], '&.Mui-checked': {color: lineColors[i],}}}/>
+                            <h3 className={'show-checkbox-minimized-label'}>Show</h3>
+                            <IconButton className={'delete-row-button-minimized'} onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}
+                                        disabled={filePaths.length === 1}>
+                                <DeleteIcon />
+                            </IconButton>
+                            <h3 aria-disabled={filePaths.length === 1} className={'delete-button-minimized-label'}>Delete</h3>
                         </div>
+
                         <div className={`processing-component-wrapper ${minimizeFileControls[i] ? 'hide' : ''}`}>
                             <ProcessingComponent variant={'reduced'}
                                                  displayedDataLabels={displayedDataLabels ? displayedDataLabels[i] : null}
@@ -518,7 +525,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
             </div>
         })}
         <UploadButton onClick={e => addExtraFile(e)} label={"Upload file..."}
-                      currentFile={''}/>
+                      currentFile={''} getWrappingDiv={true} getFileNameP={true}/>
         <SelectColumnsDialog show={showDialog} setShow={setShowDialog} demoName={'comparison'}
                              currentLabels={displayedDataLabels && fileToSelectColumnsFor > -1
                                  ? displayedDataLabels[fileToSelectColumnsFor]
