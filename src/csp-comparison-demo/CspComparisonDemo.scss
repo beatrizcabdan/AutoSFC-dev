@@ -45,7 +45,7 @@
 
             .left-control-grid {
                 $separator-border: 1px solid rgb(0 0 0 / 0.15);
-                $separator-margin: 1.2rem;
+                $separator-margin: 0.9rem;
 
                 width: max-content;
                 display: grid;
@@ -55,7 +55,7 @@
 
                 &.minimized {
                     grid-template-columns: min-content max-content min-content min-content 1fr 1fr;
-                    column-gap: 1.0rem;
+                    column-gap: 0.5rem;
                     row-gap: 0.2rem;
 
                     .show-checkbox-minimized, .show-checkbox-minimized-label, .delete-row-button-minimized,
