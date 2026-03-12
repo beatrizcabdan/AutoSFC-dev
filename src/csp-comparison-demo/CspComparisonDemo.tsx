@@ -506,6 +506,13 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                             </IconButton>
                             <h3 className={`delete-button-minimized-label ${filePaths.length === 1 ? 'disabled' : ''}`}
                                 onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}>Delete</h3>
+                            <div className={'displayed-signals-wrapper-minimized-div'}>
+                                <h3>Displayed signals</h3>
+                                <div className={'displayed-signals-div'}>
+                                    {displayedDataLabels ? displayedDataLabels[i].map(label =>
+                                        <span style={{background: lineColors[i]}}>{label}</span>) : null}
+                                </div>
+                            </div>
                         </div>
 
                         <div className={`processing-component-wrapper ${minimizeFileControls[i] ? 'hide' : ''}`}>
