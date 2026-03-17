@@ -88,10 +88,12 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const [initialMinSfcValues, setInitialMinSfcValues] = useState<number[]>([])
     const [initialMaxSfcValues, setInitialMaxSfcValues] = useState<number[]>([])
 
+    const allDataLabelsRef = useRef<string[][]>([])
     const [displayedDataLabels, setDisplayedDataLabels] = useState<string[][] | null>([
         preset.file1_signals,
         preset.file2_signals
     ])
+    const [showChooseSignalsMsg, setShowChooseSignalsMsg] = useState(false)
 
     const [data, setData] = useState<number[][][]>([])
     const [transformedData, setTransformedData] = useState<number[][][]>([]) // Transformed in "Transform" panel
@@ -104,8 +106,6 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
 
     const [plotFile, setPlotFile] = useState([true, true])
     const [minimizeFileControls, setMinimizeFileControls] = useState([true, true])
-
-    const allDataLabelsRef = useRef<string[][]>([])
 
     const [deletedFileIndex, setDeletedFileIndex] = useState(-1)
     const [fileCountIncreased, setFileCountIncreased] = useState(false)
@@ -525,8 +525,10 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                             </IconButton>
                             <h3 className={`delete-button-minimized-label ${filePaths.length === 1 ? 'disabled' : ''}`}
                                 onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}>Delete</h3>
-                            <div className={'displayed-signals-wrapper-minimized-div'}>
+                            <div className={'displayed-signals-wrapper-minimized-div'}
+                                 onClick={() => selectDataColumns(i)}>
                                 <h3>Displayed signals</h3>
+                                <p className={`legend-msg`}>Choose signals...</p>
                                 <div className={'displayed-signals-div'}>
                                     {displayedDataLabels ? displayedDataLabels[i].map(label =>
                                         <span key={label} style={{background: lineColors[i]}}>{label}</span>) : null}

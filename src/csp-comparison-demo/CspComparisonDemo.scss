@@ -78,6 +78,9 @@
                 }
 
                 .displayed-signals-wrapper-minimized-div {
+                    /*box-shadow: rgba(0, 0, 0, 0.1) 0 0 0 0;
+                    border-radius: 6px;*/
+
                     display: none;
                     flex-direction: column;
                     justify-content: flex-start;
@@ -88,10 +91,23 @@
                     padding: 0 $separator-margin;
                     border-right: $separator-border;
                     margin-right: $separator-margin;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    position: relative;
+
+                    .legend-msg {
+                        translate: -50% -150%;
+                    }
+
+                    &:hover {
+                        .legend-msg {
+                            opacity: 1;
+                        }
+                    }
 
                     h3 {
                         margin: 0;
-                        padding-bottom: 0.5rem;
+                        padding-bottom: 0.7rem;
                     }
 
                     .displayed-signals-div {
@@ -99,14 +115,14 @@
 
                         gap: 0.6rem;
                         flex-wrap: wrap;
-                        row-gap: 0.2rem;
+                        row-gap: 0.0rem;
                         height: 3.0rem;
                         overflow: auto;
 
                         span {
                             border-radius: 4px;
                             padding: 0.1rem 0.2rem;
-                            font-size: 0.8rem;
+                            font-size: 0.7rem;
                             color: white;
                             opacity: 0.6;
                             white-space: nowrap;
@@ -241,7 +257,7 @@
                         align-self: center;
 
                         h3 {
-                            padding-bottom: 0.5rem;
+                            padding-bottom: 0.7rem;
                         }
 
                         .text-controls {
