@@ -510,7 +510,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                 <h3>Displayed signals</h3>
                                 <div className={'displayed-signals-div'}>
                                     {displayedDataLabels ? displayedDataLabels[i].map(label =>
-                                        <span style={{background: lineColors[i]}}>{label}</span>) : null}
+                                        <span key={label} style={{background: lineColors[i]}}>{label}</span>) : null}
                                 </div>
                             </div>
                         </div>
