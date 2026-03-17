@@ -26,6 +26,47 @@ interface CspComparisonDemoProps {
     onSectionClick: (path: string, sectionId: string) => void
 }
 
+function DataRangeContainer(props: {
+    fileIndex: number,
+    startLines: number[],
+    endLines: number[],
+    dataNumLines: number[],
+    setStartLines: (value: (((prevState: number[]) => number[]) | number[])) => void,
+    setEndLines: (value: (((prevState: number[]) => number[]) | number[])) => void,
+    onZoomSliderChange: (_: Event, newValue: (number[] | number), fileIndex: number) => void,
+    hide?: boolean,
+    className?: string
+}) {
+    const [idx, startLines, endLines, hide, setStartLines, setEndLines, onZoomSliderChange, className] =
+        [props.fileIndex, props.startLines, props.endLines, props.hide, props.setStartLines, props.setEndLines,
+            props.onZoomSliderChange, props.className]
+    return <div className={`control-container ${className} ${hide ? 'hide' : ''}`} id={"range-container"}>
+        <h3>Displayed range</h3>
+        <DataRangeSlider dataRangeChartStart={startLines[idx]}
+                         dataRangeChartEnd={endLines[idx]}
+                         numLines={props.dataNumLines[idx]}
+                         onChange={(e, newValue) => onZoomSliderChange(e, newValue, idx)}/>
+        <div className={"text-controls"}>
+            <label className={"input-label"}>
+                Start row
+                <input type="number" value={startLines[idx]}
+                       onChange={(e) => {
+                           startLines[idx] = Number(e.target.value)
+                           setStartLines([...startLines])
+                       }}/>
+            </label>
+            <label className={"input-label"}>
+                End row
+                <input type="number" value={endLines[idx]}
+                       onChange={(e) => {
+                           endLines[idx] = Number(e.target.value)
+                           setEndLines([...endLines])
+                       }}/>
+            </label>
+        </div>
+    </div>;
+}
+
 export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const EXAMPLE_FILE_PATHS = [preset.file1, preset.file2]
     const LINE_COLORS = [primaryColor, 'green', 'red', 'purple', 'brown', 'orange']
@@ -466,31 +507,9 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                               currentFile={fileName.replace(/.\//, "")}
                                               getWrappingDiv={true} getFileNameP={true}/>
                             </div>
-                            <div className={`control-container ${minimizeFileControls[i] ? 'hide' : ''}`} id={"range-container"}>
-                                <h3>Displayed range</h3>
-                                <DataRangeSlider dataRangeChartStart={startLines[i]}
-                                                 dataRangeChartEnd={endLines[i]}
-                                                 numLines={dataNumLines[i]}
-                                                 onChange={(e, newValue) => onZoomSliderChange(e, newValue, i)}/>
-                                <div className={"text-controls"}>
-                                    <label className={"input-label"}>
-                                        Start row
-                                        <input type="number" value={startLines[i]}
-                                               onChange={(e) => {
-                                                   startLines[i] = Number(e.target.value)
-                                                   setStartLines([...startLines])
-                                               }}/>
-                                    </label>
-                                    <label className={"input-label"}>
-                                        End row
-                                        <input type="number" value={endLines[i]}
-                                               onChange={(e) => {
-                                                   endLines[i] = Number(e.target.value)
-                                                   setEndLines([...endLines])
-                                               }}/>
-                                    </label>
-                                </div>
-                            </div>
+                            <DataRangeContainer fileIndex={i} startLines={startLines} endLines={endLines} hide={minimizeFileControls[i]}
+                                                dataNumLines={dataNumLines} setStartLines={setStartLines}
+                                                setEndLines={setEndLines} onZoomSliderChange={onZoomSliderChange}/>
 
                             {/*Minimized controls*/}
                             <UploadButton onClick={e => uploadFile(e, i)} label={"Upload file..."}
@@ -513,6 +532,9 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                         <span key={label} style={{background: lineColors[i]}}>{label}</span>) : null}
                                 </div>
                             </div>
+                            <DataRangeContainer fileIndex={i} startLines={startLines} endLines={endLines} hide={!minimizeFileControls[i]}
+                                                dataNumLines={dataNumLines} setStartLines={setStartLines} className={'minimized'}
+                                                setEndLines={setEndLines} onZoomSliderChange={onZoomSliderChange}/>
                         </div>
 
                         <div className={`processing-component-wrapper ${minimizeFileControls[i] ? 'hide' : ''}`}>

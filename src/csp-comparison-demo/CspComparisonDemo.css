@@ -1224,6 +1224,7 @@ h1 + p {
   grid-template-columns: min-content max-content min-content min-content 1fr 1fr;
   column-gap: 0.5rem;
   row-gap: 0.2rem;
+  height: min-content;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid.minimized .upload-button {
   grid-column: 2;
@@ -1243,13 +1244,15 @@ h1 + p {
   margin-left: 0.9rem;
   border-left: 1px solid rgba(0, 0, 0, 0.15);
   padding: 0 0.9rem;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  margin-right: 0.9rem;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .displayed-signals-wrapper-minimized-div h3 {
   margin: 0;
+  padding-bottom: 0.5rem;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .displayed-signals-wrapper-minimized-div .displayed-signals-div {
   gap: 0.6rem;
-  margin: auto;
   flex-wrap: wrap;
   row-gap: 0.2rem;
   height: 3rem;
@@ -1363,6 +1366,21 @@ h1 + p {
   box-shadow: none;
   border-radius: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid #range-container.minimized {
+  grid-row: 1/3;
+  grid-column: 6;
+  border-top: none;
+  padding: 0;
+  height: fit-content;
+  align-self: center;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid #range-container.minimized h3 {
+  padding-bottom: 0.5rem;
+}
+#comparison-demo #demo2-controls .comparison-row-div .left-control-grid #range-container.minimized .text-controls {
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid #range-container .text-controls {
   flex-direction: row;
