@@ -14,7 +14,7 @@ import App from '../App.module.scss'
 import '../controls.scss'
 import {useSearchParams} from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {PlayArrow} from "@mui/icons-material";
+import {ChevronRight, PlayArrow} from "@mui/icons-material";
 
 const {primaryColor} = App
 
@@ -495,7 +495,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                             <div className={'first-buttons-column'}>
                                 <FormControlLabel className={'dropdown-button'} control={<IconButton disableRipple={true} aria-label="maximize/minimize"
                                         onClick={() => onDropDownBtnClick(i)}>
-                                    <PlayArrow sx={{scale: 1.0, rotate: minimizeFileControls[i] ? '0' : '90deg'}}/>
+                                    <ChevronRight sx={{scale: 1.0, rotate: minimizeFileControls[i] ? '0' : '90deg'}}/>
                                 </IconButton>} label={undefined}/>
                                 <div className={`lower-buttons-div ${minimizeFileControls[i] ? 'hide' : ''}`}>
                                     <ShowCheckBox index={i}/>
