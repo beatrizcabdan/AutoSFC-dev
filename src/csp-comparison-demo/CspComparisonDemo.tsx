@@ -14,7 +14,7 @@ import App from '../App.module.scss'
 import '../controls.scss'
 import {useSearchParams} from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {ChevronRight, PlayArrow} from "@mui/icons-material";
+import {ChevronRight} from "@mui/icons-material";
 
 const {primaryColor} = App
 
@@ -35,16 +35,18 @@ function DataRangeContainer(props: {
     setEndLines: (value: (((prevState: number[]) => number[]) | number[])) => void,
     onZoomSliderChange: (_: Event, newValue: (number[] | number), fileIndex: number) => void,
     hide?: boolean,
-    className?: string
+    className?: string,
+    lineColors: string[],
+    color: string
 }) {
-    const [idx, startLines, endLines, hide, setStartLines, setEndLines, onZoomSliderChange, className] =
+    const [idx, startLines, endLines, hide, setStartLines, setEndLines, onZoomSliderChange, className, lineColors, color] =
         [props.fileIndex, props.startLines, props.endLines, props.hide, props.setStartLines, props.setEndLines,
-            props.onZoomSliderChange, props.className]
+            props.onZoomSliderChange, props.className, props.lineColors, props.color]
     return <div className={`control-container ${className} ${hide ? 'hide' : ''}`} id={"range-container"}>
         <h3>Displayed range</h3>
         <DataRangeSlider dataRangeChartStart={startLines[idx]}
-                         dataRangeChartEnd={endLines[idx]}
-                         numLines={props.dataNumLines[idx]}
+                         dataRangeChartEnd={endLines[idx]} color={color}
+                         numLines={props.dataNumLines[idx]} idx={idx} lineColors={lineColors}
                          onChange={(e, newValue) => onZoomSliderChange(e, newValue, idx)}/>
         <div className={"text-controls"}>
             <label className={"input-label"}>
@@ -70,7 +72,7 @@ function DataRangeContainer(props: {
 export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const EXAMPLE_FILE_PATHS = [preset.file1, preset.file2]
     const LINE_COLORS = [primaryColor, 'green', 'red', 'purple', 'brown', 'orange']
-    const FILLED_DISPLAY_LABELS = true // Minimized controls
+    const FILLED_DISPLAY_LABELS = false // Minimized controls
 
     const [lineColors, setLineColors] = useState(LINE_COLORS.slice(0, 2))
 
@@ -508,7 +510,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                               getWrappingDiv={true} getFileNameP={true}/>
                             </div>
                             <DataRangeContainer fileIndex={i} startLines={startLines} endLines={endLines} hide={minimizeFileControls[i]}
-                                                dataNumLines={dataNumLines} setStartLines={setStartLines}
+                                                dataNumLines={dataNumLines} setStartLines={setStartLines} lineColors={LINE_COLORS} color={lineColors[i]}
                                                 setEndLines={setEndLines} onZoomSliderChange={onZoomSliderChange}/>
 
                             {/*Minimized controls*/}
@@ -537,8 +539,8 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                 </div>
                             </div>
                             <DataRangeContainer fileIndex={i} startLines={startLines} endLines={endLines} hide={!minimizeFileControls[i]}
-                                                dataNumLines={dataNumLines} setStartLines={setStartLines} className={'minimized'}
-                                                setEndLines={setEndLines} onZoomSliderChange={onZoomSliderChange}/>
+                                                dataNumLines={dataNumLines} setStartLines={setStartLines} className={'minimized'} color={lineColors[i % lineColors.length]}
+                                                setEndLines={setEndLines} lineColors={LINE_COLORS} onZoomSliderChange={onZoomSliderChange}/>
                         </div>
 
                         <div className={`processing-component-wrapper ${minimizeFileControls[i] ? 'hide' : ''}`}>
