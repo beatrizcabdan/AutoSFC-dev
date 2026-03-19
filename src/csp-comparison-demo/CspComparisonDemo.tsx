@@ -70,6 +70,7 @@ function DataRangeContainer(props: {
 export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const EXAMPLE_FILE_PATHS = [preset.file1, preset.file2]
     const LINE_COLORS = [primaryColor, 'green', 'red', 'purple', 'brown', 'orange']
+    const FILLED_DISPLAY_LABELS = true // Minimized controls
 
     const [lineColors, setLineColors] = useState(LINE_COLORS.slice(0, 2))
 
@@ -93,7 +94,6 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
         preset.file1_signals,
         preset.file2_signals
     ])
-    const [showChooseSignalsMsg, setShowChooseSignalsMsg] = useState(false)
 
     const [data, setData] = useState<number[][][]>([])
     const [transformedData, setTransformedData] = useState<number[][][]>([]) // Transformed in "Transform" panel
@@ -531,7 +531,9 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                 <p className={`legend-msg`}>Choose signals...</p>
                                 <div className={'displayed-signals-div'}>
                                     {displayedDataLabels ? displayedDataLabels[i].map(label =>
-                                        <span key={label} style={{background: lineColors[i]}}>{label}</span>) : null}
+                                        <span className={FILLED_DISPLAY_LABELS ? 'solid-bg' : ''} key={label}
+                                              style={{background: FILLED_DISPLAY_LABELS ? lineColors[i] : 'white'}}>{label}
+                                        </span>) : null}
                                 </div>
                             </div>
                             <DataRangeContainer fileIndex={i} startLines={startLines} endLines={endLines} hide={!minimizeFileControls[i]}

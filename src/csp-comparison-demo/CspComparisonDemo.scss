@@ -121,12 +121,17 @@
 
                         span {
                             border-radius: 4px;
+                            border: 1px var(--button-border) solid;
                             padding: 0.1rem 0.2rem;
                             font-size: 0.7rem;
-                            color: white;
-                            opacity: 0.6;
                             white-space: nowrap;
                             flex-wrap: wrap;
+
+                            &.solid-bg {
+                                color: white;
+                                opacity: 0.8;
+                                border: none;
+                            }
                         }
                     }
                 }
