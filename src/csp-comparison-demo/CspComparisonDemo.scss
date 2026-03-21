@@ -46,15 +46,16 @@
             .left-control-grid {
                 $separator-border: 1px solid rgb(0 0 0 / 0.15);
                 $separator-margin: 0.9rem;
+                $first-column-width: 4.5rem;
 
                 width: max-content;
                 display: grid;
-                grid-template-columns: max-content;
+                grid-template-columns: $first-column-width auto;
                 flex: 1 1 fit-content;
                 height: 100%;
 
                 &.minimized {
-                    grid-template-columns: min-content max-content min-content min-content 0.9fr 1.1fr;
+                    grid-template-columns: $first-column-width max-content min-content min-content 0.9fr 1.1fr;
                     column-gap: 0.5rem;
                     row-gap: 0.2rem;
                     height: min-content;

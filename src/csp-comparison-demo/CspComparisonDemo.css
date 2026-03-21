@@ -1261,12 +1261,12 @@ h1 + p {
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid {
   width: max-content;
   display: grid;
-  grid-template-columns: max-content;
+  grid-template-columns: 4.5rem auto;
   flex: 1 1 fit-content;
   height: 100%;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid.minimized {
-  grid-template-columns: min-content max-content min-content min-content 0.9fr 1.1fr;
+  grid-template-columns: 4.5rem max-content min-content min-content 0.9fr 1.1fr;
   column-gap: 0.5rem;
   row-gap: 0.2rem;
   height: min-content;
