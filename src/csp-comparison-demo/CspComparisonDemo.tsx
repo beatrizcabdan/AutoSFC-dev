@@ -231,7 +231,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
         })
     }
 
-    function uploadFile(e: ChangeEvent<HTMLInputElement>, fileIndex: number) {
+    function uploadFile(e: ChangeEvent<HTMLInputElement>, fileIndex: number, minimizeControls?: boolean) {
         const file = e.target.files?.item(0)
         if (file?.type === 'text/csv') {
             const reader = new FileReader();
@@ -260,7 +260,8 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                     setOffsets([...offsets.slice(0, fileIndex), Array(2).fill(DEFAULT_OFFSET), ...offsets.slice(fileIndex + 1)])
                     setScales([...scales.slice(0, fileIndex), Array(2).fill(DEFAULT_SCALING_FACTOR), ...scales.slice(fileIndex + 1)])
                     setPlotFile([...plotFile.slice(0, fileIndex), true, ...plotFile.slice(fileIndex + 1)])
-                    setMinimizeFileControls([...minimizeFileControls.slice(0, fileIndex), false, ...minimizeFileControls.slice(fileIndex + 1)])
+                    setMinimizeFileControls([...minimizeFileControls.slice(0, fileIndex), !!minimizeControls,
+                        ...minimizeFileControls.slice(fileIndex + 1)])
 
                     // Only add new color if increasing number of files
                     if (fileIndex === lineColors.length) {
@@ -505,7 +506,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                 </div>
                             </div>
                             <div className={`file-container ${minimizeFileControls[i] ? 'hide' : ''}`}>
-                                <UploadButton onClick={e => uploadFile(e, i)} label={"Upload file..."}
+                                <UploadButton onClick={e => uploadFile(e, i, minimizeFileControls[i])} label={"Upload file..."}
                                               currentFile={fileName.replace(/.\//, "")}
                                               getWrappingDiv={true} getFileNameP={true}/>
                             </div>
@@ -514,7 +515,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                                 setEndLines={setEndLines} onZoomSliderChange={onZoomSliderChange}/>
 
                             {/*Minimized controls*/}
-                            <UploadButton onClick={e => uploadFile(e, i)} label={"Upload file..."}
+                            <UploadButton onClick={e => uploadFile(e, i, minimizeFileControls[i])} label={"Upload file..."}
                                           getFileNameP={false} getWrappingDiv={false}/>
                             <h3 className={'upload-button-minimized-label'}>{fileName}</h3>
                             <Checkbox id={`show-checkbox-${i}`} className={'show-checkbox-minimized'} checked={plotFile[i]} onChange={e => onShowCheckboxClick(e, i)}
