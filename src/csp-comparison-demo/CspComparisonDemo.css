@@ -1746,6 +1746,10 @@ h1 + p {
     grid-column: 1/3 !important;
     padding-left: 1ch;
   }
+  #comparison-demo #demo2-controls #process-container .signals-grid .signal-cell .signal-name {
+    width: 22ch;
+    text-align: left;
+  }
   #comparison-demo #demo2-controls #process-container .signals-grid .signal-label {
     grid-column: 1/3;
   }
