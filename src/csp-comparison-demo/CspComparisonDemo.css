@@ -1659,7 +1659,7 @@ h1 + p {
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     grid-template-columns: min-content 9rem 1fr 1fr !important;
     column-gap: 0.5rem;
-    row-gap: 0.2rem;
+    row-gap: 0 !important;
     height: min-content;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button {
@@ -1674,11 +1674,11 @@ h1 + p {
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label {
     width: 144px;
-    line-height: 0.5rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     display: inline-block !important;
+    padding: 0;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .dropdown-button {
     margin: 0 0.5rem 0 0;
@@ -1692,9 +1692,11 @@ h1 + p {
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-row-button-minimized, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label {
     grid-column: 4;
   }
-  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label,
-  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-p {
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label {
     grid-row: 2;
+    padding: 0;
+    line-height: 0.5rem;
+    margin-top: -0.2rem !important;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-row-button-minimized, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label,
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label {

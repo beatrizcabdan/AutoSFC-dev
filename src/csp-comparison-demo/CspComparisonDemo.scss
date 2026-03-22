@@ -560,7 +560,7 @@
                     border-bottom: 1px solid rgba(0 0 0 / 0.15);
                     grid-template-columns: min-content 9rem 1fr 1fr !important;
                     column-gap: 0.5rem;
-                    row-gap: 0.2rem;
+                    row-gap: 0 !important;
                     height: min-content;
 
                     .upload-button {
@@ -577,11 +577,12 @@
 
                     .upload-button-minimized-label {
                         width: 144px;
-                        line-height: 0.5rem;
+                        // line-height: 1rem;
                         text-overflow: ellipsis;
                         white-space: nowrap;
                         overflow: hidden;
                         display: inline-block !important;
+                        padding: 0;
                     }
 
                     .dropdown-button {
@@ -599,9 +600,11 @@
                         grid-column: 4;
                     }
 
-                    .show-checkbox-minimized-label, .delete-button-minimized-label, .upload-button-minimized-label,
-                    .upload-button-p {
+                    .show-checkbox-minimized-label, .delete-button-minimized-label, .upload-button-minimized-label {
                         grid-row: 2;
+                        padding: 0;
+                        line-height: 0.5rem;
+                        margin-top: -0.2rem !important;
                     }
 
                     .show-checkbox-minimized, .delete-row-button-minimized, .show-checkbox-minimized-label,
