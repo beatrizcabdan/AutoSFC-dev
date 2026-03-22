@@ -1647,29 +1647,87 @@ h1 + p {
   }
   #comparison-demo #demo2-controls .comparison-row-div {
     flex-direction: column;
-    padding: 0;
+    padding: 0 0 0.5rem;
     gap: 0;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div:has(.left-control-grid.minimized) {
+    padding: 0;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid {
     width: 100%;
-    padding: 1rem;
+    padding: 0.5rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    grid-template-columns: min-content 9rem 1fr 1fr !important;
+    column-gap: 0.5rem;
+    row-gap: 0.2rem;
+    height: min-content;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button {
+    width: max-content;
+    display: flex;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label {
+    justify-self: center;
+    align-self: center;
+    grid-column: 2;
+    aspect-ratio: initial !important;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label {
+    width: 144px;
+    line-height: 0.5rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block !important;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .dropdown-button {
+    margin: 0 0.5rem 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label {
+    grid-column: 3;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-row-button-minimized, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label {
+    grid-column: 4;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label,
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-p {
+    grid-row: 2;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-row-button-minimized, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label,
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label {
+    display: flex;
+    margin: auto;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid.minimized {
+    border: none;
+  }
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid.minimized .displayed-signals-wrapper-minimized-div, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid.minimized .control-container {
+    display: none;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column {
-    grid-row: 1;
+    grid-row: 1/3;
     gap: 0;
     width: fit-content;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 0.5rem;
+    height: 4rem;
   }
-  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .show-checkbox {
-    padding: 0;
-    margin: 0;
+  #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .show-checkbox, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .first-buttons-column .delete-row-button {
+    display: none !important;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .file-container {
-    grid-column: 1/3;
+    display: none;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid #range-container {
-    grid-column: 1/3;
+    margin-top: 0.5rem;
+    grid-column: 1/5;
     padding-bottom: 0;
+    grid-row: 3;
   }
   #comparison-demo #demo2-controls #process-container {
     border: none !important;
