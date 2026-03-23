@@ -1238,7 +1238,7 @@ h1 + p {
   height: fit-content;
 }
 #comparison-demo #demo2-controls .control-container {
-  padding: 1.2rem;
+  padding: 0.9rem;
 }
 #comparison-demo #demo2-controls .comparison-row-div {
   display: flex;
