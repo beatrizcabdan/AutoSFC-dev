@@ -1269,7 +1269,7 @@ h1 + p {
   overflow: hidden;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid.minimized {
-  grid-template-columns: 4.5rem max-content min-content min-content 0.9fr 1.1fr;
+  grid-template-columns: 4.5rem max-content min-content min-content 1fr 1fr;
   column-gap: 0.5rem;
   row-gap: 0.2rem;
   height: 100%;

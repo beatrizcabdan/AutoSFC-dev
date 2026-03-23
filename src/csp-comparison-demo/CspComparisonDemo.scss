@@ -58,7 +58,7 @@
                 overflow: hidden;
 
                 &.minimized {
-                    grid-template-columns: $first-column-width max-content min-content min-content 0.9fr 1.1fr;
+                    grid-template-columns: $first-column-width max-content min-content min-content 1.0fr 1.0fr;
                     column-gap: 0.5rem;
                     row-gap: 0.2rem;
                     height: 100%;
