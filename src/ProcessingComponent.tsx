@@ -2,6 +2,7 @@ import React from "react";
 import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR} from "./App.tsx";
 import {Button, Checkbox, Divider} from "@mui/material";
 import './controls.scss'
+import {SMALL_SCREEN_LIMIT} from "./csp-comparison-demo/CspComparisonDemo.tsx";
 
 export function ProcessingComponent(props: {
     displayedDataLabels: string[] | null,
@@ -40,6 +41,10 @@ export function ProcessingComponent(props: {
     }
 
     function getLastGridRowSpan(numOfRows: number, displayedDataLabels: string[] | null) {
+        if (props.variant === 'full') {
+            return 'initial'
+        }
+
         if (!displayedDataLabels) {
             return `2 / ${2 + numOfRows}`
         }
@@ -56,7 +61,9 @@ export function ProcessingComponent(props: {
     }
 
     function setGridTemplateRows(numOfRows: number) {
-        return `min-content ${Array(numOfRows).fill('min-content').join(' ')} auto`;
+        return props.variant === 'reduced' && window.innerWidth > SMALL_SCREEN_LIMIT
+            ? `min-content ${Array(numOfRows).fill('min-content').join(' ')} auto`
+            : 'initial'
     }
 
     return <div className={'control-container'} id={'process-container'}>

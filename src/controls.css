@@ -759,7 +759,6 @@ h1 + p {
   width: fit-content;
   justify-self: center;
   padding: 0 5rem;
-  height: fit-content !important;
   align-self: end;
 }
 .controls #process-container #reset-button.Mui-disabled {

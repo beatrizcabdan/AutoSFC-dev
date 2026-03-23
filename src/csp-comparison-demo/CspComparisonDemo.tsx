@@ -20,6 +20,8 @@ const {primaryColor} = App
 
 const preset = default_demo2
 
+export const SMALL_SCREEN_LIMIT = 700
+
 // TODO:  more compact layout (show show-button, delete-button, upload file-button, filename, displayed signals (no controls)), presets... (later)
 
 interface CspComparisonDemoProps {
@@ -72,6 +74,8 @@ function DataRangeContainer(props: {
 export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const EXAMPLE_FILE_PATHS = [preset.file1, preset.file2]
     const LINE_COLORS = [primaryColor, 'green', 'red', 'purple', 'brown', 'orange']
+    const LARGE_SCREEN_SIGNAL_ROW_HEIGHT = 1.7 // rem
+    const SMALL_SCREEN_SIGNAL_ROW_HEIGHT = 1.6 // rem
     const FILLED_DISPLAY_LABELS = false // Minimized controls
 
     const [lineColors, setLineColors] = useState(LINE_COLORS.slice(0, 2))
@@ -451,6 +455,21 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                  label={'Delete'} className={'delete-row-button'} disabled={filePaths.length === 1}/>;
     }
 
+    // Compute explicit control height for transitions
+    function getControlHeight(numOfSignals: number, minimize: boolean) {
+        if (window.innerWidth <= SMALL_SCREEN_LIMIT) {
+            return minimize ? '5.0rem'
+                : numOfSignals <= 3 ? '32rem'
+                : numOfSignals === 4 ? '33rem'
+                : `${33 + SMALL_SCREEN_SIGNAL_ROW_HEIGHT * (numOfSignals - 4)}rem`;
+        }
+
+        return minimize ? '6.8rem'
+            : numOfSignals <= 3 ? '13rem'
+            : numOfSignals === 4 ? '14.1rem'
+            : `${14.1 + LARGE_SCREEN_SIGNAL_ROW_HEIGHT * (numOfSignals - 4)}rem`;
+    }
+
     return <div id={'comparison-demo'}>
         <h1>
             <a href={createPath('#comparison-demo', searchParams)}
@@ -489,78 +508,81 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
             </>
         </div>
         {fileNames.map((fileName, i) => {
-            return <div className={"controls"} id={'demo2-controls'} key={i}>
+            return <>
                 <Zoom appear={i !== deletedFileIndex} in={i !== deletedFileIndex}
                       timeout={i === deletedFileIndex || fileCountIncreased && i === filePaths.length - 1 ? 200 : 0}
                       onExited={() => onZoomAnimationFinished(i)}>
-                    <div className={'control-container comparison-row-div'}>
-                        <div className={`left-control-grid ${minimizeFileControls[i] ? 'minimized' : ''}`}>
-                            <div className={'first-buttons-column'}>
-                                <FormControlLabel className={'dropdown-button'} control={<IconButton disableRipple={true} aria-label="maximize/minimize"
-                                        onClick={() => onDropDownBtnClick(i)}>
-                                    <ChevronRight sx={{scale: 1.0, rotate: minimizeFileControls[i] ? '0' : '90deg'}}/>
-                                </IconButton>} label={undefined}/>
-                                <div className={`lower-buttons-div ${minimizeFileControls[i] ? 'hide' : ''}`}>
-                                    <ShowCheckBox index={i}/>
-                                    <DeleteButton index={i}/>
+                    <div className={"controls"} id={'demo2-controls'} key={i}>
+                        <div className={'control-container comparison-row-div'}
+                             style={{height: getControlHeight(displayedDataLabels ? displayedDataLabels[i].length : 0, minimizeFileControls[i])}}>
+                            <div className={`left-control-grid ${minimizeFileControls[i] ? 'minimized' : ''}`}>
+                                <div className={'first-buttons-column'}>
+                                    <FormControlLabel className={'dropdown-button'} control={<IconButton disableRipple={true} aria-label="maximize/minimize"
+                                            onClick={() => onDropDownBtnClick(i)}>
+                                        <ChevronRight sx={{scale: 1.0, rotate: minimizeFileControls[i] ? '0' : '90deg'}}/>
+                                    </IconButton>} label={undefined}/>
+                                    <div className={`lower-buttons-div ${minimizeFileControls[i] ? 'hide' : ''}`}>
+                                        <ShowCheckBox index={i}/>
+                                        <DeleteButton index={i}/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className={`file-container ${minimizeFileControls[i] ? 'hide' : ''}`}>
+                                <div className={`file-container ${minimizeFileControls[i] ? 'hide' : ''}`}>
+                                    <UploadButton onClick={e => uploadFile(e, i, minimizeFileControls[i])} label={"Upload file..."}
+                                                  currentFile={fileName.replace(/.\//, "")}
+                                                  getWrappingDiv={true} getFileNameP={true}/>
+                                </div>
+                                <DataRangeContainer fileIndex={i} startLines={startLines} endLines={endLines} hide={minimizeFileControls[i]}
+                                                    dataNumLines={dataNumLines} setStartLines={setStartLines} lineColors={LINE_COLORS} color={lineColors[i]}
+                                                    setEndLines={setEndLines} onZoomSliderChange={onZoomSliderChange}/>
+
+                                {/*Minimized controls*/}
                                 <UploadButton onClick={e => uploadFile(e, i, minimizeFileControls[i])} label={"Upload file..."}
-                                              currentFile={fileName.replace(/.\//, "")}
-                                              getWrappingDiv={true} getFileNameP={true}/>
-                            </div>
-                            <DataRangeContainer fileIndex={i} startLines={startLines} endLines={endLines} hide={minimizeFileControls[i]}
-                                                dataNumLines={dataNumLines} setStartLines={setStartLines} lineColors={LINE_COLORS} color={lineColors[i]}
-                                                setEndLines={setEndLines} onZoomSliderChange={onZoomSliderChange}/>
-
-                            {/*Minimized controls*/}
-                            <UploadButton onClick={e => uploadFile(e, i, minimizeFileControls[i])} label={"Upload file..."}
-                                          getFileNameP={false} getWrappingDiv={false}/>
-                            <h3 className={'upload-button-minimized-label'}>{fileName}</h3>
-                            <Checkbox id={`show-checkbox-${i}`} className={'show-checkbox-minimized'} checked={plotFile[i]} onChange={e => onShowCheckboxClick(e, i)}
-                                      sx={{color: lineColors[i], '&.Mui-checked': {color: lineColors[i],}}}/>
-                            <h3 className={'show-checkbox-minimized-label'}
-                                onClick={() => (document.querySelector(`#show-checkbox-${i}`) as HTMLDivElement).click()}>Show</h3>
-                            <IconButton className={'delete-row-button-minimized'} onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}
-                                        disabled={filePaths.length === 1}>
-                                <DeleteIcon />
-                            </IconButton>
-                            <h3 className={`delete-button-minimized-label ${filePaths.length === 1 ? 'disabled' : ''}`}
-                                onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}>Delete</h3>
-                            <div className={'displayed-signals-wrapper-minimized-div'}
-                                 onClick={() => selectDataColumns(i)}>
-                                <h3>Displayed signals</h3>
-                                <p className={`legend-msg`}>Choose signals...</p>
-                                <div className={'displayed-signals-div'}>
-                                    {displayedDataLabels ? displayedDataLabels[i].map(label =>
-                                        <span className={FILLED_DISPLAY_LABELS ? 'solid-bg' : ''} key={label}
-                                              style={{background: FILLED_DISPLAY_LABELS ? lineColors[i] : 'white'}}>{label}
-                                        </span>) : null}
+                                              getFileNameP={false} getWrappingDiv={false}/>
+                                <h3 className={'upload-button-minimized-label'}>{fileName}</h3>
+                                <Checkbox id={`show-checkbox-${i}`} className={'show-checkbox-minimized'} checked={plotFile[i]} onChange={e => onShowCheckboxClick(e, i)}
+                                          sx={{color: lineColors[i], '&.Mui-checked': {color: lineColors[i],}}}/>
+                                <h3 className={'show-checkbox-minimized-label'}
+                                    onClick={() => (document.querySelector(`#show-checkbox-${i}`) as HTMLDivElement).click()}>Show</h3>
+                                <IconButton className={'delete-row-button-minimized'} onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}
+                                            disabled={filePaths.length === 1}>
+                                    <DeleteIcon />
+                                </IconButton>
+                                <h3 className={`delete-button-minimized-label ${filePaths.length === 1 ? 'disabled' : ''}`}
+                                    onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}>Delete</h3>
+                                <div className={'displayed-signals-wrapper-minimized-div'}
+                                     onClick={() => selectDataColumns(i)}>
+                                    <h3>Displayed signals</h3>
+                                    <p className={`legend-msg`}>Choose signals...</p>
+                                    <div className={'displayed-signals-div'}>
+                                        {displayedDataLabels ? displayedDataLabels[i].map(label =>
+                                            <span className={FILLED_DISPLAY_LABELS ? 'solid-bg' : ''} key={label}
+                                                  style={{background: FILLED_DISPLAY_LABELS ? lineColors[i] : 'white'}}>{label}
+                                            </span>) : null}
+                                    </div>
                                 </div>
+                                <DataRangeContainer fileIndex={i} startLines={startLines} endLines={endLines} hide={!minimizeFileControls[i]}
+                                                    dataNumLines={dataNumLines} setStartLines={setStartLines} className={'minimized'} color={lineColors[i % lineColors.length]}
+                                                    setEndLines={setEndLines} lineColors={LINE_COLORS} onZoomSliderChange={onZoomSliderChange}/>
                             </div>
-                            <DataRangeContainer fileIndex={i} startLines={startLines} endLines={endLines} hide={!minimizeFileControls[i]}
-                                                dataNumLines={dataNumLines} setStartLines={setStartLines} className={'minimized'} color={lineColors[i % lineColors.length]}
-                                                setEndLines={setEndLines} lineColors={LINE_COLORS} onZoomSliderChange={onZoomSliderChange}/>
-                        </div>
 
-                        <div className={`processing-component-wrapper ${minimizeFileControls[i] ? 'hide' : ''}`}>
-                            <ProcessingComponent variant={'reduced'}
-                                                 displayedDataLabels={displayedDataLabels ? displayedDataLabels[i] : null}
-                                                 scales={scales[i]} offsets={offsets[i]}
-                                                 onScalesChanged={(index: number, scale: number | undefined) => onScalesChanged(index, scale, i)}
-                                                 onOffsetsChanged={(index: number, offset: number | undefined) => onOffsetsChanged(index, offset, i)}
-                                                 minSfcValue={minSfcValues[i]}
-                                                 setMinSfcValue={(val: number) => onMinSfcValChanged(val, i)}
-                                                 setMaxSfcValue={(val: number) => onMaxSfcValuesChanged(val, i)}
-                                                 maxSfcValue={maxSfcValues[i]} initialMinSfcValue={initialMinSfcValues[i]}
-                                                 initialMaxSfcValue={initialMaxSfcValues[i]}
-                                                 onChooseColumnsClick={() => selectDataColumns(i)}
-                                                 resetBtnPos={'right'}/>
+                            <div className={`processing-component-wrapper ${minimizeFileControls[i] ? 'hide' : ''}`}>
+                                <ProcessingComponent variant={'reduced'}
+                                                     displayedDataLabels={displayedDataLabels ? displayedDataLabels[i] : null}
+                                                     scales={scales[i]} offsets={offsets[i]}
+                                                     onScalesChanged={(index: number, scale: number | undefined) => onScalesChanged(index, scale, i)}
+                                                     onOffsetsChanged={(index: number, offset: number | undefined) => onOffsetsChanged(index, offset, i)}
+                                                     minSfcValue={minSfcValues[i]}
+                                                     setMinSfcValue={(val: number) => onMinSfcValChanged(val, i)}
+                                                     setMaxSfcValue={(val: number) => onMaxSfcValuesChanged(val, i)}
+                                                     maxSfcValue={maxSfcValues[i]} initialMinSfcValue={initialMinSfcValues[i]}
+                                                     initialMaxSfcValue={initialMaxSfcValues[i]}
+                                                     onChooseColumnsClick={() => selectDataColumns(i)}
+                                                     resetBtnPos={'right'}/>
+                            </div>
                         </div>
                     </div>
                 </Zoom>
-            </div>
+            </>
         })}
         <UploadButton onClick={e => addExtraFile(e)} label={"Upload file..."}
                       currentFile={''} getWrappingDiv={true} getFileNameP={true}/>
