@@ -307,7 +307,7 @@
                     margin-right: 0;
                     margin-left: 0;
                     gap: 0.5rem;
-                    width: 39rem;
+                    width: fit-content;
                     border-radius: 0;
                     border-left: 1px solid rgba(0 0 0 / 0.15);
                     box-shadow: none;
@@ -320,10 +320,11 @@
                     }
 
                     .signals-grid {
-                        grid-template-columns: 15ch repeat(2, min-content) 1rem min-content min-content auto;
+                        grid-template-columns: 15ch repeat(2, min-content) 1rem min-content min-content;
                         position: relative;
                         grid-template-rows: min-content;
                         flex: 1 1;
+                        width: fit-content;
 
                         .offset-label, .scale-label {
                             input {
@@ -421,11 +422,12 @@
                         }
 
                         #reset-button {
-                            width: min-content;
+                            width: max-content;
                             margin: auto 0.1rem;
-                            grid-column: 7;
+                            grid-column: 5 / 7;
                             grid-row: 2 / 4;
-                            justify-self: flex-end;
+                            justify-self: center;
+                            align-self: end;
                             padding: 5px 15px;
                             height: fit-content !important;
                         }
