@@ -1562,7 +1562,7 @@ h1 + p {
 }
 #comparison-demo #demo2-controls .comparison-row-div .processing-component-wrapper #process-container .signals-grid #reset-button {
   width: max-content;
-  margin: auto 0.1rem;
+  margin-top: 0.5rem;
   grid-column: 5/7;
   grid-row: 2/4;
   justify-self: center;
