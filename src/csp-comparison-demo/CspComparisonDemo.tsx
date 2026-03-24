@@ -421,6 +421,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
         setPlotFile([...plotFile.slice(0, fileIndex), ...plotFile.slice(fileIndex + 1)])
         setMinimizeFileControls([...minimizeFileControls.slice(0, fileIndex), ...minimizeFileControls.slice(fileIndex + 1)])
         allDataLabelsRef.current = [...allDataLabelsRef.current.slice(0, fileIndex), ...allDataLabelsRef.current.slice(fileIndex + 1)]
+        setFileToSelectColumnsFor(-1)
 
         setDeletedFileIndex(-1)
     }
