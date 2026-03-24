@@ -1313,7 +1313,7 @@ h1 + p {
   flex-wrap: wrap;
   row-gap: 0.3rem;
   height: 3.2rem;
-  overflow: scroll;
+  overflow: auto;
 }
 #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .displayed-signals-wrapper-minimized-div .displayed-signals-div span {
   border-radius: 4px;
@@ -1673,7 +1673,7 @@ h1 + p {
     width: 100%;
     padding: 0.5rem 0.5rem 1rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    grid-template-columns: min-content 9rem 1fr 1fr !important;
+    grid-template-columns: min-content 1fr 1fr 9rem !important;
     column-gap: 0.5rem;
     row-gap: 0 !important;
     height: min-content;
@@ -1685,7 +1685,7 @@ h1 + p {
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label {
     justify-self: center;
     align-self: center;
-    grid-column: 2;
+    grid-column: 4 !important;
     aspect-ratio: initial !important;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label {
@@ -1703,10 +1703,10 @@ h1 + p {
     align-items: center;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label {
-    grid-column: 3;
+    grid-column: 2;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-row-button-minimized, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label {
-    grid-column: 4;
+    grid-column: 3;
   }
   #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .show-checkbox-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .delete-button-minimized-label, #comparison-demo #demo2-controls .comparison-row-div .left-control-grid .upload-button-minimized-label {
     grid-row: 2;
