@@ -509,7 +509,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
             </>
         </div>
         {fileNames.map((fileName, i) => {
-            return <>
+            return <div className={'controls-wrapper'} key={i}>
                 <Zoom appear={i !== deletedFileIndex} in={i !== deletedFileIndex}
                       timeout={i === deletedFileIndex || fileCountIncreased && i === filePaths.length - 1 ? 200 : 0}
                       onExited={() => onZoomAnimationFinished(i)}>
@@ -583,7 +583,7 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                         </div>
                     </div>
                 </Zoom>
-            </>
+            </div>
         })}
         <UploadButton onClick={e => addExtraFile(e)} label={"Upload file..."}
                       currentFile={''} getWrappingDiv={true} getFileNameP={true}/>
