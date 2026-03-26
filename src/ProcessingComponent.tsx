@@ -66,6 +66,10 @@ export function ProcessingComponent(props: {
             : 'initial'
     }
 
+    function DownloadEncodingButton() {
+        return <Button className={'download-button'}>Download transforms...</Button>;
+    }
+
     return <div className={'control-container'} id={'process-container'}>
         <h3>Transform</h3>
         <div className={'signals-grid'} style={{gridTemplateRows: setGridTemplateRows(Number(props.displayedDataLabels?.length))}}>
@@ -135,7 +139,11 @@ export function ProcessingComponent(props: {
                 <input type="number" value={props.maxSfcValue}
                        onChange={(e) => props.setMaxSfcValue(Number(e.target.value))}/>
             </label>
-            {getResetButton()}
+            <div className={'last-transform-row'}>
+                {props.variant === 'full' && <DownloadEncodingButton />}
+                {getResetButton()}
+            </div>
+
         </div>
     </div>;
 }

@@ -176,17 +176,31 @@
             }
         }
 
-        #reset-button {
-            @extend .blue-border-button;
+        .last-transform-row {
+            @extend .flex-display;
+
             margin-top: 1rem;
             grid-column: 1 / 4;
-            width: fit-content;
-            justify-self: center;
-            padding: 0 5.0rem;
             align-self: end;
+            width: 100%;
+            gap: 1rem;
 
-            &.Mui-disabled {
-                color: var(--button-active);
+            #reset-button, .download-button {
+                white-space: nowrap;
+                flex: 1 1;
+            }
+
+            #reset-button {
+                @extend .blue-border-button;
+
+                &.Mui-disabled {
+                    color: var(--button-active);
+                }
+            }
+
+            .download-button {
+                @extend .gray-border-button;
+
             }
         }
     }
