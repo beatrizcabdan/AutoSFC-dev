@@ -66,8 +66,8 @@ export function ProcessingComponent(props: {
             : 'initial'
     }
 
-    function DownloadEncodingButton() {
-        return <Button className={'download-button'}>Download transforms...</Button>;
+    function DownloadDataButton() {
+        return <Button className={'download-button'}>Download data...</Button>;
     }
 
     return <div className={'control-container'} id={'process-container'}>
@@ -140,8 +140,8 @@ export function ProcessingComponent(props: {
                        onChange={(e) => props.setMaxSfcValue(Number(e.target.value))}/>
             </label>
             <div className={'last-transform-row'}>
-                {props.variant === 'full' && <DownloadEncodingButton />}
                 {getResetButton()}
+                {props.variant === 'full' && <DownloadDataButton />}
             </div>
 
         </div>
