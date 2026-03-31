@@ -15,7 +15,7 @@ import './EncodingDemo.scss'
 import '../controls.scss'
 import App from '../App.module.scss'
 import {useSearchParams} from "react-router-dom";
-import {Logger} from "sass-embedded";
+import {downloadZip} from "client-zip";
 
 const {primaryColor} = App
 
@@ -71,6 +71,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     const [showDialog, setShowDialog] = useState(false)
 
     const [currentPresetName, setCurrentPresetName] = useState('')
+    const [presets, setPresets] = useState<Preset[] | null>()
 
     const [searchParams] = useSearchParams()
 
@@ -365,14 +366,57 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
         setEncoder(newEncoder)
     }
 
-    const onDownloadData = () => {
-        const blob = new Blob(sfcData.map(n => `${String(n)}\n`), {type: 'text/csv'})
-        const blobUrl = URL.createObjectURL(blob)
+    const onDownloadData = async () => {
+        const fileNamePrefix = fileName.replace('.csv', '')
+        const dataBlob = new Blob(sfcData.map(n => `${String(n)}\n`), {type: 'text/csv'})
+        const dataFileName = `${fileNamePrefix}_encoded_${encoder}_${bitsPerSignal}bps.csv`
+
+        const newPreset = createPresetFromCurrParams()
+        const presetBlob = new Blob([`[${JSON.stringify(newPreset, undefined, 1)}]`], {type: 'application/json'})
+        const presetFileName = `${fileNamePrefix}_presets.json`
+
+        const zipped = await downloadZip([
+            {name: dataFileName, input: new File([dataBlob], dataFileName)},
+            {name: presetFileName, input: new File([presetBlob], presetFileName)}
+        ]).blob()
+
+        const zippedUrl = URL.createObjectURL(zipped)
 
         const link = document.createElement("a");
-        link.href = blobUrl;
-        link.download = `${fileName.replace('.csv', '')}_encoded_${encoder}_${bitsPerSignal}bps.csv`;
+        link.href = zippedUrl;
+        link.download = `${fileNamePrefix}_autosfc_data.zip`;
         link.click()
+    }
+
+    function createPresetName() {
+        let presetSuffix = 1
+        while (presets?.some(p => p.name === `preset_0${presetSuffix}`)) {
+            presetSuffix++
+        }
+        return `preset_0${presetSuffix}`;
+    }
+
+    function createPresetFromCurrParams(includeName = true) {
+        const obj = {
+            signalStartRow: startLine,
+            signalEndRow: endLine,
+            cspStartRow: minSFCvalue,
+            cspEndRow: maxSFCvalue,
+            bitsPerSignal: bitsPerSignal === '' ? DEFAULT_BITS_PER_SIGNAL : Number(bitsPerSignal),
+            signalTransforms: displayedDataLabels?.map((name, i) => {
+                return {
+                    signalName: String(name),
+                    offset: offsets[i] ?? DEFAULT_OFFSET,
+                    scaling: scales[i] ?? DEFAULT_SCALING_FACTOR
+                }
+            }) ?? [],
+            encoder: encoder,
+            plotTransformedSignals: showSignalTransforms
+        };
+        if (includeName) {
+            Object.assign(obj, {name: createPresetName()})
+        }
+        return obj
     }
 
     return <div id={'encoding-demo'}>
@@ -449,6 +493,8 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
                                          encoder={encoder}
                                          displayedDataLabels={displayedDataLabels}
                                          currentPresetName={currentPresetName}
+                                         presets={presets} setPresets={setPresets}
+                                         createPresetFromCurrParams={createPresetFromCurrParams}
                                          currentDataFile={fileName.replace(/.\//, "")}/>
                     </div>
                 </div>
