@@ -32,6 +32,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
 
     const [filePath, setFilePath] = useState(EXAMPLE_FILE_PATH)
     const [fileName, setFileName] = useState(EXAMPLE_FILE_PATH)
+    const uploadedFileRef = useRef<File | undefined>()
     const DATA_POINT_INTERVAL = preset.dataPointInterval
 
     const [dataNumLines, setDataNumLines] = useState(-1)
@@ -78,6 +79,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     const loadFile = () => {
         fetch(filePath).then(r => {
             r.text().then(t => {
+                uploadedFileRef.current = new File([t], fileName)
                 const lines = t
                     .trim()
                     .split(/[;,]?\n/)
@@ -238,6 +240,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
             reader.onload = () => {
                 const text = reader.result?.toString();
                 if (text) {
+                    uploadedFileRef.current = new File([text], file.name)
                     const lines = text
                         .trim()
                         .split(/[,;]?\n/)
@@ -368,6 +371,9 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
 
     const onDownloadData = async () => {
         const fileNamePrefix = fileName.replace('.csv', '')
+
+        const uploadedFileBlob = uploadedFileRef.current
+
         const dataBlob = new Blob(sfcData.map(n => `${String(n)}\n`), {type: 'text/csv'})
         const dataFileName = `${fileNamePrefix}_encoded_${encoder}_${bitsPerSignal}bps.csv`
 
@@ -377,7 +383,8 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
 
         const zipped = await downloadZip([
             {name: dataFileName, input: new File([dataBlob], dataFileName)},
-            {name: presetFileName, input: new File([presetBlob], presetFileName)}
+            {name: presetFileName, input: new File([presetBlob], presetFileName)},
+            {name: fileName, input: uploadedFileBlob}
         ]).blob()
 
         const zippedUrl = URL.createObjectURL(zipped)
