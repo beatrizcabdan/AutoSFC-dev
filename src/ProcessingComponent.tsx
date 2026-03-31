@@ -24,7 +24,8 @@ export function ProcessingComponent(props: {
     resetBtnPos?: string,
     encoderSwitch?: React.JSX.Element,
     variant?: 'full' | 'reduced',
-    onChooseColumnsClick?: () => void
+    onChooseColumnsClick?: () => void,
+    onDownloadData?: () => void
 }) {
 
     // TODO: Decide on how reset should work when presets are used
@@ -67,7 +68,7 @@ export function ProcessingComponent(props: {
     }
 
     function DownloadDataButton() {
-        return <Button className={'download-button'}>Download data...</Button>;
+        return <Button onClick={props.onDownloadData} className={'download-button'}>Download data...</Button>;
     }
 
     return <div className={'control-container'} id={'process-container'}>

@@ -15,6 +15,7 @@ import './EncodingDemo.scss'
 import '../controls.scss'
 import App from '../App.module.scss'
 import {useSearchParams} from "react-router-dom";
+import {Logger} from "sass-embedded";
 
 const {primaryColor} = App
 
@@ -26,7 +27,7 @@ interface EncodingDemoProps {
 
 export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     const SLIDER_START_VAL = 100
-    const EXAMPLE_FILE_PATH = './emergency_braking.csv'
+    const EXAMPLE_FILE_PATH = 'emergency_braking.csv'
     const LINE_COLORS = [primaryColor, 'orange', 'green', 'red', 'purple', 'brown']
 
     const [filePath, setFilePath] = useState(EXAMPLE_FILE_PATH)
@@ -362,7 +363,18 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
         const newEncoder = encoder === 'morton' ? 'hilbert' : 'morton'
         computeSetSFCData(transformedData, bitsPerSignal, newEncoder, true)
         setEncoder(newEncoder)
-    };
+    }
+
+    const onDownloadData = () => {
+        const blob = new Blob(sfcData.map(n => `${String(n)}\n`), {type: 'text/csv'})
+        const blobUrl = URL.createObjectURL(blob)
+
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = `${fileName.replace('.csv', '')}_encoded_${encoder}_${bitsPerSignal}bps.csv`;
+        link.click()
+    }
+
     return <div id={'encoding-demo'}>
         <h1>
             <a href={createPath('#encoding-demo', searchParams)}
@@ -455,6 +467,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
                                          initialMinSfcValue={initialMinSFCvalue}
                                          initialMaxSfcValue={initialMaxSFCvalue}
                                          onBitsPerSignalChanged={onBitsPerSignalChanged}
+                                         onDownloadData={onDownloadData}
                                          encoderSwitch={<EncoderSwitch encoder={encoder} onSwitch={onEncoderSwitch}
                                                                        size={'small'}
                                                                        className={'encoder-label'}/>}
