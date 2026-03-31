@@ -176,6 +176,14 @@
             }
         }
 
+        #reset-button {
+            @extend .blue-border-button;
+
+            &.Mui-disabled {
+                color: var(--button-active);
+            }
+        }
+
         .last-transform-row {
             @extend .flex-display;
 
@@ -188,14 +196,6 @@
             #reset-button, .download-button {
                 white-space: nowrap;
                 flex: 1 1;
-            }
-
-            #reset-button {
-                @extend .blue-border-button;
-
-                &.Mui-disabled {
-                    color: var(--button-active);
-                }
             }
 
             .download-button {

@@ -140,10 +140,12 @@ export function ProcessingComponent(props: {
                 <input type="number" value={props.maxSfcValue}
                        onChange={(e) => props.setMaxSfcValue(Number(e.target.value))}/>
             </label>
-            <div className={'last-transform-row'}>
-                {getResetButton()}
-                {props.variant === 'full' && <DownloadDataButton />}
-            </div>
+            {props.variant === 'full'
+                ? <div className={'last-transform-row'}>
+                    {getResetButton()}
+                    <DownloadDataButton/>
+                  </div>
+                : getResetButton()}
 
         </div>
     </div>;
