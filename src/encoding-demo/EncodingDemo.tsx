@@ -372,27 +372,55 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     const onDownloadData = async () => {
         const fileNamePrefix = fileName.replace('.csv', '')
 
+        // Uploaded file
         const uploadedFileBlob = uploadedFileRef.current
 
+        // Encoded data
         const dataBlob = new Blob(sfcData.map(n => `${String(n)}\n`), {type: 'text/csv'})
         const dataFileName = `${fileNamePrefix}_encoded_${encoder}_${bitsPerSignal}bps.csv`
 
+        // Create preset from current transforms
         const newPreset = createPresetFromCurrParams()
         const presetBlob = new Blob([`[${JSON.stringify(newPreset, undefined, 1)}]`], {type: 'application/json'})
         const presetFileName = `${fileNamePrefix}_presets.json`
 
-        const zipped = await downloadZip([
-            {name: dataFileName, input: new File([dataBlob], dataFileName)},
-            {name: presetFileName, input: new File([presetBlob], presetFileName)},
-            {name: fileName, input: uploadedFileBlob}
-        ]).blob()
+        // Screenshot
+        const screenshotFileName = 'autosfc_screenshot.png'
+        const captureScreenshot = async () => {
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+            const video = document.createElement("video");
 
-        const zippedUrl = URL.createObjectURL(zipped)
+            try {
+                // @ts-ignore
+                video.srcObject = await navigator.mediaDevices.getDisplayMedia({preferCurrentTab: true});
+                await video.play()
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context?.drawImage(video, 0, 0);
 
-        const link = document.createElement("a");
-        link.href = zippedUrl;
-        link.download = `${fileNamePrefix}_autosfc_data.zip`;
-        link.click()
+                canvas.toBlob(async screenshotBlob => {
+                    // Zip data
+                    const zipped = await downloadZip([
+                        {name: dataFileName, input: new File([dataBlob], dataFileName)},
+                        {name: presetFileName, input: new File([presetBlob], presetFileName)},
+                        {name: fileName, input: uploadedFileBlob},
+                        // @ts-ignore
+                        {name: screenshotFileName, input: new File([screenshotBlob], screenshotFileName)}
+                    ]).blob()
+                    const zippedUrl = URL.createObjectURL(zipped)
+
+                    // Download
+                    const link = document.createElement("a");
+                    link.href = zippedUrl;
+                    link.download = `${fileNamePrefix}_autosfc_data.zip`;
+                    link.click()
+                }, 'image/png', 1)
+            } catch (err) {
+                console.error("Screenshot error: " + err);
+            }
+        };
+        await captureScreenshot();
     }
 
     function createPresetName() {
