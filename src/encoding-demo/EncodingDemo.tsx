@@ -16,6 +16,7 @@ import '../controls.scss'
 import App from '../App.module.scss'
 import {useSearchParams} from "react-router-dom";
 import {downloadZip} from "client-zip";
+import {SelectScreenshotAreaDialog} from "./SelectScreenshotAreaDialog.tsx";
 
 const {primaryColor} = App
 
@@ -69,12 +70,14 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     const [playStatus, setPlayStatus] = useState(PlayStatus.REACHED_END)
     const playbackIntervalRef = useRef(-1)
 
-    const [showDialog, setShowDialog] = useState(false)
+    const [showSelectColumnsDialog, setShowSelectColumnsDialog] = useState(false)
 
     const [currentPresetName, setCurrentPresetName] = useState('')
     const [presets, setPresets] = useState<Preset[] | null>()
 
     const [searchParams] = useSearchParams()
+
+    const [showSelectScreenshotArea, setShowSelectScreenshotArea] = useState(false)
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -204,14 +207,14 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     }
 
     const selectDataColumns = () => {
-        if (!showDialog) {
-            setShowDialog(true)
+        if (!showSelectColumnsDialog) {
+            setShowSelectColumnsDialog(true)
         }
     };
 
     const setDataLabels = (labels: string[]) => {
         setDisplayedDataLabels(labels)
-        setShowDialog(false)
+        setShowSelectColumnsDialog(false)
     }
 
     // Only append to duplicates
@@ -393,11 +396,21 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
 
             try {
                 // @ts-ignore
-                video.srcObject = await navigator.mediaDevices.getDisplayMedia({preferCurrentTab: true});
+                video.srcObject = await navigator.mediaDevices.getDisplayMedia({preferCurrentTab: false,
+                    systemAudio: 'exclude', displaySurface: 'window', monitorTypeSurfaces: 'exclude',
+                    surfaceSwitching: 'exclude', windowAudio: 'exclude'});
                 await video.play()
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                context?.drawImage(video, 0, 0);
+
+                const scaling = window.devicePixelRatio
+
+                canvas.width = window.innerWidth * scaling;
+                canvas.height = window.innerHeight * scaling;
+
+                const sy = (window.outerHeight - window.innerHeight) * scaling
+                const width = window.innerWidth * scaling
+                const height = window.innerHeight * scaling
+
+                context?.drawImage(video, 0, sy, width, height, 0, 0, width, height);
 
                 canvas.toBlob(async screenshotBlob => {
                     // Zip data
@@ -548,7 +561,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
                                          initialMinSfcValue={initialMinSFCvalue}
                                          initialMaxSfcValue={initialMaxSFCvalue}
                                          onBitsPerSignalChanged={onBitsPerSignalChanged}
-                                         onDownloadData={onDownloadData}
+                                         onDownloadData={() => setShowSelectScreenshotArea(true)}
                                          encoderSwitch={<EncoderSwitch encoder={encoder} onSwitch={onEncoderSwitch}
                                                                        size={'small'}
                                                                        className={'encoder-label'}/>}
@@ -557,8 +570,12 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
             </div>
         </div>
 
-        <SelectColumnsDialog show={showDialog} setShow={setShowDialog} currentLabels={displayedDataLabels}
+        <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog} currentLabels={displayedDataLabels}
                              demoName={'encoding'}
                              allDataLabels={allDataLabelsRef.current ?? []} setDataLabels={setDataLabels}/>
+        <SelectScreenshotAreaDialog show={showSelectScreenshotArea} onClick={async () => {
+            setShowSelectScreenshotArea(false)
+            await onDownloadData()
+        }}/>
     </div>;
 }

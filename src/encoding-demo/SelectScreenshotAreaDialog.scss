@@ -1,0 +1,26 @@
+@use '../buttons/buttons';
+@use '../App.module';
+
+.select-screenshot-area-dialog {
+    background: rgb(0 0 0 / 0.6);
+    color: rgb(255 255 255 / 0.9);
+
+    h2 {
+        line-height: 1.4rem !important;
+        color: rgb(255 255 255 / 0.9);
+    }
+
+    .take-screenshot-button {
+        @extend .blue-border-button;
+        background: transparent;
+        color: rgb(255 255 255 / 0.9);
+        border-color: App.$primary-color-border-hover;
+        transition: all 0.2s;
+
+        &:hover {
+            background: rgba(255 255 255 / 0.2);
+            color: white;
+            border-color: App.$primary-color-medium;
+        }
+    }
+}
