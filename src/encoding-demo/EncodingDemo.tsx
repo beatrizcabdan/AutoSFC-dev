@@ -593,10 +593,10 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                              currentLabels={displayedDataLabels}
                              demoName={'encoding'}
                              allDataLabels={allDataLabelsRef.current ?? []} setDataLabels={setDataLabels}/>
-        <SelectScreenshotAreaDialog autoScroll={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
+        <SelectScreenshotAreaDialog autoScroll={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS} blurBackground={true}
                             show={showSelectScreenshotArea} onClick={async () => {
             setShowSelectScreenshotArea(false)
             await onDownloadData()
-        }}/>
+        }} onCancel={() => setShowSelectScreenshotArea(false)}/>
     </div>;
 }

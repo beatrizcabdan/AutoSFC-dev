@@ -1,15 +1,17 @@
 import React, {ReactElement, useCallback, useEffect} from "react";
 import './Dialog.scss'
 
-export const Dialog = (props: {
-    show: boolean,
-    children: ReactElement,
-    title: string,
-    setHide: () => void,
-    allowScroll?: boolean,
-    className?: string
-}) => {
+interface DialogProps {
+        show: boolean;
+        children: React.ReactElement;
+        title: string;
+        setHide: () => void;
+        allowScroll?: boolean;
+        className?: string;
+        blurBackground?: boolean
+}
 
+export const Dialog = (props: DialogProps) => {
     const scrollCallback = useCallback((e: Event) => {
         e.preventDefault()
     }, [])
@@ -34,11 +36,16 @@ export const Dialog = (props: {
         e.stopPropagation()
     }
 
-    return <div className={`light-box ${props.show ? 'show' : ''}`} onClick={onLightBoxClick}>
+    return <div className={`light-box ${props.show ? 'show' : ''} ${props.blurBackground ? 'blur' : ''}`}
+                onClick={onLightBoxClick}>
         <dialog open={props.show} className={`dialog ${props.className ?? ''}`} onClick={e => onDialogClick(e)}>
             <h2>{props.title}</h2>
             {props.children}
         </dialog>
         ;
     </div>
+}
+
+Dialog.defaultProps = {
+    blurBackground: true
 }
