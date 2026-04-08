@@ -13,6 +13,7 @@ export function SelectScreenshotAreaDialog(props: { show: boolean, onClick: () =
                    setHide={props.onClick}
                    allowScroll={true} className={'select-screenshot-area-dialog'}>
         <>
+            <p>When selecting capture source, choose this window (not tab), for optimal cropping.</p>
             <p>You might have to give your browser permission for screen captures.</p>
             <Button className={'take-screenshot-button'} onClick={props.onClick}>Take screenshot</Button>
         </>

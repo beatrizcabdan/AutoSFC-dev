@@ -410,7 +410,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
 
                 video.srcObject = await navigator.mediaDevices.getDisplayMedia({
                     // @ts-ignore
-                    preferCurrentTab: false,
+                    preferCurrentTab: false, selfBrowserSurface: "exclude",
                     systemAudio: 'exclude', displaySurface: 'window', monitorTypeSurfaces: 'exclude',
                     surfaceSwitching: 'exclude', windowAudio: 'exclude'
                 });

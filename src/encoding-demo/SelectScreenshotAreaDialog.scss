@@ -8,6 +8,12 @@
     h2 {
         line-height: 1.4rem !important;
         color: rgb(255 255 255 / 0.9);
+        margin-bottom: 1rem !important;
+    }
+
+    p {
+        margin: 0;
+        text-align: start;
     }
 
     .take-screenshot-button {
@@ -16,6 +22,7 @@
         color: rgb(255 255 255 / 0.9);
         border-color: App.$primary-color-border-hover;
         transition: all 0.2s;
+        margin-top: 1rem;
 
         &:hover {
             background: rgba(255 255 255 / 0.2);
