@@ -2,8 +2,14 @@ import {Dialog} from "../dialog/Dialog.tsx";
 import './SelectScreenshotAreaDialog.scss'
 import {Button} from "@mui/material";
 
-export function SelectScreenshotAreaDialog(props: { show: boolean, onClick: () => Promise<void>}) {
-    return <Dialog show={props.show} title={'Scroll to select screenshot area and click the button.'}
+export function SelectScreenshotAreaDialog(props: { show: boolean, onClick: () => Promise<void>,
+    autoScroll: boolean }) {
+    const getTitle = () => {
+        return props.autoScroll
+            ? 'Press Take Screenshot to scroll to demo start and take screenshot.'
+            : 'Scroll to select screenshot area and click the button.';
+    }
+    return <Dialog show={props.show} title={getTitle()}
                    setHide={props.onClick}
                    allowScroll={true} className={'select-screenshot-area-dialog'}>
         <>

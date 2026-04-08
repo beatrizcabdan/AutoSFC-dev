@@ -23,13 +23,15 @@ const {primaryColor} = App
 const preset = demoPreset5
 
 interface EncodingDemoProps {
-    onSectionClick: (path: string, sectionId: string) => void
+    onSectionClick: (path: string, sectionId: string) => void,
+    navRef: React.MutableRefObject<HTMLDivElement | undefined>
 }
 
-export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
+export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const SLIDER_START_VAL = 100
     const EXAMPLE_FILE_PATH = 'emergency_braking.csv'
     const LINE_COLORS = [primaryColor, 'orange', 'green', 'red', 'purple', 'brown']
+    const AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS = true
 
     const [filePath, setFilePath] = useState(EXAMPLE_FILE_PATH)
     const [fileName, setFileName] = useState(EXAMPLE_FILE_PATH)
@@ -78,6 +80,8 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     const [searchParams] = useSearchParams()
 
     const [showSelectScreenshotArea, setShowSelectScreenshotArea] = useState(false)
+
+    const chartsRef = useRef<HTMLDivElement>()
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -395,10 +399,21 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
             const video = document.createElement("video");
 
             try {
-                // @ts-ignore
-                video.srcObject = await navigator.mediaDevices.getDisplayMedia({preferCurrentTab: false,
+                if (AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS) {
+                    const chartsYCoord = chartsRef.current?.getBoundingClientRect().top
+                    // Need to scroll up [nav height] pixels more to not have charts occluded
+                    const navHeight = navRef.current?.clientHeight ?? 0
+                    if (chartsYCoord !== undefined) {
+                        window.scrollBy({top: chartsYCoord - navHeight, behavior: 'smooth'})
+                    }
+                }
+
+                video.srcObject = await navigator.mediaDevices.getDisplayMedia({
+                    // @ts-ignore
+                    preferCurrentTab: false,
                     systemAudio: 'exclude', displaySurface: 'window', monitorTypeSurfaces: 'exclude',
-                    surfaceSwitching: 'exclude', windowAudio: 'exclude'});
+                    surfaceSwitching: 'exclude', windowAudio: 'exclude'
+                });
                 await video.play()
 
                 const scaling = window.devicePixelRatio
@@ -467,19 +482,22 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
         return obj
     }
 
+    // @ts-ignore
     return <div id={'encoding-demo'}>
         <h1>
             <a href={createPath('#encoding-demo', searchParams)}
                onClick={e => e.preventDefault()}>
-                <span className={'section-hash-span'} onClick={() => onSectionClick(createPath('#encoding-demo', searchParams),
-                    '#encoding-demo')}>#</span></a>Encoding demo
+                <span className={'section-hash-span'}
+                      onClick={() => onSectionClick(createPath('#encoding-demo', searchParams),
+                          '#encoding-demo')}>#</span></a>Encoding demo
         </h1>
         <p className={'demo-description-p'}>The AutoSFC encoding demo allows researchers to visualize and adjust
             parameters in real time, and to apply transformations on the input signal in real time. Once a file is
             uploaded, the tool parses the CSV data and loads the signals into memory. After loading, it activates the
             interactive plotting components and parameter controls. For all details on how to use this demo, please
             check our <a href="https://www.youtube.com/watch?v=8JFxoLYusc0">video tutorial</a>.</p>
-        <div className={"charts"}>
+        { /* @ts-ignore */}
+        <div className={"charts"} ref={chartsRef}>
             <Chart name={"Original signals plot"} data={showSignalTransforms ? transformedData : data}
                    scales={scales} offsets={offsets}
                    minValue={minChartValue} maxValue={maxChartValue} type={"line"} xAxisName={"Time"}
@@ -500,7 +518,8 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
                 <div className={"control-container"} id={"first-control-row"}>
                     <div className={"file-container"}>
                         <h3>Current file</h3>
-                        <UploadButton onClick={uploadFile} label={"Upload file..."} getWrappingDiv={true} getFileNameP={true}
+                        <UploadButton onClick={uploadFile} label={"Upload file..."} getWrappingDiv={true}
+                                      getFileNameP={true}
                                       currentFile={fileName.replace(/.\//, "")}/>
                     </div>
                     <div className={"position-container"}>
@@ -570,10 +589,12 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
             </div>
         </div>
 
-        <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog} currentLabels={displayedDataLabels}
+        <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
+                             currentLabels={displayedDataLabels}
                              demoName={'encoding'}
                              allDataLabels={allDataLabelsRef.current ?? []} setDataLabels={setDataLabels}/>
-        <SelectScreenshotAreaDialog show={showSelectScreenshotArea} onClick={async () => {
+        <SelectScreenshotAreaDialog autoScroll={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
+                            show={showSelectScreenshotArea} onClick={async () => {
             setShowSelectScreenshotArea(false)
             await onDownloadData()
         }}/>
