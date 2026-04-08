@@ -17,6 +17,7 @@ import App from '../App.module.scss'
 import {useSearchParams} from "react-router-dom";
 import {downloadZip} from "client-zip";
 import {SelectScreenshotAreaDialog} from "./SelectScreenshotAreaDialog.tsx";
+import html2canvas from "html2canvas";
 
 const {primaryColor} = App
 
@@ -31,6 +32,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const SLIDER_START_VAL = 100
     const EXAMPLE_FILE_PATH = 'emergency_braking.csv'
     const LINE_COLORS = [primaryColor, 'orange', 'green', 'red', 'purple', 'brown']
+    const MAKE_SCREENSHOT_WITH_SCREEN_CAPTURE = false
     const AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS = true
 
     const [filePath, setFilePath] = useState(EXAMPLE_FILE_PATH)
@@ -82,6 +84,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const [showSelectScreenshotArea, setShowSelectScreenshotArea] = useState(false)
 
     const chartsRef = useRef<HTMLDivElement>()
+    const demoRef = useRef<HTMLDivElement>()
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -393,60 +396,70 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
 
         // Screenshot
         const screenshotFileName = 'autosfc_screenshot.png'
+        let canvas: HTMLCanvasElement
         const captureScreenshot = async () => {
-            const canvas = document.createElement("canvas");
-            const context = canvas.getContext("2d");
-            const video = document.createElement("video");
+            if (MAKE_SCREENSHOT_WITH_SCREEN_CAPTURE) {
+                canvas = document.createElement("canvas");
+                const context = canvas.getContext("2d");
+                const video = document.createElement("video");
 
-            try {
-                if (AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS) {
-                    const chartsYCoord = chartsRef.current?.getBoundingClientRect().top
-                    // Need to scroll up [nav height] pixels more to not have charts occluded
-                    const navHeight = navRef.current?.clientHeight ?? 0
-                    if (chartsYCoord !== undefined) {
-                        window.scrollBy({top: chartsYCoord - navHeight, behavior: 'smooth'})
+                try {
+                    if (AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS) {
+                        const chartsYCoord = chartsRef.current?.getBoundingClientRect().top
+                        // Need to scroll up [nav height] pixels more to not have charts occluded
+                        const navHeight = navRef.current?.clientHeight ?? 0
+                        if (chartsYCoord !== undefined) {
+                            window.scrollBy({top: chartsYCoord - navHeight, behavior: 'smooth'})
+                        }
                     }
-                }
 
-                video.srcObject = await navigator.mediaDevices.getDisplayMedia({
-                    // @ts-ignore
-                    preferCurrentTab: false, selfBrowserSurface: "exclude",
-                    systemAudio: 'exclude', displaySurface: 'window', monitorTypeSurfaces: 'exclude',
-                    surfaceSwitching: 'exclude', windowAudio: 'exclude'
-                });
-                await video.play()
-
-                const scaling = window.devicePixelRatio
-
-                canvas.width = window.innerWidth * scaling;
-                canvas.height = window.innerHeight * scaling;
-
-                const sy = (window.outerHeight - window.innerHeight) * scaling
-                const width = window.innerWidth * scaling
-                const height = window.innerHeight * scaling
-
-                context?.drawImage(video, 0, sy, width, height, 0, 0, width, height);
-
-                canvas.toBlob(async screenshotBlob => {
-                    // Zip data
-                    const zipped = await downloadZip([
-                        {name: dataFileName, input: new File([dataBlob], dataFileName)},
-                        {name: presetFileName, input: new File([presetBlob], presetFileName)},
-                        {name: fileName, input: uploadedFileBlob},
+                    video.srcObject = await navigator.mediaDevices.getDisplayMedia({
                         // @ts-ignore
-                        {name: screenshotFileName, input: new File([screenshotBlob], screenshotFileName)}
-                    ]).blob()
-                    const zippedUrl = URL.createObjectURL(zipped)
+                        preferCurrentTab: false, selfBrowserSurface: "exclude",
+                        systemAudio: 'exclude', displaySurface: 'window', monitorTypeSurfaces: 'exclude',
+                        surfaceSwitching: 'exclude', windowAudio: 'exclude'
+                    });
+                    await video.play()
 
-                    // Download
-                    const link = document.createElement("a");
-                    link.href = zippedUrl;
-                    link.download = `${fileNamePrefix}_autosfc_data.zip`;
-                    link.click()
-                }, 'image/png', 1)
-            } catch (err) {
-                console.error("Screenshot error: " + err);
+                    const scaling = window.devicePixelRatio
+
+                    canvas.width = window.innerWidth * scaling;
+                    canvas.height = window.innerHeight * scaling;
+
+                    const sy = (window.outerHeight - window.innerHeight) * scaling
+                    const width = window.innerWidth * scaling
+                    const height = window.innerHeight * scaling
+
+                    context?.drawImage(video, 0, sy, width, height, 0, 0, width, height);
+                } catch (err) {
+                    console.error("Screenshot error: " + err);
+                }
+            } else {
+                if (demoRef.current) {
+                    canvas = await html2canvas(demoRef.current,
+                        {ignoreElements: el => el.classList.contains('light-box')})
+                } else {
+                    console.error("chartsRef.current is undefined")
+                }
             }
+
+            canvas.toBlob(async screenshotBlob => {
+                // Zip data
+                const zipped = await downloadZip([
+                    {name: dataFileName, input: new File([dataBlob], dataFileName)},
+                    {name: presetFileName, input: new File([presetBlob], presetFileName)},
+                    {name: fileName, input: uploadedFileBlob},
+                    // @ts-ignore
+                    {name: screenshotFileName, input: new File([screenshotBlob], screenshotFileName)}
+                ]).blob()
+                const zippedUrl = URL.createObjectURL(zipped)
+
+                // Download
+                const link = document.createElement("a");
+                link.href = zippedUrl;
+                link.download = `${fileNamePrefix}_autosfc_data.zip`;
+                link.click()
+            }, 'image/png', 1)
         };
         await captureScreenshot();
     }
@@ -483,7 +496,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     }
 
     // @ts-ignore
-    return <div id={'encoding-demo'}>
+    return <div id={'encoding-demo'} ref={demoRef}>
         <h1>
             <a href={createPath('#encoding-demo', searchParams)}
                onClick={e => e.preventDefault()}>
