@@ -62,22 +62,14 @@ $dialog-input-width: 28ch;
         .cancel-button, .take-screenshot-button, .add-label-button {
             @extend .button;
             flex: 1 1;
-            background: transparent;
-            color: rgb(255 255 255 / 0.9);
             transition: all 0.2s;
-
-            &:hover {
-                background: rgba(255 255 255 / 0.2);
-                color: white;
-            }
         }
 
         .take-screenshot-button, .add-label-button {
-            border-color: App.$primary-color-border-hover;
+            border-color: App.$primary-color-border;
 
             &:hover {
-                background: rgba(255 255 255 / 0.2);
-                border-color: App.$primary-color-medium;
+                border-color: App.$primary-color-border-hover;
             }
         }
     }

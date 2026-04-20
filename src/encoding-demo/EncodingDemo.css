@@ -654,20 +654,13 @@ h1 + p {
 }
 #encoding-demo .dialog-buttons .cancel-button, #encoding-demo .dialog-buttons .take-screenshot-button, #encoding-demo .dialog-buttons .add-label-button {
   flex: 1 1;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.9);
   transition: all 0.2s;
 }
-#encoding-demo .dialog-buttons .cancel-button:hover, #encoding-demo .dialog-buttons .take-screenshot-button:hover, #encoding-demo .dialog-buttons .add-label-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-}
 #encoding-demo .dialog-buttons .take-screenshot-button, #encoding-demo .dialog-buttons .add-label-button {
-  border-color: #1976d2;
+  border-color: rgba(25, 118, 210, 0.5019607843);
 }
 #encoding-demo .dialog-buttons .take-screenshot-button:hover, #encoding-demo .dialog-buttons .add-label-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #2699ff;
+  border-color: #1976d2;
 }
 
 @media (max-width: 700px) {

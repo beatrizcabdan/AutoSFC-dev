@@ -17,7 +17,7 @@ export function SelectScreenshotAreaDialog(props: {
     }
     return <Dialog show={props.show} title={getTitle()}
                    setHide={props.onCancel} blurBackground={props.blurBackground}
-                   allowScroll={!props.autoScroll} className={'select-screenshot-area-dialog'}>
+                   allowScroll={!props.autoScroll} className={`select-screenshot-area-dialog ${!props.autoScroll ? 'dark' : ''}`}>
         <>
             <p>When selecting capture source, choose this window (not tab), for optimal cropping.</p>
             <p>You might have to give your browser permission for screen captures.</p>

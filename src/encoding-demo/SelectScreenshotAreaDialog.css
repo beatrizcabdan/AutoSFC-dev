@@ -607,18 +607,39 @@ h1 + p {
   color: #2699ff;
 }
 
-.select-screenshot-area-dialog {
-  background: rgba(0, 0, 0, 0.6);
-  color: rgba(255, 255, 255, 0.9);
-}
 .select-screenshot-area-dialog h2 {
   line-height: 1.4rem !important;
-  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 1rem !important;
 }
 .select-screenshot-area-dialog p {
   margin: 0;
   text-align: start;
+}
+.select-screenshot-area-dialog.dark {
+  background: rgba(0, 0, 0, 0.6);
+  color: rgba(255, 255, 255, 0.9);
+}
+.select-screenshot-area-dialog.dark h2 {
+  color: rgba(255, 255, 255, 0.9);
+}
+.select-screenshot-area-dialog.dark .dialog-buttons .cancel-button, .select-screenshot-area-dialog.dark .dialog-buttons .take-screenshot-button {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+.select-screenshot-area-dialog.dark .dialog-buttons .cancel-button:hover, .select-screenshot-area-dialog.dark .dialog-buttons .take-screenshot-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+.select-screenshot-area-dialog.dark .dialog-buttons .cancel-button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+.select-screenshot-area-dialog.dark .dialog-buttons .take-screenshot-button {
+  border-color: #1976d2 !important;
+}
+.select-screenshot-area-dialog.dark .dialog-buttons .take-screenshot-button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: #2699ff !important;
 }
 
 /*# sourceMappingURL=SelectScreenshotAreaDialog.css.map */
