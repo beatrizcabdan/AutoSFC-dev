@@ -807,5 +807,31 @@ h1 + p {
     padding-left: 0;
   }
 }
+.choose-label-dialog {
+  gap: 0.6rem !important;
+}
+.choose-label-dialog h2 {
+  margin-bottom: 1rem !important;
+}
+.choose-label-dialog .MuiTextField-root {
+  width: 28ch;
+}
+.choose-label-dialog .MuiTextField-root .MuiInputBase-root {
+  height: 1.8rem !important;
+  align-items: end;
+}
+.choose-label-dialog .MuiTextField-root .MuiInputBase-root input {
+  vertical-align: bottom;
+}
+.choose-label-dialog .MuiTextField-root * {
+  font-size: 1rem !important;
+}
+.choose-label-dialog .choose-label-buttons .cancel-button, .choose-label-dialog .choose-label-buttons .add-label-button {
+  background: white !important;
+  color: var(--text-color-light) !important;
+}
+.choose-label-dialog .choose-label-buttons .cancel-button:hover, .choose-label-dialog .choose-label-buttons .add-label-button:hover {
+  background-color: var(--light-gray) !important;
+}
 
-/*# sourceMappingURL=EncodingDemo.css.map */
+/*# sourceMappingURL=ChooseDownloadLabelDialog.css.map */

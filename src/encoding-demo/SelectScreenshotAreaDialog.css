@@ -5,7 +5,7 @@
   primaryColorMedium: #2699ff;
 }
 
-.flex-display, .select-screenshot-area-dialog .buttons {
+.flex-display {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -547,7 +547,7 @@ h1 + p {
     padding: 14px 2rem 28px;
   }
 }
-.button-text, .button, .select-screenshot-area-dialog .buttons .cancel-button, .select-screenshot-area-dialog .buttons .take-screenshot-button, .link-button, .no-border-button, .gray-border-button, .blue-border-button {
+.button-text, .button, .link-button, .no-border-button, .gray-border-button, .blue-border-button {
   text-transform: uppercase;
   letter-spacing: 0.02rem;
   font-size: 0.6rem;
@@ -558,7 +558,7 @@ h1 + p {
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 2px;
 }
 
-.button, .select-screenshot-area-dialog .buttons .cancel-button, .select-screenshot-area-dialog .buttons .take-screenshot-button, .link-button, .no-border-button, .gray-border-button, .blue-border-button {
+.button, .link-button, .no-border-button, .gray-border-button, .blue-border-button {
   padding: 0 0.5rem;
   height: 1.8rem;
   background-color: white;
@@ -567,11 +567,11 @@ h1 + p {
   transition: all 0.2s;
   color: var(--text-color-light);
 }
-.button:hover, .select-screenshot-area-dialog .buttons .cancel-button:hover, .select-screenshot-area-dialog .buttons .take-screenshot-button:hover, .link-button:hover, .no-border-button:hover, .gray-border-button:hover, .blue-border-button:hover {
+.button:hover, .link-button:hover, .no-border-button:hover, .gray-border-button:hover, .blue-border-button:hover {
   background-color: var(--light-gray);
   cursor: pointer;
 }
-.button:active, .select-screenshot-area-dialog .buttons .cancel-button:active, .select-screenshot-area-dialog .buttons .take-screenshot-button:active, .link-button:active, .no-border-button:active, .gray-border-button:active, .blue-border-button:active {
+.button:active, .link-button:active, .no-border-button:active, .gray-border-button:active, .blue-border-button:active {
   background-color: var(--button-active);
 }
 
@@ -619,34 +619,6 @@ h1 + p {
 .select-screenshot-area-dialog p {
   margin: 0;
   text-align: start;
-}
-.select-screenshot-area-dialog .buttons {
-  gap: 1rem;
-  width: 28ch;
-  margin-top: 1rem;
-}
-.select-screenshot-area-dialog .buttons .cancel-button {
-  border-color: var(--legend-border);
-}
-.select-screenshot-area-dialog .buttons .cancel-button:hover {
-  border-color: var(--input-border);
-}
-.select-screenshot-area-dialog .buttons .cancel-button, .select-screenshot-area-dialog .buttons .take-screenshot-button {
-  flex: 1 1;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.9);
-  transition: all 0.2s;
-}
-.select-screenshot-area-dialog .buttons .cancel-button:hover, .select-screenshot-area-dialog .buttons .take-screenshot-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-}
-.select-screenshot-area-dialog .buttons .take-screenshot-button {
-  border-color: #1976d2;
-}
-.select-screenshot-area-dialog .buttons .take-screenshot-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #2699ff;
 }
 
 /*# sourceMappingURL=SelectScreenshotAreaDialog.css.map */

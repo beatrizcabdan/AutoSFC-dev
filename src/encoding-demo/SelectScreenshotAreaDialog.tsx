@@ -1,5 +1,6 @@
 import {Dialog} from "../dialog/Dialog.tsx";
 import './SelectScreenshotAreaDialog.scss'
+import './EncodingDemo.scss'
 import {Button} from "@mui/material";
 
 export function SelectScreenshotAreaDialog(props: {
@@ -20,7 +21,7 @@ export function SelectScreenshotAreaDialog(props: {
         <>
             <p>When selecting capture source, choose this window (not tab), for optimal cropping.</p>
             <p>You might have to give your browser permission for screen captures.</p>
-            <div className={'buttons'}>
+            <div className={'dialog-buttons'}>
                 <Button className={'cancel-button'} onClick={props.onCancel}>Cancel</Button>
                 <Button className={'take-screenshot-button'} onClick={props.onClick}>Take screenshot</Button>
             </div>

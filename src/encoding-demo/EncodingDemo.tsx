@@ -18,6 +18,7 @@ import {useSearchParams} from "react-router-dom";
 import {downloadZip} from "client-zip";
 import {SelectScreenshotAreaDialog} from "./SelectScreenshotAreaDialog.tsx";
 import html2canvas from "html2canvas";
+import {ChooseDownloadLabelDialog} from "./ChooseDownloadLabelDialog.tsx";
 
 const {primaryColor} = App
 
@@ -81,10 +82,13 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
 
     const [searchParams] = useSearchParams()
 
-    const [showSelectScreenshotArea, setShowSelectScreenshotArea] = useState(false)
-
     const chartsRef = useRef<HTMLDivElement>()
     const demoRef = useRef<HTMLDivElement>()
+
+    const [showSelectScreenshotArea, setShowSelectScreenshotArea] = useState(false)
+    const [showChooseLabelDialog, setShowChooseLabelDialog] = useState(false)
+    const screenshotBlobRef = useRef<Blob | null>()
+    const [downloadedDataLabel, setDownLoadedDataLabel] = useState('')
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -379,23 +383,56 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
         setEncoder(newEncoder)
     }
 
-    const onDownloadData = async () => {
-        const fileNamePrefix = fileName.replace('.csv', '')
+    // Resume download after ChooseDownloadLabelDialog
+    useEffect(() => {
+        if (showChooseLabelDialog || !screenshotBlobRef.current) {
+            return
+        }
 
         // Uploaded file
         const uploadedFileBlob = uploadedFileRef.current
 
         // Encoded data
         const dataBlob = new Blob(sfcData.map(n => `${String(n)}\n`), {type: 'text/csv'})
-        const dataFileName = `${fileNamePrefix}_encoded_${encoder}_${bitsPerSignal}bps.csv`
 
         // Create preset from current transforms
         const newPreset = createPresetFromCurrParams()
         const presetBlob = new Blob([`[${JSON.stringify(newPreset, undefined, 1)}]`], {type: 'application/json'})
-        const presetFileName = `${fileNamePrefix}_presets.json`
 
+        // Zip data
+        const baseFileName = fileName.replace('.csv', '')
+        const date = new Date().toLocaleDateString('sv-SE').replace(/-/g, '')
+            .slice(2) // Short year
+        const dataFileName = `${date}_${baseFileName}_transformed_${encoder}_${bitsPerSignal}bps${downloadedDataLabel}.csv`
+        const presetFileName = `${date}_${baseFileName}_transformations${downloadedDataLabel}.json`
+        const screenshotFileName = `${date}_screenshot${downloadedDataLabel}.png`
+
+        const downloadData = async () => {
+            const zipped = await downloadZip([
+                {name: dataFileName, input: new File([dataBlob], dataFileName)},
+                {name: presetFileName, input: new File([presetBlob], presetFileName)},
+                {name: fileName, input: uploadedFileBlob},
+                // @ts-ignore
+                {name: screenshotFileName, input: new File([screenshotBlobRef.current], screenshotFileName)}
+            ]).blob()
+            const zippedUrl = URL.createObjectURL(zipped)
+
+            // Download
+            const link = document.createElement("a");
+            link.href = zippedUrl;
+            link.download = `${date}_${baseFileName}${downloadedDataLabel}.zip`;
+            link.click()
+        }
+
+        downloadData().then(() => {
+            screenshotBlobRef.current = null
+            setDownLoadedDataLabel('')
+        })
+
+    }, [showChooseLabelDialog]);
+
+    const onDownloadData = async () => {
         // Screenshot
-        const screenshotFileName = 'autosfc_screenshot.png'
         let canvas: HTMLCanvasElement
         const captureScreenshot = async () => {
             if (MAKE_SCREENSHOT_WITH_SCREEN_CAPTURE) {
@@ -444,21 +481,8 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
             }
 
             canvas.toBlob(async screenshotBlob => {
-                // Zip data
-                const zipped = await downloadZip([
-                    {name: dataFileName, input: new File([dataBlob], dataFileName)},
-                    {name: presetFileName, input: new File([presetBlob], presetFileName)},
-                    {name: fileName, input: uploadedFileBlob},
-                    // @ts-ignore
-                    {name: screenshotFileName, input: new File([screenshotBlob], screenshotFileName)}
-                ]).blob()
-                const zippedUrl = URL.createObjectURL(zipped)
-
-                // Download
-                const link = document.createElement("a");
-                link.href = zippedUrl;
-                link.download = `${fileNamePrefix}_autosfc_data.zip`;
-                link.click()
+                screenshotBlobRef.current = screenshotBlob
+                setShowChooseLabelDialog(true)
             }, 'image/png', 1)
         };
         await captureScreenshot();
@@ -493,6 +517,13 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
             Object.assign(obj, {name: createPresetName()})
         }
         return obj
+    }
+
+    const onChooseLabelDialogClick = (label?: string) => {
+        if (label) {
+            setDownLoadedDataLabel(`_${label}`)
+        }
+        setShowChooseLabelDialog(false);
     }
 
     // @ts-ignore
@@ -611,5 +642,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
             setShowSelectScreenshotArea(false)
             await onDownloadData()
         }} onCancel={() => setShowSelectScreenshotArea(false)}/>
+        <ChooseDownloadLabelDialog show={showChooseLabelDialog} onChoose={(label: string) => onChooseLabelDialogClick(label)}
+                                   onCancel={() => onChooseLabelDialogClick()}/>
     </div>;
 }

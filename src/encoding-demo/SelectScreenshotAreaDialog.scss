@@ -15,42 +15,4 @@
         margin: 0;
         text-align: start;
     }
-
-    .buttons {
-        @extend .flex-display;
-        gap: 1.0rem;
-
-        width: 28ch;
-        margin-top: 1rem;
-
-        .cancel-button {
-            border-color: var(--legend-border);
-
-            &:hover {
-                border-color: var(--input-border);
-            }
-        }
-
-        .cancel-button, .take-screenshot-button {
-            @extend .button;
-            flex: 1 1;
-            background: transparent;
-            color: rgb(255 255 255 / 0.9);
-            transition: all 0.2s;
-
-            &:hover {
-                background: rgba(255 255 255 / 0.2);
-                color: white;
-            }
-        }
-
-        .take-screenshot-button {
-            border-color: App.$primary-color-border-hover;
-
-            &:hover {
-                background: rgba(255 255 255 / 0.2);
-                border-color: App.$primary-color-medium;
-            }
-        }
-    }
 }
