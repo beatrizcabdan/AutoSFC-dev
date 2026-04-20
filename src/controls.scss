@@ -201,6 +201,10 @@
             .download-button {
                 @extend .gray-border-button;
 
+                @media (max-width: App.$small-screen-limit) {
+                    display: none;
+                }
+
             }
         }
     }

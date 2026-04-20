@@ -767,6 +767,11 @@ h1 + p {
   white-space: nowrap;
   flex: 1 1;
 }
+@media (max-width: 700px) {
+  .controls #process-container .last-transform-row .download-button {
+    display: none;
+  }
+}
 .controls .vert-control-wrapper {
   display: flex;
   flex-direction: column;
