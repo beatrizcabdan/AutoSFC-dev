@@ -32,7 +32,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const SLIDER_START_VAL = 100
     const EXAMPLE_FILE_PATH = 'emergency_braking.csv'
     const LINE_COLORS = [primaryColor, 'orange', 'green', 'red', 'purple', 'brown']
-    const MAKE_SCREENSHOT_WITH_SCREEN_CAPTURE = false
+    const MAKE_SCREENSHOT_WITH_SCREEN_CAPTURE = true
     const AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS = true
 
     const [filePath, setFilePath] = useState(EXAMPLE_FILE_PATH)
