@@ -2,6 +2,7 @@ import {Dialog} from "../dialog/Dialog.tsx";
 import './SelectScreenshotAreaDialog.scss'
 import './EncodingDemo.scss'
 import {Button} from "@mui/material";
+import React from "react";
 
 export function SelectScreenshotAreaDialog(props: {
     show: boolean,
@@ -10,11 +11,13 @@ export function SelectScreenshotAreaDialog(props: {
     blurBackground?: boolean,
     onCancel: () => void
 }) {
+
     const getTitle = () => {
         return props.autoScroll
             ? 'Press Take Screenshot to scroll to demo start and take screenshot.'
             : 'Scroll to select screenshot area and click the Take Screenshot button.';
     }
+
     return <Dialog show={props.show} title={getTitle()}
                    setHide={props.onCancel} blurBackground={props.blurBackground}
                    allowScroll={!props.autoScroll} className={`select-screenshot-area-dialog ${!props.autoScroll ? 'dark' : ''}`}>
