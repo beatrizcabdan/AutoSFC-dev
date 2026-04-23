@@ -44,7 +44,7 @@ export function PaperSection(props: {
 
         <div className="papers-container">
             {getPapers().map((paper: IPaperData) =>
-                <PaperContainer title={paper.title} description={paper.description} url={paper.url}/>)}
+                <PaperContainer title={paper.title} description={paper.description} url={paper.url} key={paper.title}/>)}
         </div>
     </div>;
 }

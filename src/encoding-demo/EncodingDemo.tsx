@@ -145,6 +145,10 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     onresize = debounce(loadFile)
 
     useEffect(() => {
+        // Don't load default file if params has external file url
+        if (searchParams.has('file') && filePath === EXAMPLE_FILE_PATH) {
+            return
+        }
         loadFile()
     }, [startLine, endLine, displayedDataLabels, filePath]);
 
@@ -163,7 +167,10 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
                             console.error(r.data.error)
                         } else {
                             console.log(r.data.msg)
-                            console.log(r.data.fileContent)
+                            const urlParts = url.split('/')
+                            const fileName = urlParts[urlParts.length - 1]
+                            const file = new File([r.data.fileContent], fileName)
+                            readFile(r.data.fileContent, file)
                         }
                     },
                     error => console.error(error))
@@ -252,6 +259,24 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
         })
     }
 
+    const readFile = (text: string, file: File) => {
+        const lines = text
+            .trim()
+            .split(/[,;]?\n/)
+        const dataLabels = lines[0]
+            .split(/[,;]/)
+        formatDataLabels(dataLabels);
+        allDataLabelsRef.current = dataLabels
+
+        setDisplayedDataLabels(dataLabels.slice(dataLabels.length - 2))
+        setStartLine(0)
+        setEndLine(lines.length - 2) // -1 due to header row
+        const url = URL.createObjectURL(file)
+        setFilePath(url)
+        setFileName(file.name)
+        setCurrentPresetName('')
+    }
+
     function uploadFile(e: ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.item(0)
         if (file?.type === 'text/csv') {
@@ -259,21 +284,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
             reader.onload = () => {
                 const text = reader.result?.toString();
                 if (text) {
-                    const lines = text
-                        .trim()
-                        .split(/[,;]?\n/)
-                    const dataLabels = lines[0]
-                        .split(/[,;]/)
-                    formatDataLabels(dataLabels);
-                    allDataLabelsRef.current = dataLabels
-
-                    setDisplayedDataLabels(dataLabels.slice(dataLabels.length - 2))
-                    setStartLine(0)
-                    setEndLine(lines.length - 2) // -1 due to header row
-                    const url = URL.createObjectURL(file)
-                    setFileName(file.name)
-                    setFilePath(url)
-                    setCurrentPresetName('')
+                    readFile(text, file);
                 } else {
                     alert("Error reading the file. Please try again.");
                 }
