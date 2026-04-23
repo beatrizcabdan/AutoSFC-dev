@@ -9,12 +9,13 @@ import {PlayButton} from "../buttons/PlayButton.tsx";
 import {DataRangeSlider} from "../data-range-slider/DataRangeSlider.tsx";
 import {ProcessingComponent} from "../ProcessingComponent.tsx";
 import {SelectColumnsDialog} from "../select-columns-dialog/SelectColumnsDialog.tsx";
-import {DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR, PlayStatus} from "../App.tsx";
+import {API_BASE_URL, DEFAULT_BITS_PER_SIGNAL, DEFAULT_OFFSET, DEFAULT_SCALING_FACTOR, PlayStatus} from "../App.tsx";
 import {demoPreset5} from "../Common.ts";
 import './EncodingDemo.scss'
 import '../controls.scss'
 import App from '../App.module.scss'
 import {useSearchParams} from "react-router-dom";
+import axios from "axios";
 
 const {primaryColor} = App
 
@@ -146,6 +147,28 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     useEffect(() => {
         loadFile()
     }, [startLine, endLine, displayedDataLabels, filePath]);
+
+    useEffect(() => {
+        if (searchParams.has('file')) {
+            getFileFromURL(searchParams.get('file'))
+        }
+    }, [searchParams]);
+
+    function getFileFromURL(url: string | null) {
+        if (url) {
+            axios.post(API_BASE_URL, {'url': url},
+                {headers: {'Content-Type': 'application/json'}})
+                .then(r => {
+                        if (r.data.error) {
+                            console.error(r.data.error)
+                        } else {
+                            console.log(r.data.msg)
+                            console.log(r.data.fileContent)
+                        }
+                    },
+                    error => console.error(error))
+        }
+    }
 
     const onSliderDrag = (e: Event, value: number | number[]) => {
         if (playStatus === PlayStatus.PLAYING) {
