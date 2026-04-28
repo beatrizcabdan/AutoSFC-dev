@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
-import {createPath, debounce, hilbertEncode, mortonInterlace} from "../utils.ts";
+import {createPath, debounce, hilbertEncode, mortonInterlace, scrollToSection} from "../utils.ts";
 import {Preset, PresetComponent} from "../preset-component/PresetComponent.tsx";
 import {Chart} from "../Chart.tsx";
 import {EncoderSwitch} from "../EncoderSwitch.tsx";
@@ -171,6 +171,7 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
                             const fileName = urlParts[urlParts.length - 1]
                             const file = new File([r.data.fileContent], fileName)
                             readFile(r.data.fileContent, file)
+                            scrollToSection('#encoding-demo')
                         }
                     },
                     error => console.error(error))
