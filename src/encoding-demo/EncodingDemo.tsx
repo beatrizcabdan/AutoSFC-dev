@@ -16,6 +16,8 @@ import '../controls.scss'
 import App from '../App.module.scss'
 import {useSearchParams} from "react-router-dom";
 import axios from "axios";
+import {Slide, Snackbar} from "@mui/material";
+import {SnackBar} from "../snackbar/SnackBar.tsx";
 
 const {primaryColor} = App
 
@@ -73,6 +75,8 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
     const [currentPresetName, setCurrentPresetName] = useState('')
 
     const [searchParams] = useSearchParams()
+
+    const [snackbarMessage, setSnackbarMessage] = useState('')
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -166,15 +170,19 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
                         if (r.data.error) {
                             console.error(r.data.error)
                         } else {
-                            console.log(r.data.msg)
+                            console.log(r.data)
                             const urlParts = url.split('/')
                             const fileName = urlParts[urlParts.length - 1]
                             const file = new File([r.data.fileContent], fileName)
                             readFile(r.data.fileContent, file)
                             scrollToSection('#encoding-demo')
+                            setSnackbarMessage(r.data.msg)
                         }
                     },
-                    error => console.error(error))
+                    error => {
+                        console.error(`Remote file error: ${error.message}`)
+                        alert(`Remote file error: ${error.message}`)
+                    })
         }
     }
 
@@ -501,5 +509,6 @@ export function EncodingDemo({onSectionClick}: EncodingDemoProps) {
         <SelectColumnsDialog show={showDialog} setShow={setShowDialog} currentLabels={displayedDataLabels}
                              demoName={'encoding'}
                              allDataLabels={allDataLabelsRef.current ?? []} setDataLabels={setDataLabels}/>
+        <SnackBar msg={snackbarMessage}/>
     </div>;
 }
