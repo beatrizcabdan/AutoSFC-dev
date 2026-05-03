@@ -21,6 +21,7 @@ import {SelectScreenshotAreaDialog} from "./SelectScreenshotAreaDialog.tsx";
 import html2canvas from "html2canvas";
 import {ChooseDownloadLabelDialog} from "./ChooseDownloadLabelDialog.tsx";
 import {LoadFileButtons} from "./LoadFileButtons.tsx";
+import {LoadRemoteFileDialog} from "./LoadRemoteFileDialog.tsx";
 
 const {primaryColor} = App
 
@@ -82,7 +83,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const [currentPresetName, setCurrentPresetName] = useState('')
     const [presets, setPresets] = useState<Preset[] | null>()
 
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const [snackbarMessage, setSnackbarMessage] = useState('')
 
@@ -183,7 +184,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
 
     function getFileFromURL(url: string | null) {
         if (url) {
-            axios.post(API_BASE_URL, {'url': url},
+            axios.post(API_BASE_URL, {'url': decodeURIComponent(url)},
                 {headers: {'Content-Type': 'application/json'}})
                 .then(r => {
                         if (r.data.error) {
@@ -569,6 +570,11 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
         setShowChooseLabelDialog(false);
     }
 
+    function onRemoteFileChosen(url: string) {
+        setSearchParams({file: url.toString()})
+        setShowLoadRemoteFileDialog(false)
+    }
+
     // @ts-ignore
     return <div id={'encoding-demo'} ref={demoRef}>
         <h1>
@@ -681,13 +687,18 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                              demoName={'encoding'}
                              allDataLabels={allDataLabelsRef.current ?? []} setDataLabels={setDataLabels}/>
         <SnackBar msg={snackbarMessage}/>
+
         <SelectScreenshotAreaDialog autoScroll={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
                                     blurBackground={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
                             show={showSelectScreenshotArea} onClick={async () => {
             setShowSelectScreenshotArea(false)
             await onDownloadData()
         }} onCancel={() => setShowSelectScreenshotArea(false)}/>
+
         <ChooseDownloadLabelDialog show={showChooseLabelDialog} onChoose={(label: string) => onChooseLabelDialogClick(label)}
                                    onCancel={() => onChooseLabelDialogClick()}/>
+
+        <LoadRemoteFileDialog show={showLoadRemoteFileDialog} onFileChosen={onRemoteFileChosen} onCancel={() => setShowLoadRemoteFileDialog(false)}
+                              hide={() => setShowLoadRemoteFileDialog(false)}/>
     </div>;
 }
