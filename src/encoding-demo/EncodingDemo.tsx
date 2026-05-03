@@ -3,7 +3,6 @@ import {createPath, debounce, hilbertEncode, mortonInterlace, scrollToSection} f
 import {Preset, PresetComponent} from "../preset-component/PresetComponent.tsx";
 import {Chart} from "../Chart.tsx";
 import {EncoderSwitch} from "../EncoderSwitch.tsx";
-import {UploadButton} from "../buttons/UploadButton.tsx";
 import {PlaySlider} from "../PlaySlider.tsx";
 import {PlayButton} from "../buttons/PlayButton.tsx";
 import {DataRangeSlider} from "../data-range-slider/DataRangeSlider.tsx";
@@ -21,6 +20,7 @@ import {downloadZip} from "client-zip";
 import {SelectScreenshotAreaDialog} from "./SelectScreenshotAreaDialog.tsx";
 import html2canvas from "html2canvas";
 import {ChooseDownloadLabelDialog} from "./ChooseDownloadLabelDialog.tsx";
+import {LoadFileButtons} from "./LoadFileButtons.tsx";
 
 const {primaryColor} = App
 
@@ -93,6 +93,8 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const [showChooseLabelDialog, setShowChooseLabelDialog] = useState(false)
     const screenshotBlobRef = useRef<Blob | null>()
     const [downloadedDataLabel, setDownLoadedDataLabel] = useState('')
+
+    const [showLoadRemoteFileDialog, setShowLoadRemoteFileDialog] = useState(false)
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -603,9 +605,9 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                 <div className={"control-container"} id={"first-control-row"}>
                     <div className={"file-container"}>
                         <h3>Current file</h3>
-                        <UploadButton onClick={uploadFile} label={"Upload file..."} getWrappingDiv={true}
-                                      getFileNameP={true}
-                                      currentFile={fileName.replace(/.\//, "")}/>
+                            <LoadFileButtons onUploadButtonClick={uploadFile} onLoadUrlButtonClick={() => setShowLoadRemoteFileDialog(true)}
+                                             currentFile={fileName.replace(/.\//, "") + (searchParams.has('file') ? ' (remote)' : '')}/>
+
                     </div>
                     <div className={"position-container"}>
                         <h3>Current datapoint</h3>
