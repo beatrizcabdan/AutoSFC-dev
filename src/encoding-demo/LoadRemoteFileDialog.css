@@ -4,6 +4,7 @@
 .load-remote-file-dialog .MuiTextField-root {
   margin-top: 1rem;
   width: 40rem;
+  max-width: 98%;
 }
 
 /*# sourceMappingURL=LoadRemoteFileDialog.css.map */
