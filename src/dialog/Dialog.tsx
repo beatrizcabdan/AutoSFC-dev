@@ -16,6 +16,8 @@ interface DialogProps {
  * @param setHide Handle to call when dialog should hide
  */
 export const Dialog = (props: DialogProps) => {
+    const { blurBackground = true } = props
+
     const scrollCallback = useCallback((e: Event) => {
         e.preventDefault()
     }, [])
@@ -40,7 +42,7 @@ export const Dialog = (props: DialogProps) => {
         e.stopPropagation()
     }
 
-    return <div className={`light-box ${props.show ? 'show' : ''} ${props.blurBackground ? 'blur' : ''}`}
+    return <div className={`light-box ${props.show ? 'show' : ''} ${blurBackground ? 'blur' : ''}`}
                 onClick={onLightBoxClick}>
         <dialog open={props.show} className={`dialog ${props.className ?? ''}`} onClick={e => onDialogClick(e)}>
             <h2>{props.title}</h2>
@@ -48,8 +50,4 @@ export const Dialog = (props: DialogProps) => {
         </dialog>
         ;
     </div>
-}
-
-Dialog.defaultProps = {
-    blurBackground: true
 }
