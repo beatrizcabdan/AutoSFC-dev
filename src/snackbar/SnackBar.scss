@@ -1,4 +1,4 @@
-@use '../App.module.css';
+@use '../App.module';
 
 .MuiSnackbar-root {
     opacity: 0.9;
@@ -6,5 +6,11 @@
     .MuiPaper-root {
         justify-content: center;
         letter-spacing: 0.03rem;
+    }
+
+    &.warning {
+        * {
+            background: App.$tertiary-color;
+        }
     }
 }

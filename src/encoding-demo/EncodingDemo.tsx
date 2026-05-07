@@ -86,6 +86,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const [snackbarMessage, setSnackbarMessage] = useState('')
+    const [snackbarStatus, setSnackbarStatus] = useState('success')
 
     const chartsRef = useRef<HTMLDivElement>()
     const demoRef = useRef<HTMLDivElement>()
@@ -211,6 +212,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                             } else {
                                 setSnackbarMessage(`Remote file loaded successfully. Warning: Actual content hash (${r.data.hash}) ` +
                                 `doesn't match given hash: ${oldContentHash}. File content may have changed!`)
+                                setSnackbarStatus('warning')
                             }
                         }
 
@@ -704,7 +706,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                              currentLabels={displayedDataLabels}
                              demoName={'encoding'}
                              allDataLabels={allDataLabelsRef.current ?? []} setDataLabels={setDataLabels}/>
-        <SnackBar msg={snackbarMessage}/>
+        <SnackBar msg={snackbarMessage} status={snackbarStatus} setStatus={setSnackbarStatus}/>
 
         <SelectScreenshotAreaDialog autoScroll={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
                                     blurBackground={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
