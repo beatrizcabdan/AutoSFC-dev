@@ -1,11 +1,11 @@
-import {Slide, Snackbar} from "@mui/material";
+import {Alert, AlertColor, Button, Slide, Snackbar, SnackbarContent} from "@mui/material";
 import {useEffect, useState} from "react";
 import './SnackBar.scss'
 
 interface SnackBarProps {
     msg: string,
-    status: string,
-    setStatus: (value: (((prevState: string) => string) | string)) => void
+    status: AlertColor,
+    setStatus: (value: (((prevState: AlertColor) => AlertColor) | AlertColor)) => void
 }
 
 /**
@@ -24,13 +24,16 @@ export function SnackBar({msg, status, setStatus}: SnackBarProps) {
         setShow(false)
         setTimeout(() => setStatus('success'), 1000)
     }
+
     return <Snackbar
         open={show}
         onClose={onClose}
         slots={{transition: Slide}}
-        message={snackbarMessage}
-        autoHideDuration={5000}
+        autoHideDuration={status === 'success' ? 5000 : undefined}
         anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-        className={status}
-    />
+        action={<Button>OK</Button>}>
+        <Alert variant="filled" severity={status} onClose={status === 'warning' ? onClose : undefined}>
+            {snackbarMessage}
+        </Alert>
+    </Snackbar>
 }

@@ -22,6 +22,7 @@ import html2canvas from "html2canvas";
 import {ChooseDownloadLabelDialog} from "./ChooseDownloadLabelDialog.tsx";
 import {LoadFileButtons} from "./LoadFileButtons.tsx";
 import {LoadRemoteFileDialog} from "./LoadRemoteFileDialog.tsx";
+import {AlertColor} from "@mui/material";
 
 const {primaryColor} = App
 
@@ -86,7 +87,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const [snackbarMessage, setSnackbarMessage] = useState('')
-    const [snackbarStatus, setSnackbarStatus] = useState('success')
+    const [snackbarStatus, setSnackbarStatus] = useState<AlertColor>('success')
 
     const chartsRef = useRef<HTMLDivElement>()
     const demoRef = useRef<HTMLDivElement>()
@@ -197,7 +198,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                         if (r.data.error) {
                             console.error(r.data.error)
                         } else {
-                            console.log(r.data)
+                            console.info(r.data)
                             const urlParts = url.split('/')
                             const fileName = urlParts[urlParts.length - 1]
                             const file = new File([r.data.fileContent], fileName)

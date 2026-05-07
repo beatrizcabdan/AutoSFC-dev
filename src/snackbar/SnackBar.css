@@ -554,8 +554,5 @@ h1 + p {
   justify-content: center;
   letter-spacing: 0.03rem;
 }
-.MuiSnackbar-root.warning * {
-  background: #b25000;
-}
 
 /*# sourceMappingURL=SnackBar.css.map */
