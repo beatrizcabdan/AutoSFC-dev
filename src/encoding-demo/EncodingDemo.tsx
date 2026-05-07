@@ -96,6 +96,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const [downloadedDataLabel, setDownLoadedDataLabel] = useState('')
 
     const [showLoadRemoteFileDialog, setShowLoadRemoteFileDialog] = useState(false)
+    const contentHashRef = useRef('')
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -178,11 +179,16 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
 
     useEffect(() => {
         if (searchParams.has('file')) {
-            getFileFromURL(searchParams.get('file'))
+            if (!searchParams.has('contentHash')) {
+                getFileFromURL(searchParams.get('file'))
+            } else if (searchParams.get('contentHash') !== contentHashRef.current) {
+                contentHashRef.current = searchParams.get('contentHash')!
+                getFileFromURL(searchParams.get('file'), contentHashRef.current)
+            }
         }
     }, [searchParams]);
 
-    function getFileFromURL(url: string | null) {
+    function getFileFromURL(url: string | null, oldContentHash?: string) {
         if (url) {
             axios.post(API_BASE_URL, {'url': decodeURIComponent(url)},
                 {headers: {'Content-Type': 'application/json'}})
@@ -196,8 +202,18 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                             const file = new File([r.data.fileContent], fileName)
                             readFile(r.data.fileContent, file)
                             scrollToSection('#encoding-demo')
-                            setSnackbarMessage(r.data.msg)
+
+                            contentHashRef.current = r.data.hash
+                            searchParams.set('contentHash', r.data.hash)
+                            setSearchParams(searchParams)
+                            if (!oldContentHash || r.data.hash === oldContentHash) {
+                                setSnackbarMessage(r.data.msg)
+                            } else {
+                                setSnackbarMessage(`Remote file loaded successfully. Warning: Actual content hash (${r.data.hash}) ` +
+                                `doesn't match given hash: ${oldContentHash}. File content may have changed!`)
+                            }
                         }
+
                     },
                     error => {
                         console.error(`Remote file error: ${error.message}`)
@@ -570,8 +586,10 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
         setShowChooseLabelDialog(false);
     }
 
+    // TODO: Parse contentHash from Url
     function onRemoteFileChosen(url: string) {
-        setSearchParams({file: url.toString()})
+        searchParams.set('file', url)
+        setSearchParams(searchParams)
         setShowLoadRemoteFileDialog(false)
     }
 
