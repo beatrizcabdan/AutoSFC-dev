@@ -589,10 +589,17 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
         setShowChooseLabelDialog(false);
     }
 
-    // TODO: Parse contentHash from Url
     function onRemoteFileChosen(url: string) {
-        searchParams.set('file', url)
-        setSearchParams(searchParams)
+        const hashReArr = url.match(/contentHash=(\w+)/)
+        const urlReArr = url.match(/(https.+?)&/)
+        if (urlReArr && urlReArr.length >= 2) {
+            searchParams.set('file', urlReArr[1])
+            if (hashReArr && hashReArr[1]) {
+                searchParams.set('contentHash', hashReArr[1])
+            }
+            setSearchParams(searchParams)
+        }
+
         setShowLoadRemoteFileDialog(false)
     }
 
@@ -707,6 +714,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                              currentLabels={displayedDataLabels}
                              demoName={'encoding'}
                              allDataLabels={allDataLabelsRef.current ?? []} setDataLabels={setDataLabels}/>
+
         <SnackBar msg={snackbarMessage} status={snackbarStatus} setStatus={setSnackbarStatus}/>
 
         <SelectScreenshotAreaDialog autoScroll={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
