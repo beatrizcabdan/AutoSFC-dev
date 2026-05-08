@@ -211,7 +211,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                             if (!oldContentHash || r.data.hash === oldContentHash) {
                                 setSnackbarMessage(r.data.msg)
                             } else {
-                                setSnackbarMessage(`Remote file loaded successfully. Warning: Actual content hash (${r.data.hash}) ` +
+                                setSnackbarMessage(`Remote file read successfully. Warning: Actual content hash (${r.data.hash}) ` +
                                 `doesn't match given hash: ${oldContentHash}. File content may have changed!`)
                                 setSnackbarStatus('warning')
                             }

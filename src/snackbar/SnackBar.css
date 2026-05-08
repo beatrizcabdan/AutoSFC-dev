@@ -554,5 +554,8 @@ h1 + p {
   justify-content: center;
   letter-spacing: 0.03rem;
 }
+.MuiSnackbar-root .MuiAlert-colorSuccess {
+  background: #3d3d3d;
+}
 
 /*# sourceMappingURL=SnackBar.css.map */
