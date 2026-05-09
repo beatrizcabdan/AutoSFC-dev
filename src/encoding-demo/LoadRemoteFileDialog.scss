@@ -1,6 +1,10 @@
 .load-remote-file-dialog {
     gap: 1rem;
 
+    p {
+        margin-bottom: 0;
+    }
+
     .MuiTextField-root {
         margin-top: 1rem;
         width: 40rem;
