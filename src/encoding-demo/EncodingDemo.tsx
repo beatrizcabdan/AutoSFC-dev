@@ -99,6 +99,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
 
     const [showLoadRemoteFileDialog, setShowLoadRemoteFileDialog] = useState(false)
     const contentHashRef = useRef('')
+    const urlHashRef = useRef('')
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -185,6 +186,9 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                 getFileFromURL(searchParams.get('file'))
             } else if (searchParams.get('contentHash') !== contentHashRef.current) {
                 contentHashRef.current = searchParams.get('contentHash')!
+                getFileFromURL(searchParams.get('file'), contentHashRef.current)
+            } else if (searchParams.get('file') !== urlHashRef.current) {
+                urlHashRef.current = searchParams.get('file')!
                 getFileFromURL(searchParams.get('file'), contentHashRef.current)
             }
         }
@@ -598,6 +602,8 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
             searchParams.set('file', decodeURI(urlReArr[1]))
             if (hashReArr && hashReArr[1]) {
                 searchParams.set('contentHash', hashReArr[1])
+            } else {
+                searchParams.delete('contentHash')
             }
             setSearchParams(searchParams)
         }
@@ -722,7 +728,8 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                              demoName={'encoding'}
                              allDataLabels={allDataLabelsRef.current ?? []} setDataLabels={setDataLabels}/>
 
-        <SnackBar msg={snackbarMessage} status={snackbarStatus} setStatus={setSnackbarStatus}/>
+        <SnackBar snackbarMessage={snackbarMessage} setSnackbarMessage={setSnackbarMessage} status={snackbarStatus}
+                  setStatus={setSnackbarStatus}/>
 
         <SelectScreenshotAreaDialog autoScroll={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
                                     blurBackground={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
