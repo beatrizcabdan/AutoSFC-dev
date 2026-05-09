@@ -590,10 +590,12 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     }
 
     function onRemoteFileChosen(url: string) {
+        url = decodeURIComponent(url)
+
         const hashReArr = url.match(/contentHash=(\w+)/)
-        const urlReArr = url.match(/(https.+?)&/)
+        const urlReArr = url.match(/(https:.+\.csv)(&|$)/)
         if (urlReArr && urlReArr.length >= 2) {
-            searchParams.set('file', urlReArr[1])
+            searchParams.set('file', decodeURI(urlReArr[1]))
             if (hashReArr && hashReArr[1]) {
                 searchParams.set('contentHash', hashReArr[1])
             }
@@ -601,6 +603,11 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
         }
 
         setShowLoadRemoteFileDialog(false)
+    }
+
+    const getCurrentFileName = (): string => {
+        const decodedUri = decodeURIComponent(fileName)
+        return decodedUri.replace(/.*\//, "") + (searchParams.has('file') ? ' (remote)' : '');
     }
 
     // @ts-ignore
@@ -640,7 +647,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                     <div className={"file-container"}>
                         <h3>Current file</h3>
                             <LoadFileButtons onUploadButtonClick={uploadFile} onLoadUrlButtonClick={() => setShowLoadRemoteFileDialog(true)}
-                                             currentFile={fileName.replace(/.\//, "") + (searchParams.has('file') ? ' (remote)' : '')}/>
+                                             currentFile={getCurrentFileName()}/>
 
                     </div>
                     <div className={"position-container"}>
