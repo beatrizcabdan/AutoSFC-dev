@@ -23,6 +23,7 @@ import {ChooseDownloadLabelDialog} from "./ChooseDownloadLabelDialog.tsx";
 import {LoadFileButtons} from "./LoadFileButtons.tsx";
 import {LoadRemoteFileDialog} from "./LoadRemoteFileDialog.tsx";
 import {AlertColor} from "@mui/material";
+import {ShareDataButton} from "./ShareDataButton.tsx";
 
 const {primaryColor} = App
 
@@ -724,6 +725,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                 </div>
             </div>
         </div>
+        <ShareDataButton />
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
                              currentLabels={displayedDataLabels}
