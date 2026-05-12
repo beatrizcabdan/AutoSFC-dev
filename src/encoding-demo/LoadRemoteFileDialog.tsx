@@ -34,7 +34,8 @@ export function LoadRemoteFileDialog(props: {
                        value={currentUrl} fullWidth inputRef={input => input && input.focus()} autoComplete={'false'} autoSave={'false'}/>
             <div className={'dialog-buttons'}>
                 <Button className={'cancel-button'} onClick={props.onCancel}>Cancel</Button>
-                <Button className={'load-url-button'} // @ts-ignore
+                <Button disabled={!inputIsCorrect() || currentUrl === ''}
+                        className={'load-url-button'} // @ts-ignore
                         onClick={() => props.onFileChosen(currentUrl)}>Load file</Button>
             </div>
         </>
