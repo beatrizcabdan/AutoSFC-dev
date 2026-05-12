@@ -24,6 +24,7 @@ import {LoadFileButtons} from "./LoadFileButtons.tsx";
 import {LoadRemoteFileDialog} from "./LoadRemoteFileDialog.tsx";
 import {AlertColor} from "@mui/material";
 import {ShareDataButton} from "./ShareDataButton.tsx";
+import {ShareDataDialog} from "./ShareDataDialog.tsx";
 
 const {primaryColor} = App
 
@@ -101,6 +102,8 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     const [showLoadRemoteFileDialog, setShowLoadRemoteFileDialog] = useState(false)
     const contentHashRef = useRef('')
     const urlHashRef = useRef('')
+
+    const [showShareDataDialog, setShowShareDataDialog] = useState(false)
 
     const loadFile = () => {
         fetch(filePath).then(r => {
@@ -620,6 +623,7 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
     }
 
     // @ts-ignore
+    // @ts-ignore
     return <div id={'encoding-demo'} ref={demoRef}>
         <h1>
             <a href={createPath('#encoding-demo', searchParams)}
@@ -725,7 +729,10 @@ export function EncodingDemo({onSectionClick, navRef}: EncodingDemoProps) {
                 </div>
             </div>
         </div>
-        <ShareDataButton />
+
+        <ShareDataButton onShareClick={() => setShowShareDataDialog(true)}/>
+
+        <ShareDataDialog show={showShareDataDialog} setShowShareDataDialog={setShowShareDataDialog}/>
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
                              currentLabels={displayedDataLabels}
