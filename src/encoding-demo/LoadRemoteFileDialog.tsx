@@ -13,7 +13,9 @@ export function LoadRemoteFileDialog(props: {
 
     function onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
         if (e.key === 'Enter') {
-            props.onFileChosen(currentUrl)
+            if (currentUrl !== '' && inputIsCorrect()) {
+                props.onFileChosen(currentUrl)
+            }
         }
     }
 
