@@ -28,7 +28,7 @@ export function LoadRemoteFileDialog(props: {
     return <Dialog show={props.show} title={'Insert URL of remote file to load'} setHide={props.hide}
                    className={'load-remote-file-dialog'} onHide={() => setCurrentUrl('')}>
         <>
-            <p>File content hash may be appended as search parameter as well.</p>
+            <p>File must be CSV or TXT. File content hash may be appended as search parameter as well.</p>
             <TextField variant={'filled'} size={'medium'} onChange={e => setCurrentUrl(e.target.value)}
                        onKeyDown={e => onKeyDown(e)} error={!inputIsCorrect()}
                        placeholder={'https://wwww.example.com/example-data.csv&contentHash=bcc82e3a4b6877e31cbc5ca142b7873b'}
