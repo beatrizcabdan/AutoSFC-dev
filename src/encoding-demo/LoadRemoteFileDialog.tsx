@@ -20,7 +20,7 @@ export function LoadRemoteFileDialog(props: {
     function inputIsCorrect() {
         // URL
         // TODO: contentHash only allowed search param?
-        return currentUrl === '' || !!currentUrl.match(/(?:http[s]?:\/\/.)?(?:www\.)?[-a-zA-Z0-9@%._+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_+.~#?&\/=]*/)
+        return currentUrl === '' || !!currentUrl.match(/(?:http[s]?:\/\/.)?(?:www\.)?[-a-zA-Z0-9@%._+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_+.~#?&\/=]*(?:\.csv|txt)/)
     }
 
     return <Dialog show={props.show} title={'Insert URL of remote file to load'} setHide={props.hide}
