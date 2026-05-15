@@ -199,6 +199,13 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                 getFileFromURL(searchParams.get('file'), contentHashRef.current)
             }
         }
+        if (searchParams.has('displayedRange')) {
+            const range = searchParams.get('displayedRange')!.split('-')
+            if (range.length === 2) {
+                setStartLine(Number(range[0]))
+                setEndLine(Number(range[1]))
+            }
+        }
     }, [searchParams]);
 
     function getFileFromURL(url: string | null, oldContentHash?: string) {
@@ -318,7 +325,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         })
     }
 
-    const readFile = (text: string, file: File) => {
+    const readFile = (text: string, file: File, resetState?: boolean) => {
         const lines = text
             .trim()
             .split(/[,;]?\n/)
@@ -328,8 +335,10 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         allDataLabelsRef.current = dataLabels
 
         setDisplayedDataLabels(dataLabels.slice(dataLabels.length - 2))
-        setStartLine(0)
-        setEndLine(lines.length - 2) // -1 due to header row
+        if (resetState || !searchParams.has('displayedRange')) {
+            setStartLine(0)
+            setEndLine(lines.length - 2) // -1 due to header row}
+        }
         const url = URL.createObjectURL(file)
         setFilePath(url)
         setFileName(file.name)
@@ -343,7 +352,12 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
             reader.onload = () => {
                 const text = reader.result?.toString();
                 if (text) {
-                    readFile(text, file);
+                    searchParams.delete('displayedRange')
+                    searchParams.delete('file')
+                    searchParams.delete('contentHash')
+                    setSearchParams(searchParams)
+
+                    readFile(text, file, true);
                 } else {
                     alert("Error reading the file. Please try again.");
                 }
@@ -734,7 +748,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
         <ShareDataButton onShareClick={() => setShowShareDataDialog(true)}/>
 
-        <ShareDataDialog show={showShareDataDialog} setShowShareDataDialog={setShowShareDataDialog}/>
+        <ShareDataDialog show={showShareDataDialog} setShowShareDataDialog={setShowShareDataDialog}
+                         searchParams={searchParams} startLine={startLine} endLine={endLine}/>
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
                              currentLabels={displayedDataLabels}
