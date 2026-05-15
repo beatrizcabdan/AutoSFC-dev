@@ -220,6 +220,11 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                             const urlParts = url.split('/')
                             const fileName = urlParts[urlParts.length - 1]
                             const file = new File([r.data.fileContent], fileName)
+
+                            setCurrentPresetName('')
+                            searchParams.delete('preset')
+                            setSearchParams(searchParams)
+
                             readFile(r.data.fileContent, file)
                             scrollToSection('#encoding-demo')
 
@@ -637,7 +642,6 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         return decodedUri.replace(/.*\//, "") + (searchParams.has('file') ? ' (remote)' : '');
     }
 
-    // @ts-ignore
     // @ts-ignore
     return <div id={'encoding-demo'} ref={demoRef}>
         <h1>
