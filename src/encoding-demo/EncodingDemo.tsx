@@ -621,6 +621,9 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
     function onRemoteFileChosen(url: string) {
         url = decodeURIComponent(url)
+        if (!url.startsWith('https://') && !url.startsWith('http://')) {
+            url = 'https://' + url
+        }
 
         const hashReArr = url.match(/contentHash=(\w+)/)
         const urlReArr = url.match(/(https:.+\.csv)(&|$)/)
