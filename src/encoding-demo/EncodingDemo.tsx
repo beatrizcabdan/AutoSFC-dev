@@ -756,7 +756,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         <ShareDataButton onShareClick={() => setShowShareDataDialog(true)}/>
 
         <ShareDataDialog show={showShareDataDialog} setShowShareDataDialog={setShowShareDataDialog}
-                         searchParams={searchParams} startLine={startLine} endLine={endLine}/>
+                         searchParams={searchParams} startLine={startLine} endLine={endLine}
+                         setSnackbarMessage={setSnackbarMessage}/>
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
                              currentLabels={displayedDataLabels}
