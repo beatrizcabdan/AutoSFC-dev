@@ -70,7 +70,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     // Use default scaling factor when scale is undefined (this to allow removing all digits in inputs)
     const [scales, setScales] = useState<(number | undefined)[]>([])
     const [offsets, setOffsets] = useState<(number | undefined)[]>([])
-    const [bitsPerSignal, setBitsPerSignal] = useState<number | string>(DEFAULT_BITS_PER_SIGNAL)
+    const [bitsPerSignal, setBitsPerSignal] =
+        useState<number | string>(searchParams.get('bitsPerSignal') ?? DEFAULT_BITS_PER_SIGNAL)
     // Show transformed signals in signal chart
     const [showSignalTransforms, setShowSignalTransforms] = useState(false)
 
@@ -394,7 +395,9 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         }
 
         setCurrentPresetName(preset.name)
-        setBitsPerSignal(preset.bitsPerSignal)
+        if (!searchParams.has('bitsPerSignal')) {
+            setBitsPerSignal(preset.bitsPerSignal)
+        }
         if (!searchParams.has('displayedRange')) {
             setStartLine(preset.signalStartRow)
             setEndLine(preset.signalEndRow)
@@ -760,7 +763,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
         <ShareDataDialog show={showShareDataDialog} setShowShareDataDialog={setShowShareDataDialog}
                          searchParams={searchParams} startLine={startLine} endLine={endLine} encoder={encoder}
-                         setSnackbarMessage={setSnackbarMessage}/>
+                         setSnackbarMessage={setSnackbarMessage} bitsPerSignal={bitsPerSignal}/>
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
                              currentLabels={displayedDataLabels}

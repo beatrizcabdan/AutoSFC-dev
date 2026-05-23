@@ -12,18 +12,23 @@ export function ShareDataDialog(props: {
     endLine: number,
     searchParams: URLSearchParams,
     setSnackbarMessage: (value: (((prevState: string) => string) | string)) => void,
-    encoder: string
+    encoder: string,
+    bitsPerSignal: number | string
 }) {
-    const textFieldRef = useRef<HTMLDivElement>()
+    const textFieldRef = useRef<HTMLTextAreaElement>()
 
     const getValue = () => {
-        return `${window.location.href}` +
-            (props.searchParams.has('displayedRange') ? '' : `&displayedRange=${props.startLine}-${props.endLine}`) +
-            `&encoder=${props.encoder}`
+        return `${window.location.origin}/?` +
+            (props.searchParams.has('file') ? `file=${encodeURIComponent(props.searchParams.get('file')!)}` : '') +
+            `&displayedRange=${props.startLine}-${props.endLine}` +
+            `&encoder=${props.encoder}&bitsPerSignal=${props.bitsPerSignal}`
     }
 
     const onButtonClick = () => {
-        navigator.clipboard.writeText(getValue())
+        const selectionStart = textFieldRef.current?.selectionStart
+        const selectionEnd = textFieldRef.current?.selectionEnd
+        const url = textFieldRef.current?.value.substring(selectionStart ?? 0, selectionEnd)!
+        navigator.clipboard.writeText(url)
             .then(() => {
                 props.setShowShareDataDialog(false)
                 props.setSnackbarMessage('URL copied to clipboard!')
