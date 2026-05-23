@@ -43,6 +43,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     const MAKE_SCREENSHOT_WITH_SCREEN_CAPTURE = true
     const AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS = true
 
+    const [searchParams, setSearchParams] = useSearchParams()
+
     const [filePath, setFilePath] = useState(EXAMPLE_FILE_PATH)
     const [fileName, setFileName] = useState(EXAMPLE_FILE_PATH)
     const uploadedFileRef = useRef<File | undefined>()
@@ -52,7 +54,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     const [startLine, setStartLine] = useState(preset.dataRangeStart)
     const [endLine, setEndLine] = useState(preset.dataRangeEnd)
 
-    const [encoder, setEncoder] = useState('morton')
+    const [encoder, setEncoder] = useState(searchParams.get('encoder') ?? 'morton')
 
     const [minSFCvalue, setMinSFCvalue] = useState(preset.sfcRangeMin)
     const [maxSFCvalue, setMaxSFCvalue] = useState(preset.sfcRangeMax)
@@ -86,8 +88,6 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
     const [currentPresetName, setCurrentPresetName] = useState('')
     const [presets, setPresets] = useState<Preset[] | null>()
-
-    const [searchParams, setSearchParams] = useSearchParams()
 
     const [snackbarMessage, setSnackbarMessage] = useState('')
     const [snackbarStatus, setSnackbarStatus] = useState<AlertColor>('success')
@@ -379,6 +379,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         setEndLine((newValue as number[])[1])
     };
 
+    //TODO: Determine how presets should work if contradicting search parameters are present
     const presetSelected = (preset: Preset | null) => {
         if (!preset) {
             setCurrentPresetName('')
@@ -394,12 +395,14 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
         setCurrentPresetName(preset.name)
         setBitsPerSignal(preset.bitsPerSignal)
-        setStartLine(preset.signalStartRow)
-        setEndLine(preset.signalEndRow)
+        if (!searchParams.has('displayedRange')) {
+            setStartLine(preset.signalStartRow)
+            setEndLine(preset.signalEndRow)
+        }
         setShowSignalTransforms(preset.plotTransformedSignals)
         setMaxSFCvalue(preset.cspEndRow)
         setMinSFCvalue(preset.cspStartRow)
-        setEncoder(preset.encoder)
+        setEncoder(searchParams.has('encoder') ? searchParams.get('encoder')! : preset.encoder)
         // Assume order is the same in signalTransforms, scales & offsets
         setOffsets(preset.signalTransforms.map(s => s.offset))
         setScales(preset.signalTransforms.map(s => s.scaling))
@@ -756,7 +759,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         <ShareDataButton onShareClick={() => setShowShareDataDialog(true)}/>
 
         <ShareDataDialog show={showShareDataDialog} setShowShareDataDialog={setShowShareDataDialog}
-                         searchParams={searchParams} startLine={startLine} endLine={endLine}
+                         searchParams={searchParams} startLine={startLine} endLine={endLine} encoder={encoder}
                          setSnackbarMessage={setSnackbarMessage}/>
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}

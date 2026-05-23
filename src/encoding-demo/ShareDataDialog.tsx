@@ -11,13 +11,15 @@ export function ShareDataDialog(props: {
     startLine: number,
     endLine: number,
     searchParams: URLSearchParams,
-    setSnackbarMessage: (value: (((prevState: string) => string) | string)) => void
+    setSnackbarMessage: (value: (((prevState: string) => string) | string)) => void,
+    encoder: string
 }) {
     const textFieldRef = useRef<HTMLDivElement>()
 
     const getValue = () => {
         return `${window.location.href}` +
-            (props.searchParams.has('displayedRange') ? '' : `&displayedRange=${props.startLine}-${props.endLine}`)
+            (props.searchParams.has('displayedRange') ? '' : `&displayedRange=${props.startLine}-${props.endLine}`) +
+            `&encoder=${props.encoder}`
     }
 
     const onButtonClick = () => {
