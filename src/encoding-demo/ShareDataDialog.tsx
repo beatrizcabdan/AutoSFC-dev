@@ -14,7 +14,9 @@ export function ShareDataDialog(props: {
     setSnackbarMessage: (value: (((prevState: string) => string) | string)) => void,
     encoder: string,
     bitsPerSignal: number | string,
-    plotTransformedSignals: boolean
+    plotTransformedSignals: boolean,
+    minSfcValue: number,
+    maxSfcValue: number
 }) {
     const textFieldRef = useRef<HTMLTextAreaElement>()
 
@@ -23,7 +25,8 @@ export function ShareDataDialog(props: {
             (props.searchParams.has('file') ? `file=${encodeURIComponent(props.searchParams.get('file')!)}` : '') +
             `&displayedRange=${props.startLine}-${props.endLine}` +
             `&encoder=${props.encoder}&bitsPerSignal=${props.bitsPerSignal}` +
-            `&plotTransformedSignals=${props.plotTransformedSignals}`
+            `&plotTransformedSignals=${props.plotTransformedSignals}` +
+            `&sfcRange=${props.minSfcValue}-${props.maxSfcValue}`
     }
 
     const onButtonClick = () => {

@@ -73,7 +73,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     const [bitsPerSignal, setBitsPerSignal] =
         useState<number | string>(searchParams.get('bitsPerSignal') ?? DEFAULT_BITS_PER_SIGNAL)
     // Show transformed signals in signal chart
-    const [showSignalTransforms, setShowSignalTransforms] = useState(searchParams.get('plotTransformedSignals') === 'true')
+    const [showSignalTransforms, setShowSignalTransforms] =
+        useState(searchParams.get('plotTransformedSignals') === 'true')
 
     const [startTimeXTicks, setStartTimeXTicks] = useState<number>()
     const [finishTimeXTicks, setFinishTimeXTicks] = useState<number>()
@@ -207,6 +208,16 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                 setEndLine(Number(range[1]))
             }
         }
+        if (searchParams.has('sfcRange')) {
+            const range = searchParams.get('sfcRange')!.split('-')
+            if (range.length === 2) {
+                setMinSFCvalue(Number(range[0]))
+                setMaxSFCvalue(Number(range[1]))
+
+                setInitialMinSFCvalue(Number(range[0]))
+                setInitialMaxSFCvalue(Number(range[1]))
+            }
+        }
     }, [searchParams]);
 
     function getFileFromURL(url: string | null, oldContentHash?: string) {
@@ -331,6 +342,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         })
     }
 
+    // Only called when uploading file or loading from URL
     const readFile = (text: string, file: File, resetState?: boolean) => {
         const lines = text
             .trim()
@@ -405,8 +417,10 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         if (!searchParams.has('plotTransformedSignals')) {
             setShowSignalTransforms(preset.plotTransformedSignals)
         }
-        setMaxSFCvalue(preset.cspEndRow)
-        setMinSFCvalue(preset.cspStartRow)
+        if (!searchParams.has('sfcRange')) {
+            setMaxSFCvalue(preset.cspEndRow)
+            setMinSFCvalue(preset.cspStartRow)
+        }
         setEncoder(searchParams.has('encoder') ? searchParams.get('encoder')! : preset.encoder)
         // Assume order is the same in signalTransforms, scales & offsets
         setOffsets(preset.signalTransforms.map(s => s.offset))
@@ -461,7 +475,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         const currentEncoder = newEncoder ?? encoder
         const sfcData = currentEncoder === 'morton' ? mortonInterlace(truncatedData, Number(typeof bitsPerSignal == 'string' ? DEFAULT_BITS_PER_SIGNAL : bitsPerSignal)).reverse()
             : hilbertEncode(truncatedData, Number(typeof bitsPerSignal == 'string' ? DEFAULT_BITS_PER_SIGNAL : bitsPerSignal)).reverse()
-        if (setMinMaxValues) {
+        if (setMinMaxValues && !searchParams.has('sfcRange')) {
             const sfcSorted = [...sfcData!].sort((a, b) => a - b)
             setMinSFCvalue(sfcSorted[0])
             setMaxSFCvalue(sfcSorted[sfcSorted.length - 1])
@@ -766,7 +780,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         <ShareDataDialog show={showShareDataDialog} setShowShareDataDialog={setShowShareDataDialog}
                          searchParams={searchParams} startLine={startLine} endLine={endLine} encoder={encoder}
                          setSnackbarMessage={setSnackbarMessage} bitsPerSignal={bitsPerSignal}
-                         plotTransformedSignals={showSignalTransforms}/>
+                         plotTransformedSignals={showSignalTransforms} minSfcValue={minSFCvalue}
+                         maxSfcValue={maxSFCvalue}/>
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
                              currentLabels={displayedDataLabels}
