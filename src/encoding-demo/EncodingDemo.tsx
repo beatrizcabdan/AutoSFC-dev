@@ -73,7 +73,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     const [bitsPerSignal, setBitsPerSignal] =
         useState<number | string>(searchParams.get('bitsPerSignal') ?? DEFAULT_BITS_PER_SIGNAL)
     // Show transformed signals in signal chart
-    const [showSignalTransforms, setShowSignalTransforms] = useState(false)
+    const [showSignalTransforms, setShowSignalTransforms] = useState(searchParams.get('plotTransformedSignals') === 'true')
 
     const [startTimeXTicks, setStartTimeXTicks] = useState<number>()
     const [finishTimeXTicks, setFinishTimeXTicks] = useState<number>()
@@ -402,7 +402,9 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
             setStartLine(preset.signalStartRow)
             setEndLine(preset.signalEndRow)
         }
-        setShowSignalTransforms(preset.plotTransformedSignals)
+        if (!searchParams.has('plotTransformedSignals')) {
+            setShowSignalTransforms(preset.plotTransformedSignals)
+        }
         setMaxSFCvalue(preset.cspEndRow)
         setMinSFCvalue(preset.cspStartRow)
         setEncoder(searchParams.has('encoder') ? searchParams.get('encoder')! : preset.encoder)
@@ -763,7 +765,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
         <ShareDataDialog show={showShareDataDialog} setShowShareDataDialog={setShowShareDataDialog}
                          searchParams={searchParams} startLine={startLine} endLine={endLine} encoder={encoder}
-                         setSnackbarMessage={setSnackbarMessage} bitsPerSignal={bitsPerSignal}/>
+                         setSnackbarMessage={setSnackbarMessage} bitsPerSignal={bitsPerSignal}
+                         plotTransformedSignals={showSignalTransforms}/>
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
                              currentLabels={displayedDataLabels}
