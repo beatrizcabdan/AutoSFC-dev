@@ -112,6 +112,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
     const [showShareDataDialog, setShowShareDataDialog] = useState(false)
 
+    const pageLoadedRef = useRef(false)
+
     const loadFile = () => {
         fetch(filePath).then(r => {
             r.text().then(t => {
@@ -162,7 +164,9 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                     maxData = Math.max(maxData, sortedData[sortedData.length - 1])
                 })
 
-                computeSetSFCData(newTransformedData, bitsPerSignal, encoder, true, true);
+                // Don't set SFC min/max values if search params has specific values and page is loading
+                const setMinMaxValues = !searchParams.has('sfcRange') || pageLoadedRef.current
+                computeSetSFCData(newTransformedData, bitsPerSignal, encoder, setMinMaxValues, setMinMaxValues);
 
                 setData(newData)
                 setTransformedData(newTransformedData)
@@ -179,6 +183,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                 setDataNumLines(lines.length - 1)
             })
         })
+
+        pageLoadedRef.current = true
     }
 
     onresize = debounce(loadFile)
@@ -222,6 +228,14 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                 setInitialMaxSFCvalue(Number(range[1]))
             }
         }
+        if (searchParams.has('autoSfcVersion')) {
+            const version = searchParams.get('autoSfcVersion')
+            if (version !== APP_VERSION) {
+                setSnackbarStatus('warning')
+                setSnackbarMessage(`AutoSFC version in URL params (${version}) is different to current version (${APP_VERSION})!\n` +
+                'Behavior and appearance might differ from what is intended.')
+            }
+        }
     }, [searchParams]);
 
     function getFileFromURL(url: string | null, oldContentHash?: string) {
@@ -238,7 +252,14 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                             const file = new File([r.data.fileContent], fileName)
 
                             setCurrentPresetName('')
-                            searchParams.delete('preset')
+                            // searchParams.delete('preset')
+
+                            Array.from(searchParams.keys()).forEach(k => {
+                                if (k !== 'anonymize' && k !== 'file') {
+                                    searchParams.delete(k)
+                                }
+                            })
+
                             setSearchParams(searchParams)
 
                             readFile(r.data.fileContent, file)
@@ -404,9 +425,14 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
             reader.onload = () => {
                 const text = reader.result?.toString();
                 if (text) {
-                    searchParams.delete('displayedRange')
-                    searchParams.delete('file')
-                    searchParams.delete('contentHash')
+                    pageLoadedRef.current = false
+
+                    Array.from(searchParams.keys()).forEach(k => {
+                        if (k !== 'preset' && k !== 'anonymize') {
+                            searchParams.delete(k)
+                        }
+                    })
+
                     setSearchParams(searchParams)
 
                     readFile(text, file, true);
@@ -509,18 +535,18 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     }
 
     const computeSetSFCData = (transformedData: number[][], bitsPerSignal: number | string,
-                               newEncoder?: string, setMinMaxValues?: boolean, initialMinMaxValues?: boolean) => {
+                               newEncoder?: string, setMinMaxValues?: boolean, setInitialMinMaxValues?: boolean) => {
         const truncatedData = transformedData.map(column => column.map(value =>
             Math.trunc(value))) // Add truncating processing
         const currentEncoder = newEncoder ?? encoder
         const sfcData = currentEncoder === 'morton' ? mortonInterlace(truncatedData, Number(typeof bitsPerSignal == 'string' ? DEFAULT_BITS_PER_SIGNAL : bitsPerSignal)).reverse()
             : hilbertEncode(truncatedData, Number(typeof bitsPerSignal == 'string' ? DEFAULT_BITS_PER_SIGNAL : bitsPerSignal)).reverse()
-        if (setMinMaxValues && !searchParams.has('sfcRange')) {
+        if (setMinMaxValues) {
             const sfcSorted = [...sfcData!].sort((a, b) => a - b)
             setMinSFCvalue(sfcSorted[0])
             setMaxSFCvalue(sfcSorted[sfcSorted.length - 1])
 
-            if (initialMinMaxValues) {
+            if (setInitialMinMaxValues) {
                 setInitialMinSFCvalue(sfcSorted[0])
                 setInitialMaxSFCvalue(sfcSorted[sfcSorted.length - 1])
             }
@@ -822,7 +848,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                          setSnackbarMessage={setSnackbarMessage} bitsPerSignal={bitsPerSignal}
                          plotTransformedSignals={showSignalTransforms} minSfcValue={minSFCvalue}
                          maxSfcValue={maxSFCvalue} displayedSignals={displayedDataLabels} offsets={offsets}
-                         scales={scales}/>
+                         scales={scales} autoSfcVersion={APP_VERSION}/>
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
                              currentLabels={displayedDataLabels}

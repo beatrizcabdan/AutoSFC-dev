@@ -19,7 +19,8 @@ export function ShareDataDialog(props: {
     maxSfcValue: number,
     displayedSignals: string[] | null,
     offsets: (number | undefined)[],
-    scales: (number | undefined)[]
+    scales: (number | undefined)[],
+    autoSfcVersion: string
 }) {
     const textFieldRef = useRef<HTMLTextAreaElement>()
 
@@ -32,7 +33,10 @@ export function ShareDataDialog(props: {
             `&sfcRange=${props.minSfcValue}-${props.maxSfcValue}` +
             (props.displayedSignals ? `&displayedSignals=${props.displayedSignals.join(',')}` : '') +
             (props.offsets ? `&offsets=${props.offsets.join(',')}` : '') +
-            (props.scales ? `&scalings=${props.scales.join(',')}` : '')
+            (props.scales ? `&scalings=${props.scales.join(',')}` : '') +
+            `&autoSfcVersion=${props.autoSfcVersion}` +
+            (props.searchParams.has('preset') ? `&preset=${encodeURIComponent(props.searchParams.get('preset')!)}` : '') +
+            (props.searchParams.has('anonymize') ? `&anonymize=${encodeURIComponent(props.searchParams.get('anonymize')!)}` : '')
     }
 
     const onButtonClick = () => {
