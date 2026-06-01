@@ -73,8 +73,9 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         (searchParams.get('scalings')?.split(',').map(s => Number(s)) ?? [])
     const [offsets, setOffsets] = useState<(number | undefined)[]>
         (searchParams.get('offsets')?.split(',').map(s => Number(s)) ?? [])
+    // TODO: bitsPerSignal seems to cause bugs as string, require number type?
     const [bitsPerSignal, setBitsPerSignal] =
-        useState<number | string>(searchParams.get('bitsPerSignal') ?? DEFAULT_BITS_PER_SIGNAL)
+        useState<number | string>(Number(searchParams.get('bitsPerSignal') ?? DEFAULT_BITS_PER_SIGNAL))
     // Show transformed signals in signal chart
     const [showSignalTransforms, setShowSignalTransforms] =
         useState(searchParams.get('plotTransformedSignals') === 'true')
@@ -379,11 +380,17 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         formatDataLabels(dataLabels);
         allDataLabelsRef.current = dataLabels
 
-        setDisplayedDataLabels(dataLabels.slice(dataLabels.length - 2))
+        if (resetState || !searchParams.has('displayedSignals')) {
+            setDisplayedDataLabels(dataLabels.slice(dataLabels.length - 2))
+        }
+        if (resetState || !searchParams.has('bitsPerSignal')) {
+            setBitsPerSignal(DEFAULT_BITS_PER_SIGNAL)
+        }
         if (resetState || !searchParams.has('displayedRange')) {
             setStartLine(0)
             setEndLine(lines.length - 2) // -1 due to header row}
         }
+
         const url = URL.createObjectURL(file)
         setFilePath(url)
         setFileName(file.name)
