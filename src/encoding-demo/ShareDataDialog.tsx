@@ -16,7 +16,10 @@ export function ShareDataDialog(props: {
     bitsPerSignal: number | string,
     plotTransformedSignals: boolean,
     minSfcValue: number,
-    maxSfcValue: number
+    maxSfcValue: number,
+    displayedSignals: string[] | null,
+    offsets: (number | undefined)[],
+    scales: (number | undefined)[]
 }) {
     const textFieldRef = useRef<HTMLTextAreaElement>()
 
@@ -26,7 +29,10 @@ export function ShareDataDialog(props: {
             `&displayedRange=${props.startLine}-${props.endLine}` +
             `&encoder=${props.encoder}&bitsPerSignal=${props.bitsPerSignal}` +
             `&plotTransformedSignals=${props.plotTransformedSignals}` +
-            `&sfcRange=${props.minSfcValue}-${props.maxSfcValue}`
+            `&sfcRange=${props.minSfcValue}-${props.maxSfcValue}` +
+            (props.displayedSignals ? `&displayedSignals=${props.displayedSignals.join(',')}` : '') +
+            (props.offsets ? `&offsets=${props.offsets.join(',')}` : '') +
+            (props.scales ? `&scalings=${props.scales.join(',')}` : '')
     }
 
     const onButtonClick = () => {

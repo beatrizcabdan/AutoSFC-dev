@@ -61,15 +61,18 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     const [initialMinSFCvalue, setInitialMinSFCvalue] = useState(preset.sfcRangeMin)
     const [initialMaxSFCvalue, setInitialMaxSFCvalue] = useState(preset.sfcRangeMax)
 
-    const [displayedDataLabels, setDisplayedDataLabels] = useState<string[] | null>(['accel_x', 'accel_y']) // TODO: Revert to 'accel_x', 'accel_y', 'speed'
+    const [displayedDataLabels, setDisplayedDataLabels] = useState<string[] | null>
+        (searchParams.get('displayedSignals')?.split(',') ?? ['accel_x', 'accel_y']) // TODO: Revert to 'accel_x', 'accel_y', 'speed'
 
     const [data, setData] = useState<number[][]>([])
     const [transformedData, setTransformedData] = useState<number[][]>([]) // Transformed in "Transform" panel
     const [sfcData, setSfcData] = useState<number[]>([])
 
     // Use default scaling factor when scale is undefined (this to allow removing all digits in inputs)
-    const [scales, setScales] = useState<(number | undefined)[]>([])
-    const [offsets, setOffsets] = useState<(number | undefined)[]>([])
+    const [scales, setScales] = useState<(number | undefined)[]>
+        (searchParams.get('scalings')?.split(',').map(s => Number(s)) ?? [])
+    const [offsets, setOffsets] = useState<(number | undefined)[]>
+        (searchParams.get('offsets')?.split(',').map(s => Number(s)) ?? [])
     const [bitsPerSignal, setBitsPerSignal] =
         useState<number | string>(searchParams.get('bitsPerSignal') ?? DEFAULT_BITS_PER_SIGNAL)
     // Show transformed signals in signal chart
@@ -319,7 +322,31 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     };
 
     const setDataLabels = (labels: string[]) => {
+        const labelsToScalingsMap = new Map<string, number>()
+        const labelsToOffsetsMap = new Map<string, number>()
+        displayedDataLabels?.forEach(((l, i) => {
+            labelsToScalingsMap.set(l, scales[i] ?? DEFAULT_SCALING_FACTOR)
+            labelsToOffsetsMap.set(l, offsets[i] ?? DEFAULT_OFFSET)
+        }))
+
+        const newScalings: number[] = []
+        const newOffsets: number[] = []
+
+        labels.forEach(l => {
+            newScalings.push(labelsToScalingsMap.get(l) ?? DEFAULT_SCALING_FACTOR)
+            newOffsets.push(labelsToOffsetsMap.get(l) ?? DEFAULT_OFFSET)
+        })
+        if (labels.length !== newScalings.length) {
+            throw new Error('Number of signals does not equal number of scalings!')
+        }
+        if (labels.length !== newOffsets.length) {
+            throw new Error('Number of signals does not equal number of offsets!')
+        }
+
         setDisplayedDataLabels(labels)
+        setScales(newScalings)
+        setOffsets(newOffsets)
+
         setShowSelectColumnsDialog(false)
     }
 
@@ -423,9 +450,15 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         }
         setEncoder(searchParams.has('encoder') ? searchParams.get('encoder')! : preset.encoder)
         // Assume order is the same in signalTransforms, scales & offsets
-        setOffsets(preset.signalTransforms.map(s => s.offset))
-        setScales(preset.signalTransforms.map(s => s.scaling))
-        setDisplayedDataLabels(preset.signalTransforms.map(s => s.signalName))
+        if (!searchParams.has('offsets')) {
+            setOffsets(preset.signalTransforms.map(s => s.offset))
+        }
+        if (!searchParams.has('scalings')) {
+            setScales(preset.signalTransforms.map(s => s.scaling))
+        }
+        if (!searchParams.has('displayedSignals')) {
+            setDisplayedDataLabels(preset.signalTransforms.map(s => s.signalName))
+        }
     }
 
     const setMinMaxChartValues = (data: number[][]) => {
@@ -781,7 +814,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                          searchParams={searchParams} startLine={startLine} endLine={endLine} encoder={encoder}
                          setSnackbarMessage={setSnackbarMessage} bitsPerSignal={bitsPerSignal}
                          plotTransformedSignals={showSignalTransforms} minSfcValue={minSFCvalue}
-                         maxSfcValue={maxSFCvalue}/>
+                         maxSfcValue={maxSFCvalue} displayedSignals={displayedDataLabels} offsets={offsets}
+                         scales={scales}/>
 
         <SelectColumnsDialog show={showSelectColumnsDialog} setShow={setShowSelectColumnsDialog}
                              currentLabels={displayedDataLabels}
