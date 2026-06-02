@@ -3,6 +3,7 @@
 .MuiSnackbar-root {
     opacity: 0.9;
     transition: translate 0.2s;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 16px 4px;
 
     .MuiPaper-root {
         justify-content: center;
