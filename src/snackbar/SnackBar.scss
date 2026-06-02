@@ -12,4 +12,8 @@
     .MuiAlert-colorSuccess {
         background: App.$text-color;
     }
+
+    .MuiAlert-message {
+        white-space: pre-wrap;
+    }
 }

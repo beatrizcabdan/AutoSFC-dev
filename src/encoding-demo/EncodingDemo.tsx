@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
-import {createPath, debounce, hilbertEncode, mortonInterlace, scrollToSection} from "../utils.ts";
+import {computeUrlHash, createPath, debounce, hilbertEncode, mortonInterlace, scrollToSection} from "../utils.ts";
 import {Preset, PresetComponent} from "../preset-component/PresetComponent.tsx";
 import {Chart} from "../Chart.tsx";
 import {EncoderSwitch} from "../EncoderSwitch.tsx";
@@ -108,7 +108,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
     const [showLoadRemoteFileDialog, setShowLoadRemoteFileDialog] = useState(false)
     const contentHashRef = useRef('')
-    const urlHashRef = useRef('')
+    const fileHashRef = useRef('')
 
     const [showShareDataDialog, setShowShareDataDialog] = useState(false)
 
@@ -200,14 +200,14 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     useEffect(() => {
         if (searchParams.has('file')) {
             if (!searchParams.has('contentHash')) {
-                urlHashRef.current = searchParams.get('file')!
+                fileHashRef.current = searchParams.get('file')!
                 getFileFromURL(searchParams.get('file'))
             } else if (searchParams.get('contentHash') !== contentHashRef.current) {
                 contentHashRef.current = searchParams.get('contentHash')!
-                urlHashRef.current = searchParams.get('file')!
+                fileHashRef.current = searchParams.get('file')!
                 getFileFromURL(searchParams.get('file'), contentHashRef.current)
-            } else if (searchParams.get('file') !== urlHashRef.current) {
-                urlHashRef.current = searchParams.get('file')!
+            } else if (searchParams.get('file') !== fileHashRef.current) {
+                fileHashRef.current = searchParams.get('file')!
                 getFileFromURL(searchParams.get('file'), contentHashRef.current)
             }
         }
@@ -232,9 +232,25 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
             const version = searchParams.get('autoSfcVersion')
             if (version !== APP_VERSION) {
                 setSnackbarStatus('warning')
-                setSnackbarMessage(`AutoSFC version in URL params (${version}) is different to current version (${APP_VERSION})!\n` +
-                'Behavior and appearance might differ from what is intended.')
+                const msg = `AutoSFC version in URL params (${version}) is different to current version (${APP_VERSION})!\n` +
+                    'Behavior and appearance might differ from what is intended.'
+                console.warn(msg)
+                setSnackbarMessage(msg)
             }
+        }
+        if (searchParams.has('urlHash')) {
+            const expectedHash = searchParams.get('urlHash')!
+            const url = window.location.href.replace(/&urlHash=.+/, '')
+            computeUrlHash(url).then(actualHash => {
+                if (expectedHash !== actualHash) {
+                    setSnackbarStatus('warning')
+                    const msg = 'Hash of current URL does not match expected one. Some parameters may have changed!\n' +
+                        `Expected: ${expectedHash}\nActual: ${actualHash}`
+                    console.warn(msg)
+                    setSnackbarMessage(msg)
+                }
+            })
+
         }
     }, [searchParams]);
 
@@ -252,8 +268,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                             const file = new File([r.data.fileContent], fileName)
 
                             setCurrentPresetName('')
-                            // searchParams.delete('preset')
 
+                            // Delete all url params except anonymize and file, if present
                             Array.from(searchParams.keys()).forEach(k => {
                                 if (k !== 'anonymize' && k !== 'file') {
                                     searchParams.delete(k)
@@ -276,7 +292,6 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                                 setSnackbarStatus('warning')
                             }
                         }
-
                     },
                     error => {
                         console.error(`Remote file error: ${error.message}`)

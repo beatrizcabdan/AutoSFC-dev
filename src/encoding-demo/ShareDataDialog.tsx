@@ -3,7 +3,8 @@ import {Button, TextField} from "@mui/material";
 import './ShareDataDialog.scss'
 import {URLSearchParams} from "node:url";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
+import {computeUrlHash} from "../utils.ts";
 
 export function ShareDataDialog(props: {
     show: boolean,
@@ -23,10 +24,12 @@ export function ShareDataDialog(props: {
     autoSfcVersion: string
 }) {
     const textFieldRef = useRef<HTMLTextAreaElement>()
+    const [url, setUrl] = useState('')
 
-    const getValue = () => {
+    const getParams = () => {
         return `${window.location.origin}/?` +
             (props.searchParams.has('file') ? `file=${encodeURIComponent(props.searchParams.get('file')!)}` : '') +
+            (props.searchParams.has('contentHash') ? `&contentHash=${encodeURIComponent(props.searchParams.get('contentHash')!)}` : '') +
             `&displayedRange=${props.startLine}-${props.endLine}` +
             `&encoder=${props.encoder}&bitsPerSignal=${props.bitsPerSignal}` +
             `&plotTransformedSignals=${props.plotTransformedSignals}` +
@@ -36,9 +39,17 @@ export function ShareDataDialog(props: {
             (props.scales ? `&scalings=${props.scales.join(',')}` : '') +
             `&autoSfcVersion=${props.autoSfcVersion}` +
             (props.searchParams.has('preset') ? `&preset=${encodeURIComponent(props.searchParams.get('preset')!)}` : '') +
-            (props.searchParams.has('anonymize') ? `&anonymize=${encodeURIComponent(props.searchParams.get('anonymize')!)}` : '')
+            (props.searchParams.has('anonymize') ? `&anonymize=${encodeURIComponent(props.searchParams.get('anonymize')!)}` : '');
     }
 
+    useEffect(() => {
+        if (props.show) {
+            const params = getParams()
+            computeUrlHash(params).then(hash => setUrl(`${params}&urlHash=${hash}`))
+        }
+    }, [props.show]);
+
+    // TODO: Doesn't always copy URL!
     const onButtonClick = () => {
         const selectionStart = textFieldRef.current?.selectionStart
         const selectionEnd = textFieldRef.current?.selectionEnd
@@ -54,12 +65,12 @@ export function ShareDataDialog(props: {
         if (props.show) {
             textFieldRef.current?.focus()
         }
-    }, [props.show]);
+    }, [props.show, url]);
 
     return <Dialog show={props.show} title={'Share Encoding demo state as URL'} className={'share-data-dialog'}
                    setHide={() => props.setShowShareDataDialog(false)}>
         <>
-            <TextField multiline={true} rows={10} value={getValue()} autoFocus inputRef={textFieldRef}
+            <TextField multiline={true} rows={10} value={url} autoFocus inputRef={textFieldRef}
                        onFocus={(event) => {
                            event.target.select();
                        }}/>
