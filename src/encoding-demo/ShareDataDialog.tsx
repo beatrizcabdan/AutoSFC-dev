@@ -26,6 +26,12 @@ export function ShareDataDialog(props: {
     const textFieldRef = useRef<HTMLTextAreaElement>()
     const [url, setUrl] = useState('')
 
+    // https://stackoverflow.com/a/64317676
+    const fixedEncodeURIComponent = (str: string) => encodeURIComponent(str)
+        .replace(/[!'()*]/g, c => '%' + c.charCodeAt(0)
+        .toString(16));
+
+
     const getParams = () => {
         return `${window.location.origin}/?` +
             (props.searchParams.has('file') ? `file=${encodeURIComponent(props.searchParams.get('file')!)}` : '') +
@@ -34,11 +40,12 @@ export function ShareDataDialog(props: {
             `&encoder=${props.encoder}&bitsPerSignal=${props.bitsPerSignal}` +
             `&plotTransformedSignals=${props.plotTransformedSignals}` +
             `&sfcRange=${props.minSfcValue}-${props.maxSfcValue}` +
-            (props.displayedSignals ? `&displayedSignals=${props.displayedSignals.join(',')}` : '') +
-            (props.offsets ? `&offsets=${props.offsets.join(',')}` : '') +
-            (props.scales ? `&scalings=${props.scales.join(',')}` : '') +
+            (props.displayedSignals ? `&displayedSignals=${fixedEncodeURIComponent(props.displayedSignals
+                .join(',').replace(/\s/g, '+'))}` : '') +
+            (props.offsets ? `&offsets=${encodeURIComponent(props.offsets.join(','))}` : '') +
+            (props.scales ? `&scalings=${encodeURIComponent(props.scales.join(','))}` : '') +
             `&autoSfcVersion=${props.autoSfcVersion}` +
-            (props.searchParams.has('preset') ? `&preset=${encodeURIComponent(props.searchParams.get('preset')!)}` : '') +
+            (props.searchParams.has('preset') ? `&preset=${fixedEncodeURIComponent(props.searchParams.get('preset')!)}` : '') +
             (props.searchParams.has('anonymize') ? `&anonymize=${encodeURIComponent(props.searchParams.get('anonymize')!)}` : '');
     }
 

@@ -36,6 +36,16 @@ interface EncodingDemoProps {
     hideMobileNav: boolean
 }
 
+const getDisplayedDataLabelsFromUrl = (searchParams: URLSearchParams) => {
+    if (searchParams.has('displayedSignals')) {
+        return decodeURIComponent(searchParams.get('displayedSignals')!)
+            .replace(/\+/g, ' ')
+            .split(',')
+    }
+    // TODO: Revert to 'accel_x', 'accel_y', 'speed'
+    return ['accel_x', 'accel_y'];
+}
+
 export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDemoProps) {
     const SLIDER_START_VAL = 100
     const EXAMPLE_FILE_PATH = 'emergency_braking.csv'
@@ -62,7 +72,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     const [initialMaxSFCvalue, setInitialMaxSFCvalue] = useState(preset.sfcRangeMax)
 
     const [displayedDataLabels, setDisplayedDataLabels] = useState<string[] | null>
-        (searchParams.get('displayedSignals')?.split(',') ?? ['accel_x', 'accel_y']) // TODO: Revert to 'accel_x', 'accel_y', 'speed'
+        (getDisplayedDataLabelsFromUrl(searchParams))
 
     const [data, setData] = useState<number[][]>([])
     const [transformedData, setTransformedData] = useState<number[][]>([]) // Transformed in "Transform" panel
@@ -241,6 +251,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         if (searchParams.has('urlHash')) {
             const expectedHash = searchParams.get('urlHash')!
             const url = window.location.href.replace(/&urlHash=.+/, '')
+
             computeUrlHash(url).then(actualHash => {
                 if (expectedHash !== actualHash) {
                     setSnackbarStatus('warning')
@@ -269,17 +280,14 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
                             setCurrentPresetName('')
 
-                            // Delete all url params except anonymize and file, if present
-                            Array.from(searchParams.keys()).forEach(k => {
-                                if (k !== 'anonymize' && k !== 'file') {
-                                    searchParams.delete(k)
-                                }
-                            })
-
-                            setSearchParams(searchParams)
-
                             readFile(r.data.fileContent, file)
                             scrollToSection('#encoding-demo')
+
+                            // Decode all URL params to not get double encoded by setSearchParams
+                            Array.from(searchParams.keys()).forEach(k => {
+                                const val = searchParams.get(k)!
+                                searchParams.set(k, decodeURIComponent(val))
+                            })
 
                             contentHashRef.current = r.data.hash
                             searchParams.set('contentHash', r.data.hash)
@@ -737,6 +745,14 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
             } else {
                 searchParams.delete('contentHash')
             }
+
+            // Delete all url params except anonymize, contentHash and file, if present
+            Array.from(searchParams.keys()).forEach(k => {
+                if (k !== 'anonymize' && k !== 'file' && k !== 'contentHash') {
+                    searchParams.delete(k)
+                }
+            })
+
             setSearchParams(searchParams)
         }
 
