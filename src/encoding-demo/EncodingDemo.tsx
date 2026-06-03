@@ -46,6 +46,13 @@ const getDisplayedDataLabelsFromUrl = (searchParams: URLSearchParams) => {
     return ['accel_x', 'accel_y'];
 }
 
+const getScalingsOrOffsetsFromUrl = (label: string, searchParams: URLSearchParams) => {
+    if (searchParams.has(label)) {
+        return decodeURIComponent(searchParams.get(label)!).split(',').map(s => Number(s));
+    }
+    return []
+}
+
 export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDemoProps) {
     const SLIDER_START_VAL = 100
     const EXAMPLE_FILE_PATH = 'emergency_braking.csv'
@@ -80,15 +87,15 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
     // Use default scaling factor when scale is undefined (this to allow removing all digits in inputs)
     const [scales, setScales] = useState<(number | undefined)[]>
-        (searchParams.get('scalings')?.split(',').map(s => Number(s)) ?? [])
+        (getScalingsOrOffsetsFromUrl('scalings', searchParams))
     const [offsets, setOffsets] = useState<(number | undefined)[]>
-        (searchParams.get('offsets')?.split(',').map(s => Number(s)) ?? [])
+        (getScalingsOrOffsetsFromUrl('offsets', searchParams))
     // TODO: bitsPerSignal seems to cause bugs as string, require number type?
     const [bitsPerSignal, setBitsPerSignal] =
         useState<number | string>(Number(searchParams.get('bitsPerSignal') ?? DEFAULT_BITS_PER_SIGNAL))
     // Show transformed signals in signal chart
     const [showSignalTransforms, setShowSignalTransforms] =
-        useState(searchParams.get('plotTransformedSignals') === 'true')
+        useState(searchParams.get('plotTransformedSignals') !== 'false')
 
     const [startTimeXTicks, setStartTimeXTicks] = useState<number>()
     const [finishTimeXTicks, setFinishTimeXTicks] = useState<number>()
@@ -434,6 +441,18 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
             setStartLine(0)
             setEndLine(lines.length - 2) // -1 due to header row}
         }
+        if (resetState || !searchParams.has('offsets')) {
+            setOffsets([])
+        }
+        if (resetState || !searchParams.has('scalings')) {
+            setScales([])
+        }
+        if (resetState || !searchParams.has('encoder')) {
+            setEncoder('morton')
+        }
+        if (resetState || !searchParams.has('showSignalTransforms')) {
+            setShowSignalTransforms(true)
+        }
 
         const url = URL.createObjectURL(file)
         setFilePath(url)
@@ -746,7 +765,6 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                 searchParams.delete('contentHash')
             }
 
-            // Delete all url params except anonymize, contentHash and file, if present
             Array.from(searchParams.keys()).forEach(k => {
                 if (k !== 'anonymize' && k !== 'file' && k !== 'contentHash') {
                     searchParams.delete(k)
