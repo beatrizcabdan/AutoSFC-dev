@@ -242,13 +242,13 @@ function bigUint64ToNumberArray(bigArray: BigUint64Array): number[] {
     });
 }
 
-export function scrollToSection(section: string) {
+export function scrollToSection(section: string, behavior = 'smooth') {
     const element = document.querySelector(section)!
     const topPos = element.getBoundingClientRect().top + window.scrollY
 
     window.scrollTo({
         top: topPos,
-        behavior: 'smooth'
+        behavior: behavior as ScrollBehavior
     })
 }
 

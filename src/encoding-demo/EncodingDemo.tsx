@@ -202,6 +202,10 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         })
 
         pageLoadedRef.current = true
+        const hash = window.location.hash.replace(/\/\?.+/, '')
+        if (hash) {
+            scrollToSection(hash, 'instant')
+        }
     }
 
     onresize = debounce(loadFile)
