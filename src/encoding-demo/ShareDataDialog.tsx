@@ -50,7 +50,6 @@ export function ShareDataDialog(props: {
 
     useEffect(() => {
         if (props.show) {
-            const anchor = window.location.hash.replace(/\/\?.+/, '')
             const params = getParams()
             computeUrlHash(params).then(hash => setUrl(`${params}&urlHash=${hash}#encoding-demo`))
             textFieldRef.current?.focus()
