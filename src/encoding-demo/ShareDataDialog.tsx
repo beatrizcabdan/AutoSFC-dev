@@ -45,7 +45,6 @@ export function ShareDataDialog(props: {
             (props.offsets ? `&offsets=${encodeURIComponent(props.offsets.join(','))}` : '') +
             (props.scales ? `&scalings=${encodeURIComponent(props.scales.join(','))}` : '') +
             `&autoSfcVersion=${props.autoSfcVersion}` +
-            (props.searchParams.has('preset') ? `&preset=${fixedEncodeURIComponent(props.searchParams.get('preset')!)}` : '') +
             (props.searchParams.has('anonymize') ? `&anonymize=${encodeURIComponent(props.searchParams.get('anonymize')!)}` : '')
     }
 
@@ -53,7 +52,7 @@ export function ShareDataDialog(props: {
         if (props.show) {
             const anchor = window.location.hash.replace(/\/\?.+/, '')
             const params = getParams()
-            computeUrlHash(params).then(hash => setUrl(`${params}&urlHash=${hash}${anchor}`))
+            computeUrlHash(params).then(hash => setUrl(`${params}&urlHash=${hash}#encoding-demo`))
             textFieldRef.current?.focus()
             textFieldRef.current?.setSelectionRange(0, textFieldRef.current?.value.length ?? 0)
         }
