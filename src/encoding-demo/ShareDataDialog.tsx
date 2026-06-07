@@ -53,26 +53,19 @@ export function ShareDataDialog(props: {
         if (props.show) {
             const params = getParams()
             computeUrlHash(params).then(hash => setUrl(`${params}&urlHash=${hash}`))
+            textFieldRef.current?.focus()
+            textFieldRef.current?.setSelectionRange(0, textFieldRef.current?.value.length ?? 0)
         }
     }, [props.show]);
 
-    // TODO: Doesn't always copy URL!
     const onButtonClick = () => {
-        const selectionStart = textFieldRef.current?.selectionStart
-        const selectionEnd = textFieldRef.current?.selectionEnd
-        const url = textFieldRef.current?.value.substring(selectionStart ?? 0, selectionEnd)!
+        const url = textFieldRef.current?.value!
         navigator.clipboard.writeText(url)
             .then(() => {
                 props.setShowShareDataDialog(false)
                 props.setSnackbarMessage('URL copied to clipboard!')
             })
     }
-
-    useEffect(() => {
-        if (props.show) {
-            textFieldRef.current?.focus()
-        }
-    }, [props.show, url]);
 
     return <Dialog show={props.show} title={'Share Encoding demo state as URL'} className={'share-data-dialog'}
                    setHide={() => props.setShowShareDataDialog(false)}>
