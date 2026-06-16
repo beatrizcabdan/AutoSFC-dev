@@ -9,8 +9,6 @@ export interface SnackbarMessage {
 
 interface SnackBarProps {
     snackbarMessage: SnackbarMessage,
-    /*status: AlertColor,
-    setStatus: (value: (((prevState: AlertColor) => AlertColor) | AlertColor)) => void,*/
     setSnackbarMessage: (value: (((prevState: SnackbarMessage) => SnackbarMessage) | SnackbarMessage)) => void,
     navRef: React.MutableRefObject<HTMLDivElement | undefined>,
     mobileNavVisible?: boolean
@@ -21,8 +19,6 @@ interface SnackBarProps {
  */
 export function SnackBar({
                              snackbarMessage,
-                             /*status,
-                             setStatus,*/
                              setSnackbarMessage,
                              navRef,
                              mobileNavVisible
@@ -50,8 +46,6 @@ export function SnackBar({
     const onClose = () => {
         setShow(false)
         setTimeout(() => {
-            /*setSnackbarMessage('')
-            setStatus('success')*/
             setSnackbarMessage({message: '', status: 'success'})
         }, 1000)
     }

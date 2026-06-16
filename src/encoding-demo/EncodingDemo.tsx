@@ -113,7 +113,6 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     const [presets, setPresets] = useState<Preset[] | null>()
 
     const [snackbarMessage, setSnackbarMessage] = useState<SnackbarMessage>({message: '', status: 'success'})
-    // const [snackbarStatus, setSnackbarStatus] = useState<AlertColor>('success')
 
     const chartsRef = useRef<HTMLDivElement>()
     const demoRef = useRef<HTMLDivElement>()
@@ -252,7 +251,6 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         if (searchParams.has('autoSfcVersion')) {
             const version = searchParams.get('autoSfcVersion')
             if (version !== APP_VERSION) {
-                // setSnackbarStatus('warning')
                 const msg = `AutoSFC version in URL params (${version}) is different to current version (${APP_VERSION})!\n` +
                     'Behavior and appearance might differ from what is intended.'
                 console.warn(msg)
@@ -265,7 +263,6 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
             computeUrlHash(url).then(actualHash => {
                 if (expectedHash !== actualHash) {
-                    // setSnackbarStatus('warning')
                     const msg = 'Hash of current URL does not match expected one. Some parameters may have changed!\n' +
                         `Expected: ${expectedHash}\nActual: ${actualHash}`
                     console.warn(msg)
@@ -308,7 +305,6 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                             } else {
                                 setSnackbarMessage({message: `Remote file read successfully. Warning: Actual content hash (${r.data.hash}) ` +
                                     `doesn't match given hash: ${oldContentHash}. File content may have changed!`, status: 'warning'})
-                                // setSnackbarStatus('warning')
                             }
                         }
                     },
