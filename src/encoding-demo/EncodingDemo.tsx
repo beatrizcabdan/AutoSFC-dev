@@ -15,7 +15,7 @@ import '../controls.scss'
 import App from '../App.module.scss'
 import {useSearchParams} from "react-router-dom";
 import axios from "axios";
-import {SnackBar} from "../snackbar/SnackBar.tsx";
+import {SnackBar, SnackbarMessage} from "../snackbar/SnackBar.tsx";
 import {downloadZip} from "client-zip";
 import {SelectScreenshotAreaDialog} from "./SelectScreenshotAreaDialog.tsx";
 import html2canvas from "html2canvas";
@@ -112,8 +112,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     const [currentPresetName, setCurrentPresetName] = useState('')
     const [presets, setPresets] = useState<Preset[] | null>()
 
-    const [snackbarMessage, setSnackbarMessage] = useState('')
-    const [snackbarStatus, setSnackbarStatus] = useState<AlertColor>('success')
+    const [snackbarMessage, setSnackbarMessage] = useState<SnackbarMessage>({message: '', status: 'success'})
+    // const [snackbarStatus, setSnackbarStatus] = useState<AlertColor>('success')
 
     const chartsRef = useRef<HTMLDivElement>()
     const demoRef = useRef<HTMLDivElement>()
@@ -252,11 +252,11 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
         if (searchParams.has('autoSfcVersion')) {
             const version = searchParams.get('autoSfcVersion')
             if (version !== APP_VERSION) {
-                setSnackbarStatus('warning')
+                // setSnackbarStatus('warning')
                 const msg = `AutoSFC version in URL params (${version}) is different to current version (${APP_VERSION})!\n` +
                     'Behavior and appearance might differ from what is intended.'
                 console.warn(msg)
-                setSnackbarMessage(msg)
+                setSnackbarMessage({message: msg, status: 'warning'})
             }
         }
         if (searchParams.has('urlHash')) {
@@ -265,11 +265,11 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
 
             computeUrlHash(url).then(actualHash => {
                 if (expectedHash !== actualHash) {
-                    setSnackbarStatus('warning')
+                    // setSnackbarStatus('warning')
                     const msg = 'Hash of current URL does not match expected one. Some parameters may have changed!\n' +
                         `Expected: ${expectedHash}\nActual: ${actualHash}`
                     console.warn(msg)
-                    setSnackbarMessage(msg)
+                    setSnackbarMessage({message: msg, status: 'warning'})
                 }
             })
 
@@ -304,11 +304,11 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                             searchParams.set('contentHash', r.data.hash)
                             setSearchParams(searchParams)
                             if (!oldContentHash || r.data.hash === oldContentHash) {
-                                setSnackbarMessage(r.data.msg)
+                                setSnackbarMessage({message: r.data.msg, status: 'success'})
                             } else {
-                                setSnackbarMessage(`Remote file read successfully. Warning: Actual content hash (${r.data.hash}) ` +
-                                    `doesn't match given hash: ${oldContentHash}. File content may have changed!`)
-                                setSnackbarStatus('warning')
+                                setSnackbarMessage({message: `Remote file read successfully. Warning: Actual content hash (${r.data.hash}) ` +
+                                    `doesn't match given hash: ${oldContentHash}. File content may have changed!`, status: 'warning'})
+                                // setSnackbarStatus('warning')
                             }
                         }
                     },
@@ -908,8 +908,8 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                              demoName={'encoding'}
                              allDataLabels={allDataLabelsRef.current ?? []} setDataLabels={setDataLabels}/>
 
-        <SnackBar snackbarMessage={snackbarMessage} setSnackbarMessage={setSnackbarMessage} status={snackbarStatus}
-                  setStatus={setSnackbarStatus} navRef={navRef} mobileNavVisible={!hideMobileNav}/>
+        <SnackBar snackbarMessage={snackbarMessage} setSnackbarMessage={setSnackbarMessage}
+                  navRef={navRef} mobileNavVisible={!hideMobileNav}/>
 
         <SelectScreenshotAreaDialog autoScroll={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}
                                     blurBackground={AUTO_SCROLL_TO_DEMO_TOP_BEFORE_SCREENSHOTS}

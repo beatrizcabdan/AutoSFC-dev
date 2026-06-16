@@ -2,22 +2,27 @@ import {Alert, AlertColor, Button, Slide, Snackbar, SnackbarContent} from "@mui/
 import React, {useEffect, useState} from "react";
 import './SnackBar.scss'
 
+export interface SnackbarMessage {
+    message: string,
+    status: AlertColor
+}
+
 interface SnackBarProps {
-    snackbarMessage: string,
-    status: AlertColor,
-    setStatus: (value: (((prevState: AlertColor) => AlertColor) | AlertColor)) => void,
-    setSnackbarMessage: (value: (((prevState: string) => string) | string)) => void,
+    snackbarMessage: SnackbarMessage,
+    /*status: AlertColor,
+    setStatus: (value: (((prevState: AlertColor) => AlertColor) | AlertColor)) => void,*/
+    setSnackbarMessage: (value: (((prevState: SnackbarMessage) => SnackbarMessage) | SnackbarMessage)) => void,
     navRef: React.MutableRefObject<HTMLDivElement | undefined>,
     mobileNavVisible?: boolean
 }
 
 /**
- * Toast/snackbar. Will show unless msg is empty string.
+ * Toast/snackbar. Will show unless snackbarMessage.message is empty string.
  */
 export function SnackBar({
                              snackbarMessage,
-                             status,
-                             setStatus,
+                             /*status,
+                             setStatus,*/
                              setSnackbarMessage,
                              navRef,
                              mobileNavVisible
@@ -28,8 +33,9 @@ export function SnackBar({
     const [verticalOffset, setVerticalOffset] = useState<number>(0)
 
     useEffect(() => {
-        setShow(!!snackbarMessage)
-        if (!!snackbarMessage) {
+        setShow(!!snackbarMessage.message)
+        if (!!snackbarMessage.message) {
+            console.log(snackbarMessage.message)
             const rect = navRef.current?.getBoundingClientRect()
             if (mobileNavVisible && rect?.top !== undefined && rect.top > 0) {
                 setVerticalOffset(rect.height)
@@ -44,8 +50,9 @@ export function SnackBar({
     const onClose = () => {
         setShow(false)
         setTimeout(() => {
-            setSnackbarMessage('')
-            setStatus('success')
+            /*setSnackbarMessage('')
+            setStatus('success')*/
+            setSnackbarMessage({message: '', status: 'success'})
         }, 1000)
     }
 
@@ -57,8 +64,8 @@ export function SnackBar({
         anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
         sx={{translate: `0 -${verticalOffset}px`}}
         action={<Button>OK</Button>}>
-        <Alert variant="filled" severity={status} onClose={status === 'warning' ? onClose : undefined}>
-            {snackbarMessage}
+        <Alert variant="filled" severity={snackbarMessage.status} onClose={snackbarMessage.status === 'warning' ? onClose : undefined}>
+            {snackbarMessage.message}
         </Alert>
     </Snackbar>
 }
