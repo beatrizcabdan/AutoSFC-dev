@@ -15,7 +15,7 @@ import '../controls.scss'
 import App from '../App.module.scss'
 import {useSearchParams} from "react-router-dom";
 import axios from "axios";
-import {SnackBar, SnackbarMessage} from "../snackbar/SnackBar.tsx";
+import {SnackBar, ISnackbarMessage} from "../snackbar/SnackBar.tsx";
 import {downloadZip} from "client-zip";
 import {SelectScreenshotAreaDialog} from "./SelectScreenshotAreaDialog.tsx";
 import html2canvas from "html2canvas";
@@ -112,7 +112,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
     const [currentPresetName, setCurrentPresetName] = useState('')
     const [presets, setPresets] = useState<Preset[] | null>()
 
-    const [snackbarMessage, setSnackbarMessage] = useState<SnackbarMessage>({message: '', status: 'success'})
+    const [snackbarMessage, setSnackbarMessage] = useState<ISnackbarMessage>({message: '', status: 'success'})
 
     const chartsRef = useRef<HTMLDivElement>()
     const demoRef = useRef<HTMLDivElement>()

@@ -5,7 +5,7 @@ import {URLSearchParams} from "node:url";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {useEffect, useRef, useState} from "react";
 import {computeUrlHash} from "../utils.ts";
-import {SnackbarMessage} from "../snackbar/SnackBar.tsx";
+import {ISnackbarMessage} from "../snackbar/SnackBar.tsx";
 
 export function ShareDataDialog(props: {
     show: boolean,
@@ -13,7 +13,7 @@ export function ShareDataDialog(props: {
     startLine: number,
     endLine: number,
     searchParams: URLSearchParams,
-    setSnackbarMessage: (value: (((prevState: SnackbarMessage) => SnackbarMessage) | SnackbarMessage)) => void,
+    setSnackbarMessage: (value: (((prevState: ISnackbarMessage) => ISnackbarMessage) | ISnackbarMessage)) => void,
     encoder: string,
     bitsPerSignal: number | string,
     plotTransformedSignals: boolean,
