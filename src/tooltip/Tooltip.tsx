@@ -16,6 +16,6 @@ export function Tooltip(props: {
     }
 
     return <p className={`tooltip ${props.showMsg ? "show" : ""}`}
-              style={{translate: props.translate ?? '-50% -230%', top: getAnchorCoords()[1],
+              style={{translate: props.translate ?? '-50% -200%', top: getAnchorCoords()[1],
                   left: getAnchorCoords()[0]}}>{props.msg}</p>;
 }

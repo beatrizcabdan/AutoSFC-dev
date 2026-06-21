@@ -1,8 +1,8 @@
 .tooltip {
     position: fixed;
     translate: -0% -0%;
-    text-transform: uppercase;
-    font-size: 0.6rem;
+    text-transform: none;
+    font-size: 0.8rem;
     opacity: 0;
     transition: opacity 0.3s;
     background: white;
@@ -10,7 +10,6 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0 0 6px 1px;
     padding: 0.7rem 0.4rem;
     height: fit-content;
-    letter-spacing: 0.07rem;
     line-height: initial !important;
     font-family: sans-serif;
     z-index: 100;
