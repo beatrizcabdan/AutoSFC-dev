@@ -15,6 +15,7 @@ import '../controls.scss'
 import {useSearchParams} from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ChevronRight} from "@mui/icons-material";
+import {Tooltip} from "../tooltip/Tooltip.tsx";
 
 const {primaryColor} = App
 
@@ -122,6 +123,9 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
     const [showDialog, setShowDialog] = useState(false)
     const [fileToSelectColumnsFor, setFileToSelectColumnsFor] = useState(-1)
 
+    const [showTooltip, setShowTooltip] = useState(Array(fileNames.length).fill(false))
+    const tooltipAnchorRefs: MutableRefObject<MutableRefObject<HTMLDivElement | null>[]> = useRef(Array(20).fill(null).map(() => useRef(null)))
+
     const [searchParams] = useSearchParams()
 
     const loadFiles = async () => {
@@ -199,6 +203,8 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                         setMaxChartValue(maxData)
                     }
                 })
+
+                // tooltipAnchorRefs.current[i] = useRef(null)
             })
         }
     }
@@ -550,10 +556,16 @@ export function CspComparisonDemo({onSectionClick}: CspComparisonDemoProps) {
                                 </IconButton>
                                 <h3 className={`delete-button-minimized-label ${filePaths.length === 1 ? 'disabled' : ''}`}
                                     onClick={() => filePaths.length > 1 && setDeletedFileIndex(i)}>Delete</h3>
-                                <div className={'displayed-signals-wrapper-minimized-div'}
-                                     onClick={() => selectDataColumns(i)}>
+                                <div className={'displayed-signals-wrapper-minimized-div'} ref={tooltipAnchorRefs.current[i]} onMouseEnter={() => {
+                                    showTooltip[i] = true
+                                    setShowTooltip([...showTooltip])
+                                }}
+                                     onMouseLeave={() => {
+                                         showTooltip[i] = false
+                                         setShowTooltip([...showTooltip])
+                                     }} onClick={() => selectDataColumns(i)}>
                                     <h3>Displayed signals</h3>
-                                    <p className={`legend-msg`}>Choose signals...</p>
+                                    <Tooltip showMsg={showTooltip[i]} msg={'Choose signals...'} anchorRef={tooltipAnchorRefs.current[i]} translate={'-50% -150%'}/>
                                     <div className={'displayed-signals-div'}>
                                         {displayedDataLabels ? displayedDataLabels[i].map(label =>
                                             <span className={FILLED_DISPLAY_LABELS ? 'solid-bg' : ''} key={label}
