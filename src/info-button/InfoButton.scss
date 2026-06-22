@@ -1,0 +1,9 @@
+.MuiSvgIcon-root.info-icon {
+    color: var(--button-border);
+    scale: 0.7;
+    transition: all 0.2s;
+
+    &:hover {
+        color: var(--text-color);
+    }
+}
