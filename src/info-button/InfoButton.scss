@@ -1,7 +1,8 @@
 .MuiSvgIcon-root.info-icon {
-    color: var(--button-border);
+    color: var(--info-icon);
     scale: 0.7;
     transition: all 0.2s;
+    position: absolute;
 
     &:hover {
         color: var(--text-color);

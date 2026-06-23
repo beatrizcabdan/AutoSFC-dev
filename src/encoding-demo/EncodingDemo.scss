@@ -19,8 +19,8 @@ $dialog-input-width: 28ch;
     }
 
     .control-row #range-container #displayed-range-h3-container-div {
-        @extend .flex-display;
-        padding-bottom: 0.2rem;
+        position: relative;
+        padding-bottom: 1rem;
         margin-bottom: auto;
         gap: 0.3rem;
 
