@@ -672,7 +672,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
                     <div className={"control-container"} id={"range-container"}>
                         <div id={'displayed-range-h3-container-div'}>
                             <h3>Displayed range</h3>
-                            <InfoButton msg={'The displayed rows of the original signal.'} top={'-63%'} left={'102%'}/>
+                            <InfoButton msg={'The displayed rows of the original signal.'} left={'115%'}/>
                         </div>
                         <DataRangeSlider dataRangeChartStart={startLine}
                                          dataRangeChartEnd={endLine}
