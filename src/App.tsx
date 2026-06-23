@@ -132,9 +132,6 @@ function App() {
                 <p>This website is under construction. If you want to know more about Space-Filling Curves (SFCs), or
                     driving event detection using them, feel free to send us an email to Beatriz Cabrero-Daniel at <a
                         href="mailto:beatriz.cabrero-daniel@gu.se">beatriz.cabrero-daniel@gu.se</a> for more info.</p>
-                <br/>
-                <br/>
-                <br/>
             </div>
 
             {contactClass !== 'hide' && <OpenFeedbackWinBtn onClick={() => setShowFeedbackForm(true)}/>}

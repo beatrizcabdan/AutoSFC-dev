@@ -9,6 +9,9 @@ $dialog-input-width: 28ch;
     gap: 1rem;
     width: 100%;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.01) 0 0 1px 1px, rgba(0, 0, 0, 0.15) 0 2px 5px 2px;
+    border-radius: 10px;
+    padding: 1.5rem;
 
     .charts {
         width: 100%;
@@ -16,6 +19,8 @@ $dialog-input-width: 28ch;
     }
 
     h1 {
+        margin-top: -1.5rem;
+        padding-top: 2.5rem;
         margin-bottom: 0.5rem;
     }
 

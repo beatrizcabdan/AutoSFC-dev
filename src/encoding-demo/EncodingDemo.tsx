@@ -261,7 +261,7 @@ export function EncodingDemo({onSectionClick, navRef, hideMobileNav}: EncodingDe
             const expectedHash = searchParams.get('urlHash')!
             const url = window.location.href.replace(/&urlHash=.+/, '')
 
-            computeUrlHash(url).then(actualHash => {
+            computeUrlHash(url).then((actualHash: string) => {
                 if (expectedHash !== actualHash) {
                     const msg = 'Hash of current URL does not match expected one. Some parameters may have changed!\n' +
                         `Expected: ${expectedHash}\nActual: ${actualHash}`
